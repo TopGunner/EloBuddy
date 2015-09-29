@@ -29,7 +29,9 @@ namespace tOPKarthus.Modes
             }
             else
             {
-                if (Player.Instance.Spellbook.GetSpell(SpellSlot.E).ToggleState == 2) // 1 = off , 2 = on
+                if (Player.Instance.Spellbook.GetSpell(SpellSlot.E).ToggleState == 2 
+                    && !( Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) 
+                    || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) )) // 1 = off , 2 = on
                     E.Cast();
             }
             if (Player.Instance.IsZombie)
