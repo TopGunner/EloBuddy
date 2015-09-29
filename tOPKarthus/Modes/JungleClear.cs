@@ -21,6 +21,10 @@ namespace tOPKarthus.Modes
 
         public override void Execute()
         {
+            if (Game.MapId == GameMapId.HowlingAbyss)
+            {
+                return;
+            }
             var targt = ObjectManager.Get<Obj_AI_Minion>()
                     .Where(a => a.Team == GameObjectTeam.Neutral && a.Distance(Player.Instance) < Q.Range)
                     .OrderByDescending(a => a.MaxHealth);
