@@ -22,11 +22,14 @@ namespace tOPKarthus.Modes
 
         public override void Execute()
         {
-            var allMinions = ObjectManager.Get<Obj_AI_Base>().Where(t => Q.IsInRange(t) && t.IsValidTarget() && t.IsMinion && t.IsEnemy).OrderBy(t => t.Health);
+            var allMinions = ObjectManager.Get<Obj_AI_Base>().Where(t => Q.IsInRange(t) && t.IsValidTarget() && t.IsMinion && t.IsEnemy && t.Health < SpellManager.QDamage(t)).OrderBy(t => t.Health);
 
-            if (allMinions == null)
-                return;
-
+            if (allMinions == null || allMinions.Count() == 0)
+            {
+                allMinions = ObjectManager.Get<Obj_AI_Base>().Where(t => Q.IsInRange(t) && t.IsValidTarget() && t.IsMinion && t.IsEnemy).OrderBy(t => t.Health);
+                if (allMinions == null || allMinions.Count() == 0)
+                    return;
+            }
             var QLocation = Prediction.Position.PredictCircularMissileAoe(allMinions.ToArray(), Q.Range, Q.Radius, Q.CastDelay, Q.Speed, Player.Instance.Position);
 
             if (QLocation == null || !Q.IsReady())

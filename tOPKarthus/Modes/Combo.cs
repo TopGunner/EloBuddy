@@ -16,18 +16,18 @@ namespace tOPKarthus.Modes
             if (Q.IsReady())
             {
                 var Target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
-                var Pred = Q.GetPrediction(Target);
                 if (Target != null && Target.IsValid)
                 {
+                    var Pred = Q.GetPrediction(Target);
                     Q.Cast(Pred.CastPosition);
                 }
             }
             if (W.IsReady())
             {
                 var Target = TargetSelector.GetTarget(W.Range, DamageType.Magical);
-                var Pred = W.GetPrediction(Target);
                 if (Target != null && Target.IsValid)
                 {
+                    var Pred = W.GetPrediction(Target);
                     W.Cast(Pred.CastPosition);
                 }
             }
