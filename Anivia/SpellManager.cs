@@ -28,6 +28,7 @@ namespace Anivia
         {
             // Initialize spells
             Q = new Spell.Skillshot(SpellSlot.Q, 1075, EloBuddy.SDK.Enumerations.SkillShotType.Linear, 0, 850, 110);
+            Q.AllowedCollisionCount = int.MaxValue;
             W = new Spell.Skillshot(SpellSlot.W, 1000, EloBuddy.SDK.Enumerations.SkillShotType.Circular, 0, int.MaxValue, 1);
             E = new Spell.Targeted(SpellSlot.E, 650);
             R = new Spell.Skillshot(SpellSlot.R, 625, EloBuddy.SDK.Enumerations.SkillShotType.Circular, 0, int.MaxValue, 400);
