@@ -9,6 +9,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
+using Settings = Anivia.Config.Misc;
 
 namespace Anivia
 {
@@ -41,7 +42,45 @@ namespace Anivia
 
         public static void Initialize()
         {
-            // Let the static initializer do the job, this way we avoid multiple init calls aswell
+            Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
+        }
+
+        private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (Settings.autoInterrupt && sender.IsEnemy && sender is AIHeroClient && sender.IsInRange(Player.Instance, W.Range))
+            {
+                var attacker = sender as AIHeroClient;
+                if (attacker == null)
+                    return;
+
+                var slot = attacker.GetSpellSlotFromName(args.SData.Name);
+                if (slot == SpellSlot.Unknown)
+                    return;
+
+                switch (attacker.ChampionName)
+                {
+                    case "Fiddlesticks":
+                    case "Galio":
+                    case "Janna":
+                    case "Karthus":
+                    case "Katarina":
+                    case "Malzahar":
+                    case "MissFortune":
+                    case "Nunu":
+                    case "Pantheon":
+                    case "TwistedFate":
+                    case "Warwick":
+                    case "Caitlyn":
+                    case "Shen":
+                        if (slot == SpellSlot.R)
+                        {
+                            if(W.IsReady())
+                                W.Cast(attacker.Position);
+                        }
+                        break;
+                }
+
+            }
         }
     }
 }

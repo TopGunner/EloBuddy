@@ -40,6 +40,7 @@ namespace Anivia
             private static readonly CheckBox _useZhonyasDmg;
             private static readonly CheckBox _useZhonyasCC;
             private static readonly CheckBox _autolevelskills;
+            private static readonly CheckBox _autoInterrupt;
             private static readonly Slider _skinId;
             private static readonly CheckBox _cleanseStun;
 
@@ -50,6 +51,10 @@ namespace Anivia
             public static bool autolevelskills
             {
                 get { return _autolevelskills.CurrentValue; }
+            }
+            public static bool autoInterrupt
+            {
+                get { return _autoInterrupt.CurrentValue; }
             }
             public static bool useSeraphsDmg
             {
@@ -321,6 +326,7 @@ namespace Anivia
                 Menu = Config.Menu.AddSubMenu("Misc");
                 _tearStack = Menu.Add("tearStack", new CheckBox("Tearstacking Mode"));
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
+                _autoInterrupt = Menu.Add("autoInterrupt", new CheckBox("Autointerrup dangerous channeling skills (e.g. Fiddle Ult, ...)"));
                 _skinId = Menu.Add("skinId", new Slider("Skin ID", 5, 1, 7));
                 _cleanseStun = Menu.Add("cleanseStun", new CheckBox("Cleanse if 2 or more enemies are around"));
                 Menu.AddSeparator();

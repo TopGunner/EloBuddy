@@ -103,21 +103,10 @@ namespace Anivia.Modes
         {
             if (Settings.deactiveR && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
             {
-                Console.WriteLine("settings ok, togglestate ok");
-                var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe);
-                foreach (var missi in missiles)
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 220));
+                if (enemies.Count() < 1)
                 {
-                    var slot = Player.Instance.GetSpellSlotFromName(missi.SData.Name);
-                    if (slot == SpellSlot.R)
-                    {
-                        Console.WriteLine("missile found");
-                        var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(missi.Position, 220));
-                        Console.WriteLine("enemies " + enemies.Count());
-                        if (enemies.Count() < 1)
-                        {
-                            R.Cast(Player.Instance);
-                        }
-                    }
+                    R.Cast(Player.Instance);
                 }
             }
         }
