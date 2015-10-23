@@ -34,6 +34,10 @@ namespace Anivia
         {
 
             private static readonly Menu Menu;
+            public static readonly CheckBox _drawQ;
+            public static readonly CheckBox _drawW;
+            public static readonly CheckBox _drawE;
+            public static readonly CheckBox _drawR;
             private static readonly CheckBox _tearStack;
             private static readonly CheckBox _useSeraphsDmg;
             private static readonly CheckBox _useSeraphsCC;
@@ -324,6 +328,11 @@ namespace Anivia
             {
                 // Initialize the menu values
                 Menu = Config.Menu.AddSubMenu("Misc");
+                _drawQ = Menu.Add("drawQ", new CheckBox("Draw Q"));
+                _drawW = Menu.Add("drawW", new CheckBox("Draw W"));
+                _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
+                _drawR = Menu.Add("drawR", new CheckBox("Draw R"));
+                Menu.AddSeparator();
                 _tearStack = Menu.Add("tearStack", new CheckBox("Tearstacking Mode"));
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoInterrupt = Menu.Add("autoInterrupt", new CheckBox("Autointerrup dangerous channeling skills (e.g. Fiddle Ult, ...)"));

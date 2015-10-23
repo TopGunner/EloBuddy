@@ -3,7 +3,7 @@ using EloBuddy;
 using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
-
+using Settings = Anivia.Config.Misc;
 namespace Anivia
 {
     public static class Program
@@ -43,10 +43,14 @@ namespace Anivia
         private static void OnDraw(EventArgs args)
         {
             // Draw range circles of our spells
-            Circle.Draw(Color.Red, SpellManager.Q.Range, Player.Instance.Position);
-            Circle.Draw(Color.Aqua, SpellManager.W.Range, Player.Instance.Position);
-            Circle.Draw(Color.DarkGreen, SpellManager.E.Range, Player.Instance.Position);
-            Circle.Draw(Color.DarkOrange, SpellManager.R.Range, Player.Instance.Position);
+            if(Settings._drawQ.CurrentValue)
+                Circle.Draw(Color.Red, SpellManager.Q.Range, Player.Instance.Position);
+            if (Settings._drawW.CurrentValue)
+                Circle.Draw(Color.Aqua, SpellManager.W.Range, Player.Instance.Position);
+            if (Settings._drawE.CurrentValue)
+                Circle.Draw(Color.DarkGreen, SpellManager.E.Range, Player.Instance.Position);
+            if (Settings._drawR.CurrentValue)
+                Circle.Draw(Color.DarkOrange, SpellManager.R.Range, Player.Instance.Position);
         }
     }
 }
