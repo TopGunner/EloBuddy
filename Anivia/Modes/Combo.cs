@@ -28,11 +28,12 @@ namespace Anivia.Modes
             // TODO: Add combo logic here
             // See how I used the Settings.UseQ here, this is why I love my way of using
             // the menu in the Config class!
+            ks();
             deactivateUlt();
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
-                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Low)
+                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
                 {
                     Q.Cast(target);
                 }
@@ -56,20 +57,20 @@ namespace Anivia.Modes
             }
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
-                var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
-                if (target != null)
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable);
+                foreach(var e in enemies)
                 {
                     var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe);
                     foreach (var missile in missiles)
                     {
                         if (missile != null && missile.SData.AlternateName == "FlashFrostSpell")
                         {
-                            if (target.IsInRange(missile, 100))
+                            if (e.IsInRange(missile, 150))
                             {
-                                Q.Cast(target);
-                                if (E.IsReady() && Settings.UseE && target.IsValid() && target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && target.IsInRange(Player.Instance, E.Range))
+                                Q.Cast(e);
+                                if (E.IsReady() && Settings.UseE && e.IsValid() && e.IsValid && e.IsEnemy && !e.IsDead && !e.IsInvulnerable && !e.IsZombie && e.IsInRange(Player.Instance, E.Range))
                                 {
-                                    E.Cast(target);
+                                    E.Cast(e);
                                 }
                             }
                         }
@@ -96,6 +97,19 @@ namespace Anivia.Modes
                         E.Cast(target);
                     }
                 }
+            }
+        }
+
+        private void ks()
+        {
+            if (Settings.ks)
+            {
+                var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range) && DamageLibrary.GetSpellDamage(Player.Instance, t, SpellSlot.E) > t.Health).FirstOrDefault();
+                if(enemy != null)
+                    if (E.IsReady())
+                    {
+                        E.Cast(enemy);
+                    }
             }
         }
 

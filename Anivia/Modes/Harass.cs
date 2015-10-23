@@ -30,6 +30,8 @@ namespace Anivia.Modes
             {
                 return;
             }
+            ks();
+            deactivateUlt();
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
@@ -38,7 +40,7 @@ namespace Anivia.Modes
                     Q.Cast(target);
                 }
             }
-            if (Settings.UseR && R.IsReady())
+            if (Settings.UseR && R.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState != 2)
             {
                 var target = TargetSelector.GetTarget(R.Range, DamageType.Magical);
                 if (target != null)
@@ -57,20 +59,20 @@ namespace Anivia.Modes
             }
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
-                var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
-                if (target != null)
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable);
+                foreach (var e in enemies)
                 {
                     var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe);
                     foreach (var missile in missiles)
                     {
                         if (missile != null && missile.SData.AlternateName == "FlashFrostSpell")
                         {
-                            if (target.IsInRange(missile, 100))
+                            if (e.IsInRange(missile, 150))
                             {
-                                Q.Cast(target);
-                                if (E.IsReady() && Settings.UseE && target.IsValid() && target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && target.IsInRange(Player.Instance, E.Range))
+                                Q.Cast(e);
+                                if (E.IsReady() && Settings.UseE && e.IsValid() && e.IsValid && e.IsEnemy && !e.IsDead && !e.IsInvulnerable && !e.IsZombie && e.IsInRange(Player.Instance, E.Range))
                                 {
-                                    E.Cast(target);
+                                    E.Cast(e);
                                 }
                             }
                         }
@@ -82,16 +84,35 @@ namespace Anivia.Modes
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Magical);
                 if (target != null)
                 {
-                    if (Settings.UseE)
+                    foreach (BuffInstance b in target.Buffs)
                     {
-                        foreach (BuffInstance b in target.Buffs)
+                        if (b.Name == "chilled")
                         {
-                            if (b.Name == "chilled")
-                            {
-                                E.Cast(target);
-                            }
+                            E.Cast(target);
                         }
                     }
+                }
+            }
+        }
+
+        private void ks()
+        {
+            var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range) && DamageLibrary.GetSpellDamage(Player.Instance, t, SpellSlot.E) > t.Health).FirstOrDefault();
+            if (enemy != null)
+                if (E.IsReady())
+                {
+                    E.Cast(enemy);
+                }
+        }
+
+        private void deactivateUlt()
+        {
+            if (Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
+            {
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 220));
+                if (enemies.Count() < 1)
+                {
+                    R.Cast(Player.Instance);
                 }
             }
         }

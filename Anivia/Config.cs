@@ -428,6 +428,12 @@ namespace Anivia
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useR;
                 private static readonly CheckBox _deactiveR;
+                private static readonly CheckBox _ks;
+
+                public static bool ks
+                {
+                    get { return _ks.CurrentValue; }
+                }
                 public static bool UseQ
                 {
                     get { return _useQ.CurrentValue; }
@@ -464,6 +470,7 @@ namespace Anivia
                     _useE = Menu.Add("comboUseEDoubleOnly", new CheckBox("Use E only for doubled damage"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
                     _deactiveR = Menu.Add("deactiveR", new CheckBox("Autocancel Ult"));
+                    _ks = Menu.Add("ks", new CheckBox("Killsteal with E"));
                 }
 
                 public static void Initialize()

@@ -45,7 +45,7 @@ namespace Anivia
             InventorySlot[] inv = Player.Instance.InventoryItems;
             foreach (var item in inv)
             {
-                if (item.Id == ItemId.Zhonyas_Hourglass && item.CanUseItem())
+                if ((item.Id == ItemId.Zhonyas_Hourglass || item.Id == ItemId.Wooglets_Witchcap) && item.CanUseItem())
                 {
                     return item.Cast();
                 }
