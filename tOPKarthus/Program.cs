@@ -16,6 +16,7 @@ namespace tOPKarthus
         // Change this line to the champion you want to make the addon for,
         // watch out for the case being correct!
         public const string ChampName = "Karthus";
+        public static float timedone { get; set; }
 
         public static void Main(string[] args)
         {
@@ -47,38 +48,34 @@ namespace tOPKarthus
         {
             Circle.Draw(SharpDX.Color.Red, SpellManager.Q.Range, Player.Instance.Position);
 
-            var EnemiesTxt = "";
+            if (!SpellManager.R.IsLearned || !SpellManager.R.IsReady())
+            {
+                return;
+            }
 
-            //Show Enemies
+            var EnemiesTxt = "";
             var enemies = HeroManager.Enemies;
             foreach (var enemy in enemies)
             {
-                if (!(enemy.IsEnemy && enemy.IsValid))
+                if (!enemy.IsEnemy || !enemy.IsValid || enemy.IsDead)
                 {
-                    enemies.Remove(enemy);
+                    continue;
                 }
-            }
-
-            Vector2 WTS = Drawing.WorldToScreen(Player.Instance.Position);
-
-            foreach (var enemy in enemies)
-            {
                 if ((enemy.Health - SpellManager.RDamage(enemy)) <= 0)
                 {
-                    if (!enemy.IsDead)
-                    {
-                        EnemiesTxt = enemy.BaseSkinName + " , ";
-
-                    }
+                    EnemiesTxt += enemy.BaseSkinName + " , ";
                 }
             }
             if (EnemiesTxt != "")
             {
-                if (SpellManager.R.IsLearned && SpellManager.R.IsReady())
+                if (timedone - Game.Time > 10000)
                 {
-                    Drawing.DrawText(WTS[0] - 150, WTS[1] + 80, System.Drawing.Color.Red, "R: " + EnemiesTxt + "killable", 200);
+                    Chat.Print("<font color=\"#c71ef9\"> " + EnemiesTxt + " killable with R </font>");
+                    timedone = Game.Time;
                 }
+                Console.WriteLine("R: " + EnemiesTxt + "killable");
             }
         }
+
     }
 }

@@ -57,13 +57,13 @@ namespace Anivia.Modes
             }
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
-                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable);
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance, 1500));
                 foreach(var e in enemies)
                 {
-                    var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe);
+                    var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe && missi.SData.AlternateName == "FlashFrostSpell");
                     foreach (var missile in missiles)
                     {
-                        if (missile != null && missile.SData.AlternateName == "FlashFrostSpell")
+                        if (missile != null)
                         {
                             if (e.IsInRange(missile, 150))
                             {
