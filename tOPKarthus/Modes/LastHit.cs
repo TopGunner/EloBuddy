@@ -25,51 +25,36 @@ namespace tOPKarthus.Modes
 
             if (allMinions == null || allMinions.Count() == 0)
             {
-                LasthitSolotarget();
                 return;
             }
 
             var QLocation = Prediction.Position.PredictCircularMissileAoe(allMinions.ToArray(), Q.Range, Q.Radius, Q.CastDelay, Q.Speed, Player.Instance.Position);
 
-            if (QLocation == null || !Q.IsReady())
+            if (QLocation == null)
             {
                 return;
             }
 
-            int collisionobjs = 0;
             var bestPred = QLocation[0];
+
+            if (bestPred == null)
+                return;
+
             foreach (var pred in QLocation)
             {
-                if (Q.IsInRange(pred.CastPosition) && pred.CollisionObjects.Count() > collisionobjs)
+                if (pred.CastPosition.CountEnemiesInRange(200) == 1)
                 {
-                    collisionobjs = pred.CollisionObjects.Count();
-                    bestPred = pred;
+                    if (Q.IsReady() && Q.IsInRange(pred.CastPosition))
+                    {
+                        Q.Cast(pred.CastPosition);
+                        return;
+                    }
                 }
             }
-            Q.Cast(bestPred.CastPosition);
-        }
-
-        private void LasthitSolotarget()
-        {
-            var allMinions = ObjectManager.Get<Obj_AI_Base>().Where(t => Q.IsInRange(t) && t.IsValidTarget() && t.IsMinion && t.IsEnemy && t.Health < SpellManager.QDamage(t)).OrderBy(t => t.Health);
-
-            if (allMinions == null || allMinions.Count() == 0)
+            if (Q.IsReady() && Q.IsInRange(bestPred.CastPosition))
             {
+                Q.Cast(bestPred.CastPosition);
                 return;
-            }
-
-            var QLocation = Prediction.Position.PredictCircularMissileAoe(allMinions.ToArray(), Q.Range, Q.Radius, Q.CastDelay, Q.Speed, Player.Instance.Position);
-
-            if (QLocation == null || !Q.IsReady())
-            {
-                return;
-            }
-            foreach (var pred in QLocation)
-            {
-                if (Q.IsInRange(pred.CastPosition) && pred.CollisionObjects.Count() == 1)
-                {
-                    Q.Cast(pred.CastPosition);
-                }
             }
         }
     }

@@ -39,6 +39,7 @@ namespace Anivia
             public static readonly CheckBox _drawE;
             public static readonly CheckBox _drawR;
             private static readonly CheckBox _tearStack;
+            private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _useSeraphsDmg;
             private static readonly CheckBox _useSeraphsCC;
             private static readonly CheckBox _useZhonyasDmg;
@@ -47,10 +48,15 @@ namespace Anivia
             private static readonly CheckBox _autoInterrupt;
             private static readonly Slider _skinId;
             private static readonly CheckBox _cleanseStun;
+            private static readonly Slider _cleanseEnemies;
 
             public static bool tearStack
             {
                 get { return _tearStack.CurrentValue; }
+            }
+            public static bool autoBuyStartingItems
+            {
+                get { return _autoBuyStartingItems.CurrentValue; }
             }
             public static bool autolevelskills
             {
@@ -79,6 +85,10 @@ namespace Anivia
             public static int skinId
             {
                 get { return _skinId.CurrentValue; }
+            }
+            public static int cleanseEnemies
+            {
+                get { return _cleanseEnemies.CurrentValue; }
             }
             public static bool cleanseStun
             {
@@ -335,9 +345,11 @@ namespace Anivia
                 Menu.AddSeparator();
                 _tearStack = Menu.Add("tearStack", new CheckBox("Tearstacking Mode"));
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
+                _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
                 _autoInterrupt = Menu.Add("autoInterrupt", new CheckBox("Autointerrup dangerous channeling skills (e.g. Fiddle Ult, ...)"));
                 _skinId = Menu.Add("skinId", new Slider("Skin ID", 5, 1, 7));
-                _cleanseStun = Menu.Add("cleanseStun", new CheckBox("Cleanse if 2 or more enemies are around"));
+                _cleanseStun = Menu.Add("cleanseStun", new CheckBox("Cleanse if x or more enemies are around"));
+                _cleanseEnemies = Menu.Add("cleanseEnemies", new Slider("x enemies in range for Cleanse", 2, 0, 5));
                 Menu.AddSeparator();
                 _useSeraphsDmg = Menu.Add("useSeraphsDmg", new CheckBox("Use Seraphs on incoming damage"));
                 _useSeraphsCC = Menu.Add("useSeraphsCC", new CheckBox("Use Seraphs on incoming dangerous spells"));
@@ -364,7 +376,7 @@ namespace Anivia
                 _onEliseE = Menu.Add("onEliseE", new CheckBox("Block Elise Cocoon"));
                 _onFioraUlt = Menu.Add("onFioraUlt", new CheckBox("Block Fiora Ult Marks"));
                 _onFizzUlt = Menu.Add("onFizzUlt", new CheckBox("Block Fizz Shark"));
-                _onGalioUlt = Menu.Add("onGalioUlt", new CheckBox("Block Braum Idol of Durand"));
+                _onGalioUlt = Menu.Add("onGalioUlt", new CheckBox("Block Galio Idol of Durand"));
                 _onGnarUlt = Menu.Add("onGnarUlt", new CheckBox("Block Gnar Ult"));
                 _onGragasUlt = Menu.Add("onGragasUlt", new CheckBox("Block Gragas Explosive Cask"));
                 _onGravesUlt = Menu.Add("onGravesUlt", new CheckBox("Block Graves Collateral Damage"));
@@ -397,6 +409,7 @@ namespace Anivia
             public static void Initialize()
             {
             }
+
         }
 
         public static class Modes

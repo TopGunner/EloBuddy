@@ -1,0 +1,3 @@
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\Anivia.exe.config
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\obj\Debug\Anivia.exe
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\obj\Debug\Anivia.pdb
