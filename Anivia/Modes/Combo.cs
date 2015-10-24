@@ -102,13 +102,22 @@ namespace Anivia.Modes
 
         private void ks()
         {
-            if (Settings.ks)
+            if (Settings.ksE)
             {
                 var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range) && DamageLibrary.GetSpellDamage(Player.Instance, t, SpellSlot.E) > t.Health).FirstOrDefault();
                 if(enemy != null)
                     if (E.IsReady())
                     {
                         E.Cast(enemy);
+                    }
+            }
+            if (Settings.ksI)
+            {
+                var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, Ignite.Range) && DamageLibrary.GetSummonerSpellDamage(Player.Instance, t, DamageLibrary.SummonerSpells.Ignite) > t.Health).FirstOrDefault();
+                if (enemy != null)
+                    if (Ignite.IsReady())
+                    {
+                        Ignite.Cast(enemy);
                     }
             }
         }

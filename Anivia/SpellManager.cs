@@ -23,6 +23,7 @@ namespace Anivia
         public static Spell.Targeted E { get; private set; }
         public static Spell.Skillshot R { get; private set; }
         public static Spell.Active cleanse { get; private set; }
+        public static Spell.Targeted ignite { get; private set; }
         public static Vector3 RlastCast;
 
         static SpellManager()
@@ -37,6 +38,11 @@ namespace Anivia
             if (slot != SpellSlot.Unknown)
             {
                 cleanse = new Spell.Active(slot);
+            }
+            var slot2 = ObjectManager.Player.GetSpellSlotFromName("summonerdot");
+            if (slot2 != SpellSlot.Unknown)
+            {
+                ignite = new Spell.Targeted(slot2, 600);
             }
         }
 

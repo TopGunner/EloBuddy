@@ -28,6 +28,10 @@ namespace Anivia.Modes
         {
             get { return SpellManager.cleanse; }
         }
+        protected Spell.Targeted Ignite
+        {
+            get { return SpellManager.ignite; }
+        }
         public abstract bool ShouldBeExecuted();
 
         public abstract void Execute();

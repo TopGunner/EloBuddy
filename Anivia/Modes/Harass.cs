@@ -10,7 +10,6 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-// Using the config like this makes your life easier, trust me
 using Settings = Anivia.Config.Modes.Harass;
 
 namespace Anivia.Modes
@@ -19,19 +18,15 @@ namespace Anivia.Modes
     {
         public override bool ShouldBeExecuted()
         {
-            // Only execute this mode when the orbwalker is on harass mode
             return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
         }
 
         public override void Execute()
         {
-
-            if (Settings.Mana > Player.Instance.ManaPercent)
-            {
-                return;
-            }
-            ks();
             deactivateUlt();
+            if (Settings.Mana >= Player.Instance.ManaPercent)
+                return;
+
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
@@ -62,10 +57,10 @@ namespace Anivia.Modes
                 var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance, 1500));
                 foreach (var e in enemies)
                 {
-                    var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe);
+                    var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe && missi.SData.AlternateName == "FlashFrostSpell");
                     foreach (var missile in missiles)
                     {
-                        if (missile != null && missile.SData.AlternateName == "FlashFrostSpell")
+                        if (missile != null)
                         {
                             if (e.IsInRange(missile, 150))
                             {
@@ -95,19 +90,9 @@ namespace Anivia.Modes
             }
         }
 
-        private void ks()
-        {
-            var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range) && DamageLibrary.GetSpellDamage(Player.Instance, t, SpellSlot.E) > t.Health).FirstOrDefault();
-            if (enemy != null)
-                if (E.IsReady())
-                {
-                    E.Cast(enemy);
-                }
-        }
-
         private void deactivateUlt()
         {
-            if (Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
+            if (Anivia.Config.Modes.Combo.deactiveR && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
             {
                 var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 220));
                 if (enemies.Count() < 1)

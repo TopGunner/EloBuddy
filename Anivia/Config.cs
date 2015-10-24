@@ -441,11 +441,16 @@ namespace Anivia
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useR;
                 private static readonly CheckBox _deactiveR;
-                private static readonly CheckBox _ks;
+                private static readonly CheckBox _ksE;
+                private static readonly CheckBox _ksI;
 
-                public static bool ks
+                public static bool ksE
                 {
-                    get { return _ks.CurrentValue; }
+                    get { return _ksE.CurrentValue; }
+                }
+                public static bool ksI
+                {
+                    get { return _ksI.CurrentValue; }
                 }
                 public static bool UseQ
                 {
@@ -483,7 +488,8 @@ namespace Anivia
                     _useE = Menu.Add("comboUseEDoubleOnly", new CheckBox("Use E only for doubled damage"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
                     _deactiveR = Menu.Add("deactiveR", new CheckBox("Autocancel Ult"));
-                    _ks = Menu.Add("ks", new CheckBox("Killsteal with E"));
+                    _ksE = Menu.Add("ksE", new CheckBox("Killsteal with E"));
+                    _ksI = Menu.Add("ksI", new CheckBox("Killsteal/Finish with Ignite"));
                 }
 
                 public static void Initialize()
