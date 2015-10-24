@@ -88,5 +88,24 @@ namespace Anivia
 
             }
         }
+
+        public static float DamageToHero(AIHeroClient unit)
+        {
+            float dmg = 0;
+            if(unit.IsEnemy && !unit.IsZombie && !unit.IsDead && unit.IsValid && !unit.IsInvulnerable)
+            {
+                if(ignite != null && ignite.IsReady())
+                    dmg += DamageLibrary.GetSummonerSpellDamage(Player.Instance, unit, DamageLibrary.SummonerSpells.Ignite);
+                if (Q.IsReady())
+                    dmg += DamageLibrary.GetSpellDamage(Player.Instance, unit, SpellSlot.Q) * 2;
+                if (E.IsReady() && (Q.IsReady() || R.IsReady()))
+                    dmg += DamageLibrary.GetSpellDamage(Player.Instance, unit, SpellSlot.E);
+                if (E.IsReady())
+                    dmg += DamageLibrary.GetSpellDamage(Player.Instance, unit, SpellSlot.E);
+                if (R.IsReady())
+                    dmg += DamageLibrary.GetSpellDamage(Player.Instance, unit, SpellSlot.R);
+            }
+            return dmg;
+        }
     }
 }

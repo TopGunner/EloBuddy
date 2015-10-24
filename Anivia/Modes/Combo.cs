@@ -60,6 +60,8 @@ namespace Anivia.Modes
                 var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance, 1500));
                 foreach(var e in enemies)
                 {
+                    if (e == null)
+                        continue;
                     var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe && missi.SData.AlternateName == "FlashFrostSpell");
                     foreach (var missile in missiles)
                     {
@@ -102,23 +104,28 @@ namespace Anivia.Modes
 
         private void ks()
         {
-            if (Settings.ksE)
+            if (Settings.ksE && Settings.ksI && E.IsReady() && Ignite != null && Ignite.IsReady())
+            {
+                var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, Ignite.Range) && t.IsInRange(Player.Instance.Position, E.Range) && DamageLibrary.GetSummonerSpellDamage(Player.Instance, t, DamageLibrary.SummonerSpells.Ignite) + DamageLibrary.GetSpellDamage(Player.Instance, t, SpellSlot.E) > t.Health).FirstOrDefault();
+                if (enemy != null)
+                {
+                    E.Cast(enemy);
+                    Ignite.Cast(enemy);
+                    return;
+                }
+                
+            }
+            if (Settings.ksE && E.IsReady())
             {
                 var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range) && DamageLibrary.GetSpellDamage(Player.Instance, t, SpellSlot.E) > t.Health).FirstOrDefault();
                 if(enemy != null)
-                    if (E.IsReady())
-                    {
-                        E.Cast(enemy);
-                    }
+                    E.Cast(enemy);
             }
-            if (Settings.ksI)
+            if (Settings.ksI && Ignite != null && Ignite.IsReady())
             {
                 var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, Ignite.Range) && DamageLibrary.GetSummonerSpellDamage(Player.Instance, t, DamageLibrary.SummonerSpells.Ignite) > t.Health).FirstOrDefault();
                 if (enemy != null)
-                    if (Ignite.IsReady())
-                    {
-                        Ignite.Cast(enemy);
-                    }
+                    Ignite.Cast(enemy);
             }
         }
 
@@ -126,7 +133,7 @@ namespace Anivia.Modes
         {
             if (Settings.deactiveR && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
             {
-                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 220));
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 400));
                 if (enemies.Count() < 1)
                 {
                     R.Cast(Player.Instance);

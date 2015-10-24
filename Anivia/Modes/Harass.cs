@@ -30,7 +30,7 @@ namespace Anivia.Modes
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
-                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
+                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.High)
                 {
                     Q.Cast(target);
                 }
@@ -94,7 +94,7 @@ namespace Anivia.Modes
         {
             if (Anivia.Config.Modes.Combo.deactiveR && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
             {
-                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 220));
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 400));
                 if (enemies.Count() < 1)
                 {
                     R.Cast(Player.Instance);

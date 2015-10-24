@@ -38,6 +38,7 @@ namespace Anivia
             public static readonly CheckBox _drawW;
             public static readonly CheckBox _drawE;
             public static readonly CheckBox _drawR;
+            public static readonly CheckBox _drawCombo;
             private static readonly CheckBox _tearStack;
             private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _useSeraphsDmg;
@@ -93,6 +94,10 @@ namespace Anivia
             public static bool cleanseStun
             {
                 get { return _cleanseStun.CurrentValue; }
+            }
+            public static bool drawComboDmg
+            {
+                get { return _drawCombo.CurrentValue; }
             }
 
 
@@ -342,6 +347,7 @@ namespace Anivia
                 _drawW = Menu.Add("drawW", new CheckBox("Draw W"));
                 _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
                 _drawR = Menu.Add("drawR", new CheckBox("Draw R"));
+                _drawCombo = Menu.Add("drawCombo", new CheckBox("Draw Combo Damge"));
                 Menu.AddSeparator();
                 _tearStack = Menu.Add("tearStack", new CheckBox("Tearstacking Mode"));
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
@@ -439,6 +445,7 @@ namespace Anivia
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
+                private static readonly CheckBox _useEDouble;
                 private static readonly CheckBox _useR;
                 private static readonly CheckBox _deactiveR;
                 private static readonly CheckBox _ksE;
@@ -466,7 +473,7 @@ namespace Anivia
                 }
                 public static bool UseEDoubleOnly
                 {
-                    get { return _useE.CurrentValue; }
+                    get { return _useEDouble.CurrentValue; }
                 }
                 public static bool UseR
                 {
@@ -485,7 +492,7 @@ namespace Anivia
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("comboUseW", new CheckBox("Use Smart W"));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
-                    _useE = Menu.Add("comboUseEDoubleOnly", new CheckBox("Use E only for doubled damage"));
+                    _useEDouble = Menu.Add("comboUseEDoubleOnly", new CheckBox("Use E only for doubled damage"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
                     _deactiveR = Menu.Add("deactiveR", new CheckBox("Autocancel Ult"));
                     _ksE = Menu.Add("ksE", new CheckBox("Killsteal with E"));
@@ -534,6 +541,51 @@ namespace Anivia
                     // in the display name will replace it with 0=current 1=min and 2=max value
                     Menu.Add("harassMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
                 }
+                public static void Initialize()
+                {
+                }
+            }
+
+            public static class LaneClear
+            {
+                private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useE;
+                private static readonly CheckBox _useR;
+                private static readonly CheckBox _deactiveR;
+                private static readonly Slider _mana;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+                public static bool UseE
+                {
+                    get { return _useE.CurrentValue; }
+                }
+                public static bool UseR
+                {
+                    get { return _useR.CurrentValue; }
+                }
+                public static bool deactiveR
+                {
+                    get { return _deactiveR.CurrentValue; }
+                }
+                public static int mana
+                {
+                    get { return _mana.CurrentValue; }
+                }
+
+                static LaneClear()
+                {
+                    // Initialize the menu values
+                    Menu.AddGroupLabel("Lane Clear");
+                    _useQ = Menu.Add("clearUseQ", new CheckBox("Use Q"));
+                    _useE = Menu.Add("clearUseE", new CheckBox("Use E"));
+                    _useR = Menu.Add("clearUseR", new CheckBox("Use R"));
+                    _deactiveR = Menu.Add("clearDeactiveR", new CheckBox("Autocancel Ult"));
+                    _mana = Menu.Add("clearMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
+                }
+
                 public static void Initialize()
                 {
                 }

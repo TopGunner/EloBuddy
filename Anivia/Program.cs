@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using EloBuddy;
+using EloBuddy.SDK;
+using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
+using EloBuddy.SDK.Menu;
+using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 using Settings = Anivia.Config.Misc;
@@ -37,19 +43,11 @@ namespace Anivia
             {
                 Player.Instance.Spellbook.LevelSpell(SpellSlot.Q);
             }
-            if (Settings.autoBuyStartingItems)
-            {
-                if (Game.MapId == GameMapId.SummonersRift)
-                {
-                    Shop.BuyItem(ItemId.Dorans_Ring);
-                    Shop.BuyItem(ItemId.Health_Potion);
-                    Shop.BuyItem(ItemId.Health_Potion);
-                }
-            }
 
             // Listen to events we need
             Drawing.OnDraw += OnDraw;
             Player.OnLevelUp += Anivia.Modes.PermaActive.autoLevelSkills;
+
             
         }
 
@@ -64,6 +62,30 @@ namespace Anivia
                 Circle.Draw(Color.DarkGreen, SpellManager.E.Range, Player.Instance.Position);
             if (Settings._drawR.CurrentValue)
                 Circle.Draw(Color.DarkOrange, SpellManager.R.Range, Player.Instance.Position);
+
+            if (Settings.drawComboDmg)
+            {
+                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsValidTarget() && e.IsHPBarRendered))
+                {
+                    //combodamage
+                    float damage = SpellManager.DamageToHero(e);
+                    if (damage <= 0)
+                        continue;
+
+                    var damagePercentage = ((e.Health - damage) > 0 ? (e.Health - damage) : 0) / e.MaxHealth;
+                    var currentHealthPercentage = e.Health / e.MaxHealth;
+
+                    var start = new Vector2((int)(e.HPBarPosition.X) + damagePercentage * 100 - 10, (int)(e.HPBarPosition.Y) -5);
+                    var end = new Vector2((int)(e.HPBarPosition.X) + currentHealthPercentage * 100 - 10, (int)(e.HPBarPosition.Y) -5);
+
+                    // Draw the line
+                    Drawing.DrawLine(start, end, 20, System.Drawing.Color.Lime);
+                    if (e.Health - damage < 0)
+                    {
+                        Drawing.DrawText(e.HPBarPosition.X, e.HPBarPosition.Y - 20, System.Drawing.Color.Lime, "KILLABLE", 18);
+                    }
+                }
+            }
         }
     }
 }

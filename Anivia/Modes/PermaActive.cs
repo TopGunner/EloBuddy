@@ -18,6 +18,8 @@ namespace Anivia.Modes
     {
         bool stackingTear = true;
         int currentSkin = 0;
+        bool bought = false;
+        int ticks = 0;
         public override bool ShouldBeExecuted()
         {
             // Since this is permaactive mode, always execute the loop
@@ -26,11 +28,34 @@ namespace Anivia.Modes
 
         public override void Execute()
         {
+            autoBuyStartingItems();
             cleanseMe();
             stackTear();
             stopStackMode();
             skinChanger();
             //TODO W CAST
+        }
+
+        private void autoBuyStartingItems()
+        {
+            
+            if (bought || ticks / Game.TicksPerSecond < 5)
+            {
+                ticks++;
+                return;
+            }
+
+            bought = true;
+            if (Settings.autoBuyStartingItems)
+            {
+                if (Game.MapId == GameMapId.SummonersRift)
+                {
+                    Shop.BuyItem(ItemId.Dorans_Ring);
+                    Shop.BuyItem(ItemId.Health_Potion);
+                    Shop.BuyItem(ItemId.Health_Potion);
+                    Shop.BuyItem(ItemId.Warding_Totem_Trinket);
+                }
+            }
         }
 
         private void cleanseMe()
