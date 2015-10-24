@@ -34,36 +34,13 @@ namespace tOPKarthus.Modes
                     || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) )) // 1 = off , 2 = on
                     E.Cast();
             }
-            onDeath();
-
-        }
-
-        private void onDeath()
-        {
-
             if (Player.Instance.IsZombie)
             {
-                var enemies = HeroManager.Enemies.Where(t => t.IsEnemy && t.IsValid && !t.IsDead && !t.IsInvulnerable && !t.IsZombie);
-                if (!R.IsLearned || !R.IsReady() || (enemies == null) || enemies.Count() == 0)
-                {
-                    if (!R.IsLearned)
-                        Console.WriteLine("R not learned");
-                    if (!R.IsReady())
-                        Console.WriteLine("R not ready");
-                    if ((enemies == null) || enemies.Count() == 0)
-                        Console.WriteLine("no enemies alive");
-                    return;
-                }
-                foreach (AIHeroClient enemy in enemies)
-                {
-                    if ((SpellManager.RDamage(enemy) > enemy.Health) && R.IsReady())
-                    {
-                        Console.WriteLine("R casted for " + enemy.Name);
-                        R.Cast(enemy);
-                        return;
-                    }
-                }
+                var enemies = HeroManager.Enemies.Where(t => t.IsEnemy && t.IsValid && (t.Health - SpellManager.RDamage(t)) <= 0 && !t.IsDead);
+                if(R.IsLearned && R.IsReady())
+                    R.Cast();
             }
+
         }
     }
 }

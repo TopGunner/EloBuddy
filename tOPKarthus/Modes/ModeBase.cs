@@ -20,7 +20,7 @@ namespace tOPKarthus.Modes
         {
             get { return SpellManager.E; }
         }
-        protected Spell.Skillshot R
+        protected Spell.Chargeable R
         {
             get { return SpellManager.R; }
         }

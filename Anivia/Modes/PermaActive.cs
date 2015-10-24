@@ -35,22 +35,15 @@ namespace Anivia.Modes
 
         private void cleanseMe()
         {
-            return;
-            /******** IsStunned Property not Working - WOULD CLEANSE KNOCKUP **********
-            if (Settings.cleanseStun && cleanse != null)
+            if (Settings.cleanseStun)
             {
-                if(Player.Instance.IsFeared|| Player.Instance.IsStunned|| Player.Instance.IsCharmed)
+                if(Player.Instance.IsStunned && Player.Instance.CountEnemiesInRange(700) >= 2)
                 {
-                    if (Player.Instance.CountEnemiesInRange(1000) >= Settings.cleanseEnemies)
-                    {
-                        if (cleanse.IsReady())
-                        {
-                            cleanse.Cast();
-                        }
-                    }
+                    if(cleanse.IsReady())
+                        cleanse.Cast();
                 }
             }
-            */
+
         }
 
         private void skinChanger()
@@ -80,10 +73,6 @@ namespace Anivia.Modes
             if (Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
                 return;
 
-            if (60 > Player.Instance.ManaPercent)
-            {
-                return;
-            }
             if (!Settings.tearStack || !Player.Instance.IsInShopRange() || Game.MapId == GameMapId.HowlingAbyss)
             {
                 return;
@@ -91,7 +80,7 @@ namespace Anivia.Modes
             InventorySlot[] inv = Player.Instance.InventoryItems;
             foreach (var item in inv)
             {
-                if (item.Id == ItemId.Archangels_Staff || item.Id == ItemId.Archangels_Staff_Crystal_Scar || item.Id == ItemId.Tear_of_the_Goddess || item.Id == ItemId.Tear_of_the_Goddess_Crystal_Scar)
+                if (item.Id == ItemId.Archangels_Staff || item.Id == ItemId.Archangels_Staff_Crystal_Scar || item.Id == ItemId.Tear_of_the_Goddess || item.Id == ItemId.Tear_of_the_Goddess_Crystal_Scar || item.Name.Contains("Seraphs"))
                 {
                     if (item.Charges < 700)
                     {

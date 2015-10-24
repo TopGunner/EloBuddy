@@ -16,7 +16,6 @@ namespace tOPKarthus
         // Change this line to the champion you want to make the addon for,
         // watch out for the case being correct!
         public const string ChampName = "Karthus";
-        public static float timedone { get; set; }
 
         public static void Main(string[] args)
         {
@@ -48,34 +47,38 @@ namespace tOPKarthus
         {
             Circle.Draw(SharpDX.Color.Red, SpellManager.Q.Range, Player.Instance.Position);
 
-            if (!SpellManager.R.IsLearned || !SpellManager.R.IsReady())
-            {
-                return;
-            }
-
             var EnemiesTxt = "";
+
+            //Show Enemies
             var enemies = HeroManager.Enemies;
             foreach (var enemy in enemies)
             {
-                if (!enemy.IsEnemy || !enemy.IsValid || enemy.IsDead)
+                if (!(enemy.IsEnemy && enemy.IsValid))
                 {
-                    continue;
+                    enemies.Remove(enemy);
                 }
+            }
+
+            Vector2 WTS = Drawing.WorldToScreen(Player.Instance.Position);
+
+            foreach (var enemy in enemies)
+            {
                 if ((enemy.Health - SpellManager.RDamage(enemy)) <= 0)
                 {
-                    EnemiesTxt += enemy.BaseSkinName + " , ";
+                    if (!enemy.IsDead)
+                    {
+                        EnemiesTxt = enemy.BaseSkinName + " , ";
+
+                    }
                 }
             }
             if (EnemiesTxt != "")
             {
-                if (timedone - Game.Time > 10000)
+                if (SpellManager.R.IsLearned && SpellManager.R.IsReady())
                 {
-                    Chat.Print("<font color=\"#c71ef9\"> " + EnemiesTxt + " killable with R </font>");
-                    timedone = Game.Time;
+                    Drawing.DrawText(WTS[0] - 150, WTS[1] + 80, System.Drawing.Color.Red, "R: " + EnemiesTxt + "killable", 200);
                 }
-                Console.WriteLine("R: " + EnemiesTxt + "killable");
             }
         }
-
     }
 }

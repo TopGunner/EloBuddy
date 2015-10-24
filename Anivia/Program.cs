@@ -33,19 +33,6 @@ namespace Anivia
             SpellManager.Initialize();
             ModeManager.Initialize();
             SaveMePls.Initialize();
-            if (Settings.autolevelskills)
-            {
-                Player.Instance.Spellbook.LevelSpell(SpellSlot.Q);
-            }
-            if (Settings.autoBuyStartingItems)
-            {
-                if (Game.MapId == GameMapId.SummonersRift)
-                {
-                    Shop.BuyItem(ItemId.Dorans_Ring);
-                    Shop.BuyItem(ItemId.Health_Potion);
-                    Shop.BuyItem(ItemId.Health_Potion);
-                }
-            }
 
             // Listen to events we need
             Drawing.OnDraw += OnDraw;

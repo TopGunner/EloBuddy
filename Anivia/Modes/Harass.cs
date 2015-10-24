@@ -26,7 +26,7 @@ namespace Anivia.Modes
         public override void Execute()
         {
 
-            if (Settings.Mana > Player.Instance.ManaPercent)
+            if (Settings.Mana < Player.Instance.ManaPercent)
             {
                 return;
             }
@@ -59,7 +59,7 @@ namespace Anivia.Modes
             }
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
-                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance, 1500));
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable);
                 foreach (var e in enemies)
                 {
                     var missiles = ObjectManager.Get<MissileClient>().Where(missi => missi.SpellCaster.IsMe);

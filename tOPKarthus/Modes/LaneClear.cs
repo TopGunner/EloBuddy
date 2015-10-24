@@ -45,8 +45,7 @@ namespace tOPKarthus.Modes
                     bestPred = pred;
                 }
             }
-            if(bestPred != null)
-                Q.Cast(bestPred.CastPosition);
+            Q.Cast(bestPred.CastPosition);
 
             var allMinionsE = ObjectManager.Get<Obj_AI_Base>().Where(t => E.IsInRange(t) && t.IsValidTarget() && t.IsMinion && t.IsEnemy).OrderBy(t => t.Health);
             if (allMinionsE == null)
