@@ -16,7 +16,7 @@ namespace Anivia.Modes
 {
     public sealed class PermaActive : ModeBase
     {
-        bool stackingTear = true;
+        bool stackingTear = false;
         int currentSkin = 0;
         bool bought = false;
         int ticks = 0;
@@ -95,9 +95,12 @@ namespace Anivia.Modes
             }
             if (!Player.Instance.IsInShopRange() && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
             {
-                R.Cast(Player.Instance);
+                if (R.IsReady() && R.IsLearned)
+                {
+                    R.Cast(Player.Instance);
+                    this.stackingTear = false;
+                }
             }
-            this.stackingTear = false;
         }
 
         private void stackTear()
@@ -109,7 +112,7 @@ namespace Anivia.Modes
             {
                 return;
             }
-            if (!Settings.tearStack || !Player.Instance.IsInShopRange() || Game.MapId == GameMapId.HowlingAbyss)
+            if (!Settings.tearStack || this.stackingTear || !Player.Instance.IsInShopRange() || Game.MapId == GameMapId.HowlingAbyss)
             {
                 return;
             }
@@ -120,8 +123,11 @@ namespace Anivia.Modes
                 {
                     if (item.Charges < 700)
                     {
-                        R.Cast(Player.Instance);
-                        this.stackingTear = true;
+                        if (R.IsReady() && R.IsLearned)
+                        {
+                            R.Cast(Player.Instance);
+                            this.stackingTear = true;
+                        }
                     }
                 }
             }
@@ -132,7 +138,7 @@ namespace Anivia.Modes
         {
             if (Settings.autolevelskills)
             {
-                if (!sender.IsMe)
+                if (!sender.IsMe || args.Level > 17)
                 {
                     return;
                 }
