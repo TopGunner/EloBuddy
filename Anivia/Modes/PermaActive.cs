@@ -173,7 +173,7 @@ namespace Anivia.Modes
         internal static void antiGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
         {
             Spell.Skillshot W = SpellManager.W;
-            if (Settings.antiDash && W.IsReady() && sender.IsValid && sender.IsEnemy && !sender.IsDead && !sender.IsInvulnerable && !sender.IsZombie && sender.IsInRange(Player.Instance, W.Range))
+            if (Settings.antiDash && W.IsReady() && sender.IsValid && sender.IsEnemy && !sender.IsDead && !sender.IsInvulnerable && !sender.IsZombie && e.End.IsInRange(Player.Instance, W.Range))
             {
                 if (Player.Instance.Distance(e.End) < Player.Instance.Distance(e.End))
                     W.Cast(e.End);
