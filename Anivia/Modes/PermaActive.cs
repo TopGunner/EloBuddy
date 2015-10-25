@@ -157,5 +157,29 @@ namespace Anivia.Modes
                     return;
             }
         }
+
+        internal static void Dash_OnDash(Obj_AI_Base sender, Dash.DashEventArgs e)
+        {
+            Spell.Skillshot W = SpellManager.W;
+            if (Settings.antiDash && W.IsReady() && sender.IsValid && sender.IsEnemy && !sender.IsDead && !sender.IsInvulnerable && !sender.IsZombie && sender.IsInRange(Player.Instance, W.Range))
+            {
+                if (Player.Instance.Distance(e.EndPos) < Player.Instance.Distance(e.StartPos))
+                    W.Cast(sender);
+                else if (Settings.antiDashOffensive)
+                    W.Cast(sender);
+            }
+        }
+
+        internal static void antiGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
+        {
+            Spell.Skillshot W = SpellManager.W;
+            if (Settings.antiDash && W.IsReady() && sender.IsValid && sender.IsEnemy && !sender.IsDead && !sender.IsInvulnerable && !sender.IsZombie && sender.IsInRange(Player.Instance, W.Range))
+            {
+                if (Player.Instance.Distance(e.End) < Player.Instance.Distance(e.End))
+                    W.Cast(e.End);
+                else if (Settings.antiDashOffensive)
+                    W.Cast(e.End);
+            }
+        }
     }
 }

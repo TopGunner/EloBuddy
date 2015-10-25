@@ -47,6 +47,8 @@ namespace Anivia
             private static readonly CheckBox _useZhonyasCC;
             private static readonly CheckBox _autolevelskills;
             private static readonly CheckBox _autoInterrupt;
+            private static readonly CheckBox _antiDash;
+            private static readonly CheckBox _antiDashOffensive;
             private static readonly Slider _skinId;
             private static readonly CheckBox _cleanseStun;
             private static readonly Slider _cleanseEnemies;
@@ -66,6 +68,14 @@ namespace Anivia
             public static bool autoInterrupt
             {
                 get { return _autoInterrupt.CurrentValue; }
+            }
+            public static bool antiDash
+            {
+                get { return _antiDash.CurrentValue; }
+            }
+            public static bool antiDashOffensive
+            {
+                get { return _antiDashOffensive.CurrentValue; }
             }
             public static bool useSeraphsDmg
             {
@@ -352,8 +362,13 @@ namespace Anivia
                 _tearStack = Menu.Add("tearStack", new CheckBox("Tearstacking Mode"));
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
-                _autoInterrupt = Menu.Add("autoInterrupt", new CheckBox("Autointerrup dangerous channeling skills (e.g. Fiddle Ult, ...)"));
+                Menu.AddSeparator();
+                _autoInterrupt = Menu.Add("autoInterrupt", new CheckBox("Autointerrupt dangerous channeling spells"));
+                _antiDash = Menu.Add("antiDash", new CheckBox("Autointerrupt dashes (BETA)"));
+                _antiDashOffensive = Menu.Add("antiDashOffensive", new CheckBox("Use it also offensive"));
+                Menu.AddSeparator();
                 _skinId = Menu.Add("skinId", new Slider("Skin ID", 5, 1, 7));
+                Menu.AddSeparator();
                 _cleanseStun = Menu.Add("cleanseStun", new CheckBox("Cleanse if x or more enemies are around"));
                 _cleanseEnemies = Menu.Add("cleanseEnemies", new Slider("x enemies in range for Cleanse", 2, 0, 5));
                 Menu.AddSeparator();

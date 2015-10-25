@@ -45,11 +45,11 @@ namespace Anivia.Modes
                 {
                     R.Cast(target);
                     SpellManager.RlastCast = R.GetPrediction(target).UnitPosition;
-                    if (E.IsReady() && Settings.UseE && target.IsValid() && target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && target.IsInRange(Player.Instance, E.Range))
+                    if (E.IsReady() && Settings.UseE && target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && target.IsInRange(Player.Instance, E.Range))
                     {
                         E.Cast(target);
                     }
-                    if (Settings.UseW && W.IsReady() && target.IsValid() && target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && target.IsInRange(Player.Instance, W.Range))
+                    if (Settings.UseW && W.IsReady() && target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && target.IsInRange(Player.Instance, W.Range))
                     {
                         W.Cast(target);
                     }
@@ -70,7 +70,7 @@ namespace Anivia.Modes
                             if (e.IsInRange(missile, 150))
                             {
                                 Q.Cast(e);
-                                if (E.IsReady() && Settings.UseE && e.IsValid() && e.IsValid && e.IsEnemy && !e.IsDead && !e.IsInvulnerable && !e.IsZombie && e.IsInRange(Player.Instance, E.Range))
+                                if (E.IsReady() && Settings.UseE && e.IsValid && e.IsEnemy && !e.IsDead && !e.IsInvulnerable && !e.IsZombie && e.IsInRange(Player.Instance, E.Range))
                                 {
                                     E.Cast(e);
                                 }

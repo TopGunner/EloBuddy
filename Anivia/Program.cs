@@ -10,6 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 using Settings = Anivia.Config.Misc;
+using Anivia.Modes;
 namespace Anivia
 {
     public static class Program
@@ -47,6 +48,8 @@ namespace Anivia
             // Listen to events we need
             Drawing.OnDraw += OnDraw;
             Player.OnLevelUp += Anivia.Modes.PermaActive.autoLevelSkills;
+            Dash.OnDash += PermaActive.Dash_OnDash;
+            Gapcloser.OnGapcloser += PermaActive.antiGapcloser;
 
             
         }
