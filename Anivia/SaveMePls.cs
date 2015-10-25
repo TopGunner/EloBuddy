@@ -55,21 +55,6 @@ namespace Anivia
 
         private static void OnUpdate(EventArgs args)
         {
-            if (Settings.useZhonyasDmg)
-            {
-                if (Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0 ||
-                    IncomingDamage > Player.Instance.Health)
-                    if (castZhonyas())
-                        return;
-            }
-            if (Settings.useSeraphsDmg)
-            {
-                if (Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0 ||
-                    IncomingDamage > Player.Instance.Health || IncomingDamage > Player.Instance.MaxMana*0.2)
-                    if (castSeraphs())
-                        return;
-            }
-
             // Check spell arrival
             foreach (var entry in IncDamage.Where(entry => entry.Key < Game.Time).ToArray())
             {
@@ -81,6 +66,34 @@ namespace Anivia
             {
                 InstDamage.Remove(entry.Key);
             }
+            if (Settings.useZhonyasDmg)
+            {
+                if ((Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0))
+                {
+                    if (castZhonyas())
+                    {
+                        return;
+                    }
+                }
+                if(IncomingDamage > Player.Instance.Health)
+                {
+                    if (castZhonyas())
+                    {
+                        return;
+                    }
+                }
+            }
+            if (Settings.useSeraphsDmg)
+            {
+                if ((Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0) ||
+                    IncomingDamage > Player.Instance.Health || IncomingDamage > Player.Instance.MaxMana * 0.2)
+                {
+                    if (castSeraphs())
+                    {
+                        return;
+                    }
+                }
+            }
         }
 
         private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
@@ -90,9 +103,8 @@ namespace Anivia
             {
                 if (args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId && sender is AIHeroClient && dangerousSpell(args.SData, (AIHeroClient)sender))
                 {
-                    var slot = ((AIHeroClient)sender).GetSpellSlotFromName(args.SData.Name);
                     //TODO TEST!
-                    if (Player.Instance.ServerPosition.Distance(sender.ServerPosition) < 2500)
+                    if (Player.Instance.Distance(sender) < 2500)
                     {
                         if (!castZhonyas())
                             castSeraphs();
@@ -101,6 +113,10 @@ namespace Anivia
                 if ((!(sender is AIHeroClient) || args.SData.IsAutoAttack()) && args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId)
                 {
                     IncDamage[Player.Instance.ServerPosition.Distance(sender.ServerPosition) / args.SData.MissileSpeed + Game.Time] = sender.GetAutoAttackDamage(Player.Instance);
+                }
+                else if (!(sender is AIHeroClient))
+                {
+                    return;
                 }
                 else
                 {
