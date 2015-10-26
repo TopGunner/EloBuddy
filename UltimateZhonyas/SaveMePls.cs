@@ -55,21 +55,6 @@ namespace UltimateZhonyas
 
         private static void OnUpdate(EventArgs args)
         {
-            if (Settings.useZhonyasDmg)
-            {
-                if (Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0 ||
-                    IncomingDamage > Player.Instance.Health)
-                    if (castZhonyas())
-                        return;
-            }
-            if (Settings.useSeraphsDmg)
-            {
-                if (Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0 ||
-                    IncomingDamage > Player.Instance.Health || IncomingDamage > Player.Instance.MaxMana*0.2)
-                    if (castSeraphs())
-                        return;
-            }
-
             // Check spell arrival
             foreach (var entry in IncDamage.Where(entry => entry.Key < Game.Time).ToArray())
             {
@@ -80,6 +65,20 @@ namespace UltimateZhonyas
             foreach (var entry in InstDamage.Where(entry => entry.Key < Game.Time).ToArray())
             {
                 InstDamage.Remove(entry.Key);
+            }
+            if (Settings.useZhonyasDmg)
+            {
+                if (Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0 ||
+                    IncomingDamage > Player.Instance.Health)
+                    if (castZhonyas())
+                        return;
+            }
+            if (Settings.useSeraphsDmg)
+            {
+                if (Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0 ||
+                    IncomingDamage > Player.Instance.Health || IncomingDamage > Player.Instance.MaxMana * 0.2)
+                    if (castSeraphs())
+                        return;
             }
         }
 
