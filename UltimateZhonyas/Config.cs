@@ -42,6 +42,7 @@ namespace UltimateZhonyas
             private static readonly CheckBox _useSeraphsCC;
             private static readonly CheckBox _useZhonyasDmg;
             private static readonly CheckBox _useZhonyasCC;
+            private static readonly CheckBox _useSpellshields;
 
             public static bool useSeraphsDmg
             {
@@ -59,6 +60,10 @@ namespace UltimateZhonyas
             {
                 get { return _useZhonyasCC.CurrentValue; }
             }
+            public static bool useSpellshields
+            {
+                get { return _useSpellshields.CurrentValue; }
+            }
 
             public static readonly CheckBox[] _skills = new CheckBox[EntityManager.Heroes.Enemies.Count()*4];
 
@@ -71,6 +76,8 @@ namespace UltimateZhonyas
                 Menu.AddSeparator();
                 _useZhonyasDmg = Menu.Add("useZhonyasDmg", new CheckBox("Use Zhonyas on incoming damage"));
                 _useZhonyasCC = Menu.Add("useZhonyasCC", new CheckBox("Use Zhonyas on incoming dangerous spells"));
+                Menu.AddSeparator();
+                _useSpellshields = Menu.Add("useSpellshields", new CheckBox("Use Spellshields on incoming dangerous spells"));
                 Menu.AddSeparator();
 
                 var enemies = EntityManager.Heroes.Enemies;

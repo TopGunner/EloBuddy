@@ -3,7 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
+using EloBuddy.SDK.Enumerations;
+using EloBuddy.SDK.Events;
+using EloBuddy.SDK.Menu;
+using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK.Rendering;
 using EloBuddy.SDK.Constants;
+using SharpDX;
+
 using Settings = UltimateZhonyas.Config.Misc;
 
 namespace UltimateZhonyas
@@ -45,7 +52,7 @@ namespace UltimateZhonyas
             InventorySlot[] inv = Player.Instance.InventoryItems;
             foreach (var item in inv)
             {
-                if (item.Id == ItemId.Zhonyas_Hourglass && item.CanUseItem())
+                if ((item.Id == ItemId.Zhonyas_Hourglass || item.Id == ItemId.Wooglets_Witchcap) && item.CanUseItem())
                 {
                     return item.Cast();
                 }
@@ -87,16 +94,44 @@ namespace UltimateZhonyas
 
             if (sender.IsEnemy)
             {
-                if (args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId && sender is AIHeroClient && dangerousSpell(args.SData, (AIHeroClient)sender))
+                if (((args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId)) && sender is AIHeroClient && dangerousSpell(args.SData, (AIHeroClient)sender))
                 {
                     var slot = ((AIHeroClient)sender).GetSpellSlotFromName(args.SData.Name);
                     //TODO TEST!
                     if (Player.Instance.ServerPosition.Distance(sender.ServerPosition) < 2500)
                     {
-                        if (!castZhonyas())
+                        bool shielded = false;
+                        if (Settings.useSpellshields && Program.Shield != null && Program.Shield.IsReady())
+                        {
+                            switch (Player.Instance.ChampionName)
+                            {
+                                case "Fiora":
+                                    var target = TargetSelector.GetTarget(Program.Shield.Range, DamageType.Physical);
+                                    if (target != null)
+                                    {
+                                        Program.Shield.Cast(target);
+                                    }
+                                    else
+                                    {
+                                        Program.Shield.Cast(Player.Instance);
+                                    }
+                                    shielded = true;
+                                    break;
+                                case "Sivir":
+                                    Program.Shield.Cast(Player.Instance);
+                                    shielded = true;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        if (!shielded && !castZhonyas())
                             castSeraphs();
                     }
-                }
+                }               
+                
+
+
                 if ((!(sender is AIHeroClient) || args.SData.IsAutoAttack()) && args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId)
                 {
                     IncDamage[Player.Instance.ServerPosition.Distance(sender.ServerPosition) / args.SData.MissileSpeed + Game.Time] = sender.GetAutoAttackDamage(Player.Instance);
@@ -136,6 +171,16 @@ namespace UltimateZhonyas
                     }
                 }
             }
+        }
+
+        private static float distance(Vector3 a, Vector3 b, Vector3 p)
+        {
+            return cross(new Vector2(p.X-a.X, p.Y-a.Y), b).Length()/b.Length();
+        }
+
+        private static Vector2 cross(Vector2 a, Vector3 b)
+        {
+            return new Vector2(a.X * b.Y - a.Y * b.X, a.Y * b.X - a.X * b.Y);
         }
 
         private static bool dangerousSpell(SpellData spellData, AIHeroClient sender)
