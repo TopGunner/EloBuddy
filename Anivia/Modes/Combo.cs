@@ -17,6 +17,7 @@ namespace Anivia.Modes
 {
     public sealed class Combo : ModeBase
     {
+        bool casted = true;
         public override bool ShouldBeExecuted()
         {
             // Only execute this mode when the orbwalker is on combo mode
@@ -30,11 +31,12 @@ namespace Anivia.Modes
             // the menu in the Config class!
             ks();
             deactivateUlt();
-            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
+            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 && !casted)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
                 if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
                 {
+                    casted = true;
                     Q.Cast(target);
                 }
             }
@@ -57,6 +59,7 @@ namespace Anivia.Modes
             }
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
+                casted = false;
                 var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance, 1500));
                 foreach(var e in enemies)
                 {
@@ -67,7 +70,7 @@ namespace Anivia.Modes
                     {
                         if (missile != null)
                         {
-                            if (e.IsInRange(missile, 150))
+                            if (e.Distance(missile) <= 150)
                             {
                                 Q.Cast(e);
                                 if (E.IsReady() && Settings.UseE && e.IsValid && e.IsEnemy && !e.IsDead && !e.IsInvulnerable && !e.IsZombie && e.IsInRange(Player.Instance, E.Range))
