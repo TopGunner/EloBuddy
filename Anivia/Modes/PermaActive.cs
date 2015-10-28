@@ -33,7 +33,6 @@ namespace Anivia.Modes
             stackTear();
             stopStackMode();
             skinChanger();
-            //TODO W CAST
         }
 
         private void autoBuyStartingItems()
@@ -60,11 +59,11 @@ namespace Anivia.Modes
 
         private void cleanseMe()
         {
-            return;
-            /******** IsStunned Property not Working - WOULD CLEANSE KNOCKUP **********
             if (Settings.cleanseStun && cleanse != null)
             {
-                if(Player.Instance.IsFeared|| Player.Instance.IsStunned|| Player.Instance.IsCharmed)
+                if(Player.HasBuff("PoppyDiplomaticImmunity") || Player.HasBuff("MordekaiserChildrenOfTheGrave") || Player.HasBuff("FizzMarinerDoom") || Player.HasBuff("VladimirHemoplague") || 
+                        Player.HasBuff("zedulttargetmark") || Player.HasBuffOfType(BuffType.Suppression) || Player.HasBuffOfType(BuffType.Charm) || Player.HasBuffOfType(BuffType.Flee) || Player.HasBuffOfType(BuffType.Blind) || 
+                        Player.HasBuffOfType(BuffType.Polymorph) || Player.HasBuffOfType(BuffType.Snare) || Player.HasBuffOfType(BuffType.Stun) || Player.HasBuffOfType(BuffType.Taunt))
                 {
                     if (Player.Instance.CountEnemiesInRange(1000) >= Settings.cleanseEnemies)
                     {
@@ -75,7 +74,6 @@ namespace Anivia.Modes
                     }
                 }
             }
-            */
         }
 
         private void skinChanger()
