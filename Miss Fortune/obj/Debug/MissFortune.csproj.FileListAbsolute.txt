@@ -1,0 +1,3 @@
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\bin\Debug\Anivia.exe.config
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\obj\Debug\Anivia.exe
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\bin\Debug\MissFortune.exe.config
