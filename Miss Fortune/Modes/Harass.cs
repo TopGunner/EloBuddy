@@ -43,7 +43,14 @@ namespace MissFortune.Modes
         {
             if (Settings.UseQ && Q.IsReady())
             {
-                SpellManager.castQ(true);
+                if (Settings.useQMinionKillOnly)
+                {
+                    SpellManager.castQ(true, true);
+                }
+                else
+                {
+                    SpellManager.castQ(true, false);
+                }
             }
         }
     }

@@ -219,6 +219,10 @@ namespace MissFortune
                 {
                     get { return Menu["harassUseQ"].Cast<CheckBox>().CurrentValue; }
                 }
+                public static bool useQMinionKillOnly
+                {
+                    get { return Menu["harassUseQKillingBlowOnly"].Cast<CheckBox>().CurrentValue; }
+                }
                 public static bool UseW
                 {
                     get { return Menu["harassUseW"].Cast<CheckBox>().CurrentValue; }
@@ -242,6 +246,7 @@ namespace MissFortune
                     // way that I used in the combo class
                     Menu.AddGroupLabel("Harass");
                     Menu.Add("harassUseQ", new CheckBox("Use Q"));
+                    Menu.Add("harassUseQKillingBlowOnly", new CheckBox("Use Q for enhanced Damage only", false));
                     Menu.Add("harassUseW", new CheckBox("Use Smart W"));
                     Menu.Add("harassUseE", new CheckBox("Use E", false)); // Default false
 
@@ -252,6 +257,7 @@ namespace MissFortune
                 public static void Initialize()
                 {
                 }
+
             }
 
             public static class LaneClear

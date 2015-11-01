@@ -51,7 +51,7 @@ namespace MissFortune
 
 
 
-        internal static void castQ(bool NotkillOnly)
+        internal static void castQ(bool NotkillOnly, bool killMinionOnly)
         {
             foreach (var killable in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1000) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && (e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.Q) || NotkillOnly)))
             {
@@ -95,7 +95,7 @@ namespace MissFortune
                         }
                     }
                 }
-                foreach (var t in EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(Player.Instance, Q.Range) && e.Position.Distance(killable) < 500 && !e.IsDead && !e.IsInvulnerable && e.IsTargetable).OrderBy(t => t.Health))
+                foreach (var t in EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(Player.Instance, Q.Range) && e.Position.Distance(killable) < 500 && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && (!killMinionOnly || e.Health < Player.Instance.GetSpellDamage(e, SpellSlot.Q))).OrderBy(t => t.Health))
                 {
                     if (t.Position.AngleBetween(killable.Position) < 0.6981 && buff && t.Position.AngleBetween(killable.Position) > 0)
                     {
