@@ -40,6 +40,7 @@ namespace Kitelyn
             public static readonly CheckBox _drawR;
             public static readonly CheckBox _drawCombo;
             private static readonly CheckBox _useR;
+            private static readonly CheckBox _useRAlways;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
             private static readonly CheckBox _autoBuyStartingItems;
@@ -52,6 +53,10 @@ namespace Kitelyn
             public static bool UseR
             {
                 get { return _useR.CurrentValue; }
+            }
+            public static bool UseRAlways
+            {
+                get { return _useRAlways.CurrentValue; }
             }
             public static bool useHeal
             {
@@ -98,6 +103,7 @@ namespace Kitelyn
                 _drawCombo = Menu.Add("drawCombo", new CheckBox("Draw Combo Damge"));
                 Menu.AddSeparator();
                 _useR = Menu.Add("useR", new CheckBox("Use R to kill out of range targets"));
+                _useRAlways = Menu.Add("useRAlways", new CheckBox("Always use R if killable", false));
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));

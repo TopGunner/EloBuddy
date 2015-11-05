@@ -75,8 +75,8 @@ namespace Kitelyn.Modes
         {
             if (Settings.UseR && R.IsReady())
             {
-                var target = TargetSelector.GetTarget(R.Range, DamageType.Physical);
-                if (target != null && target.Distance(Player.Instance) > 700 && Player.Instance.CountEnemiesInRange(650) == 0 && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R)>target.Health)
+                var target = TargetSelector.GetTarget(SpellManager.RRange, DamageType.Physical);
+                if (target != null && ((target.Distance(Player.Instance) > 700 && Player.Instance.CountEnemiesInRange(650) == 0) || Settings.UseRAlways) && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R)>target.Health)
                 {
                     R.Cast(target);
                 }
@@ -115,6 +115,10 @@ namespace Kitelyn.Modes
 
         internal static void autoLevelSkills(Obj_AI_Base sender, Obj_AI_BaseLevelUpEventArgs args)
         {
+            if (args.Level == 6 || args.Level == 11 || args.Level == 16)
+            {
+                SpellManager.RRange += 500;
+            }
             if (Settings.autolevelskills)
             {
                 if (!sender.IsMe || args.Level > 17)

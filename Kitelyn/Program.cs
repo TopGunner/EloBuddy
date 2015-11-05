@@ -62,7 +62,7 @@ namespace Kitelyn
             if (Settings._drawE.CurrentValue)
                 Circle.Draw(Color.DarkGreen, SpellManager.E.Range, Player.Instance.Position);
             if (Settings._drawR.CurrentValue)
-                Circle.Draw(Color.DarkOrange, SpellManager.R.Range, Player.Instance.Position);
+                Circle.Draw(Color.DarkOrange, SpellManager.RRange, Player.Instance.Position);
 
         }
     }

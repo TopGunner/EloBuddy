@@ -36,7 +36,7 @@ namespace Kitelyn.Modes
             }
             if (Settings.UseR && R.IsReady())
             {
-                var target = TargetSelector.GetTarget(R.Range, DamageType.Physical);
+                var target = TargetSelector.GetTarget(SpellManager.RRange, DamageType.Physical);
                 if (target != null && target.Distance(Player.Instance) > 700 && Player.Instance.CountEnemiesInRange(650) == 0)
                 {
                     R.Cast(target);

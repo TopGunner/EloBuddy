@@ -24,6 +24,7 @@ namespace Kitelyn
         public static Spell.Targeted R { get; private set; }
         public static Spell.Active heal { get; private set; }
         public static Spell.Targeted ignite { get; private set; }
+        public static int RRange { get; set; }
 
         static SpellManager()
         {
@@ -32,7 +33,8 @@ namespace Kitelyn
             Q.AllowedCollisionCount = int.MaxValue;
             W = new Spell.Skillshot(SpellSlot.W, 800, EloBuddy.SDK.Enumerations.SkillShotType.Circular, 1100, int.MaxValue, 67);
             E = new Spell.Skillshot(SpellSlot.E, 950, SkillShotType.Linear, 0, int.MaxValue, 110);
-            R = new Spell.Targeted(SpellSlot.R, 2000);
+            R = new Spell.Targeted(SpellSlot.R, 1500);
+            RRange = 1500;
             var slot = ObjectManager.Player.GetSpellSlotFromName("summonerheal");
             if (slot != SpellSlot.Unknown)
             {
