@@ -17,7 +17,7 @@ namespace Anivia.Modes
 {
     public sealed class Combo : ModeBase
     {
-        bool casted = true;
+        bool casted = false;
         public override bool ShouldBeExecuted()
         {
             // Only execute this mode when the orbwalker is on combo mode
