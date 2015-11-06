@@ -30,7 +30,18 @@ namespace Kitelyn.Modes
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
                 if (target != null && Q.GetPrediction(target).HitChance >= HitChance.High && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.Q) > Player.Instance.GetAutoAttackDamage(target) && Player.Instance.Level < 11)
                 {
-                    Q.Cast(target);
+                    var colls = Q.GetPrediction(Player.Instance).GetCollisionObjects<Obj_AI_Base>();
+                    if(colls.Count() > 0 && colls[0] is AIHeroClient)
+                    {
+                        Q.Cast(target);
+                    }
+                    else if (Q.GetPrediction(Player.Instance).GetCollisionObjects<AIHeroClient>().Count() > 1)
+                    {
+                        Q.Cast(target);
+                    }
+                    /**PRESEASON
+                     * else if(target has Buff Snap Trap)
+                     **/
                 }
             }
             if (Settings.useBOTRK)
@@ -43,6 +54,12 @@ namespace Kitelyn.Modes
                 castYoumous();
             }
             castE();
+            getVision();
+        }
+
+        private void getVision()
+        {
+            
         }
  
         private void castE()

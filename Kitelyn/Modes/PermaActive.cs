@@ -59,7 +59,27 @@ namespace Kitelyn.Modes
 
         private void castW()
         {
-            if (Config.Modes.Combo.UseW)
+            if (Settings.useWOnTP)
+            {
+                foreach(var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range)))
+                {
+                    if (e.HasBuff("summonerteleport"))
+                    {
+                        W.Cast(e);
+                    }
+                }
+            }
+            else if (Settings.useWOnZhonyas)
+            {
+                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range)))
+                {
+                    if (e.HasBuff("zhonyasringshield"))
+                    {
+                        W.Cast(e);
+                    }
+                }
+            }
+            else if (Config.Modes.Combo.UseW)
             {
                 foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range) && (e.HasBuffOfType(BuffType.Stun) || e.HasBuffOfType(BuffType.Suppression) || e.HasBuffOfType(BuffType.Snare) || e.HasBuffOfType(BuffType.Knockup)) && e.GetMovementDebuffDuration() > 1 && !e.IsDead).OrderBy(t => t.MaxHealth))
                 {
@@ -76,7 +96,7 @@ namespace Kitelyn.Modes
             if (Settings.UseR && R.IsReady())
             {
                 var target = TargetSelector.GetTarget(SpellManager.RRange, DamageType.Physical);
-                if (target != null && ((target.Distance(Player.Instance) > 700 && Player.Instance.CountEnemiesInRange(650) == 0) || Settings.UseRAlways) && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R)>target.Health)
+                if (target != null && ((target.Distance(Player.Instance) > 700 && Player.Instance.CountEnemiesInRange(650) == 0) || Settings.UseRAlways) && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R)>target.Health + 2/5 * target.HPRegenRate)
                 {
                     R.Cast(target);
                 }

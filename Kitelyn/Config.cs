@@ -43,6 +43,10 @@ namespace Kitelyn
             private static readonly CheckBox _useRAlways;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
+            private static readonly CheckBox _useWOnTP;
+            private static readonly CheckBox _useWOnZhonyas;
+            private static readonly CheckBox _useWOnGapcloser;
+            private static readonly CheckBox _useEOnGapcloser;
             private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _autolevelskills;
             private static readonly Slider _skinId;
@@ -65,6 +69,22 @@ namespace Kitelyn
             public static bool useQSS
             {
                 get { return _useQSS.CurrentValue; }
+            }
+            public static bool useWOnTP
+            {
+                get { return _useWOnTP.CurrentValue; }
+            }
+            public static bool useWOnZhonyas
+            {
+                get { return _useWOnZhonyas.CurrentValue; }
+            }
+            public static bool useWOnGapcloser
+            {
+                get { return _useWOnGapcloser.CurrentValue; }
+            }
+            public static bool useEOnGapcloser
+            {
+                get { return _useEOnGapcloser.CurrentValue; }
             }
             public static bool autoBuyStartingItems
             {
@@ -107,6 +127,11 @@ namespace Kitelyn
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
+                Menu.AddSeparator();
+                _useWOnTP = Menu.Add("useWOnTP", new CheckBox("Use W on Teleport"));
+                _useWOnZhonyas = Menu.Add("useWOnZhonyas", new CheckBox("Use W on Zhonyas"));
+                _useWOnGapcloser = Menu.Add("useWOnGapcloser", new CheckBox("Use W on Gapcloser"));
+                _useEOnGapcloser = Menu.Add("useEOnGapcloser", new CheckBox("Use E on Gapcloser", false));
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));

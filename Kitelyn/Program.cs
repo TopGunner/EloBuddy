@@ -48,8 +48,21 @@ namespace Kitelyn
             // Listen to events we need
             Drawing.OnDraw += OnDraw;
             Player.OnLevelUp += Kitelyn.Modes.PermaActive.autoLevelSkills;
+            Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
 
             
+        }
+
+        private static void Gapcloser_OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
+        {
+            if (Settings.useWOnGapcloser && sender.IsEnemy)
+            {
+                SpellManager.W.Cast(e.End);
+            }
+            else if (Settings.useEOnGapcloser && sender.IsEnemy)
+            {
+                SpellManager.E.Cast(sender);
+            }
         }
 
         private static void OnDraw(EventArgs args)
