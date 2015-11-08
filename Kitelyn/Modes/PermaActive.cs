@@ -100,6 +100,20 @@ namespace Kitelyn.Modes
                 {
                     R.Cast(target);
                 }
+                else if (target != null && target.Distance(Player.Instance) > 700 && !Settings.UseRAlways && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R) > target.Health + 2 / 5 * target.HPRegenRate)
+                {
+                    if (Settings.useScryingOrbMarker)
+                    {
+                        InventorySlot[] inv = Player.Instance.InventoryItems;
+                        foreach (var item in inv)
+                        {
+                            if (item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket)
+                            {
+                                item.Cast(target);
+                            }
+                        }
+                    }
+                }
             }
         }
 

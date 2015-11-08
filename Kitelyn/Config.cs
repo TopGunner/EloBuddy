@@ -42,6 +42,7 @@ namespace Kitelyn
             public static readonly CheckBox _drawCombo;
             private static readonly CheckBox _useR;
             private static readonly CheckBox _useRAlways;
+            private static readonly CheckBox _useScryingOrbMarker;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
             private static readonly CheckBox _useWOnTP;
@@ -63,6 +64,10 @@ namespace Kitelyn
             public static bool UseRAlways
             {
                 get { return _useRAlways.CurrentValue; }
+            }
+            public static bool useScryingOrbMarker
+            {
+                get { return _useScryingOrbMarker.CurrentValue; }
             }
             public static bool useHeal
             {
@@ -127,9 +132,10 @@ namespace Kitelyn
                 _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
                 _drawR = Menu.Add("drawR", new CheckBox("Draw R"));
                 _drawCombo = Menu.Add("drawCombo", new CheckBox("Draw Combo Damge"));
-                Menu.AddSeparator();
+                Menu.AddSeparator(); 
                 _useR = Menu.Add("useR", new CheckBox("Use R to kill out of range targets"));
                 _useRAlways = Menu.Add("useRAlways", new CheckBox("Always use R if killable", false));
+                _useScryingOrbMarker = Menu.Add("useScryingOrbMarker", new CheckBox("Use Scrying Orb to mark enemies for later ult"));
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
@@ -182,6 +188,9 @@ namespace Kitelyn
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useBOTRK;
                 private static readonly CheckBox _useYOUMOUS;
+                private static readonly CheckBox _useWVision;
+                private static readonly CheckBox _useWardVision;
+                private static readonly CheckBox _useTrinketVision;
 
                 public static bool UseQ
                 {
@@ -190,6 +199,18 @@ namespace Kitelyn
                 public static bool UseW
                 {
                     get { return _useW.CurrentValue; }
+                }
+                public static bool useWVision
+                {
+                    get { return _useWVision.CurrentValue; }
+                }
+                public static bool useWardVision
+                {
+                    get { return _useWardVision.CurrentValue; }
+                }
+                public static bool useTrinketVision
+                {
+                    get { return _useTrinketVision.CurrentValue; }
                 }
                 public static bool UseE
                 {
@@ -214,6 +235,9 @@ namespace Kitelyn
                     _useE = Menu.Add("comboUseE", new CheckBox("Use Smart E"));
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
+                    _useWVision = Menu.Add("useWVision", new CheckBox("Use W for vision"));
+                    _useWardVision = Menu.Add("useWardVision", new CheckBox("Use Wards for Vision"));
+                    _useTrinketVision = Menu.Add("useTrinketVision", new CheckBox("Use Trinkets for Vision"));
                 }
 
                 public static void Initialize()

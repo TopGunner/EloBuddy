@@ -18,6 +18,9 @@ namespace Kitelyn
         // Change this line to the champion you want to make the addon for,
         // watch out for the case being correct!
         public const string ChampName = "Caitlyn";
+        public static AIHeroClient lastTarget;
+        public static float lastSeen = Game.Time;
+        public static Vector3 predictedPos;
 
         public static void Main(string[] args)
         {
@@ -49,8 +52,32 @@ namespace Kitelyn
             Drawing.OnDraw += OnDraw;
             Player.OnLevelUp += Kitelyn.Modes.PermaActive.autoLevelSkills;
             Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
+            Player.OnBasicAttack += Player_OnBasicAttack;
+            Game.OnTick += Game_OnTick;
 
             
+        }
+
+        private static void Game_OnTick(EventArgs args)
+        {
+            if (lastTarget != null)
+            {
+                if (lastTarget.IsVisible)
+                {
+                    predictedPos = Prediction.Position.PredictUnitPosition(lastTarget, 300).To3D();
+                    lastSeen = Game.Time;
+                }
+            }
+        }
+
+        private static void Player_OnBasicAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender != Player.Instance)
+                return;
+            if (args.Target is AIHeroClient)
+                lastTarget = (AIHeroClient)args.Target;
+            else
+                lastTarget = null;
         }
 
         private static void Gapcloser_OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
