@@ -498,6 +498,10 @@ namespace Anivia
                 {
                     get { return _deactiveR.CurrentValue; }
                 }
+                public static int HitchanceQ
+                {
+                    get { return Menu["hitchanceQ"].Cast<Slider>().CurrentValue; }
+                }
 
 
                 static Combo()
@@ -512,6 +516,7 @@ namespace Anivia
                     _deactiveR = Menu.Add("deactiveR", new CheckBox("Autocancel Ult"));
                     _ksE = Menu.Add("ksE", new CheckBox("Killsteal with E"));
                     _ksI = Menu.Add("ksI", new CheckBox("Killsteal/Finish with Ignite"));
+                    Menu.Add("hitChanceQ", new Slider("Hitchance for Q", 2, 1, 3));
                 }
 
                 public static void Initialize()

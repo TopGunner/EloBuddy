@@ -34,7 +34,14 @@ namespace Anivia.Modes
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 && !casted)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
-                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
+                HitChance h = HitChance.Medium;
+                if (Settings.HitchanceQ == 1)
+                    h = HitChance.Low;
+                else if (Settings.HitchanceQ == 2)
+                    h = HitChance.Medium;
+                else if (Settings.HitchanceQ == 3)
+                    h = HitChance.High;
+                if (target != null && Q.GetPrediction(target).HitChance >= h)
                 {
                     casted = true;
                     Q.Cast(target);
