@@ -34,7 +34,6 @@ namespace MissFortune.Modes
                     Rticks = ticks;
                 else if (!Combo.RcameOut && (Rticks - ticks) / Game.TicksPerSecond > 0.5)
                 {
-                    Console.WriteLine("no buff gained");
                     Orbwalker.DisableAttacking = false;
                     Orbwalker.DisableMovement = false;
                     Combo.Rchanneling = false;
@@ -50,11 +49,21 @@ namespace MissFortune.Modes
             {
                 return;
             }
+            forcedTargetRefresh();
             ksWithQ();
             autoBuyStartingItems();
             skinChanger();
             castE();
             castQSS();
+        }
+
+        private void forcedTargetRefresh()
+        {
+            if (Orbwalker.ForcedTarget != null && !Orbwalker.ForcedTarget.IsInRange(Player.Instance, 550))
+            {
+                Orbwalker.ForcedTarget = null;
+                //Orbwalker.ResetAutoAttack();
+            }
         }
 
 

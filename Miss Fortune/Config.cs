@@ -40,6 +40,8 @@ namespace MissFortune
             public static readonly CheckBox _drawR;
             public static readonly CheckBox _drawCombo;
             private static readonly CheckBox _ksQ;
+            private static readonly CheckBox _unkillableQ;
+            private static readonly CheckBox _useLoveTaps;
             private static readonly CheckBox _ksR;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
@@ -53,6 +55,14 @@ namespace MissFortune
             public static bool ksQ
             {
                 get { return _ksQ.CurrentValue; }
+            }
+            public static bool useQFarm
+            {
+                get { return _unkillableQ.CurrentValue; }
+            }
+            public static bool useLoveTaps
+            {
+                get { return _useLoveTaps.CurrentValue; }
             }
             public static bool ksR
             {
@@ -101,7 +111,10 @@ namespace MissFortune
                 _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
                 _drawR = Menu.Add("drawR", new CheckBox("Draw R"));
                 Menu.AddSeparator();
+                _useLoveTaps = Menu.Add("LoveTaps", new CheckBox("Use Love Taps"));
+                Menu.AddSeparator();
                 _ksQ = Menu.Add("ksQ", new CheckBox("Smart KS with Q"));
+                _unkillableQ = Menu.Add("unkillableQ", new CheckBox("Use Q for Unkillable Minions in Harass and Lasthit"));
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));

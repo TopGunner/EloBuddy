@@ -50,15 +50,46 @@ namespace MissFortune
             Player.OnLevelUp += MissFortune.Modes.PermaActive.autoLevelSkills;
             Obj_AI_Base.OnBuffLose += Obj_AI_Base_OnBuffLose;
             Obj_AI_Base.OnBuffGain += Obj_AI_Base_OnBuffGain;
-
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
+            Orbwalker.OnUnkillableMinion += UnkillableMinion;
             
+        }
+
+        private static void UnkillableMinion(Obj_AI_Base target, Orbwalker.UnkillableMinionArgs args)
+        {
+            if (Settings.useQFarm && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
+            {
+                if (SpellManager.Q.IsReady() && target.IsInRange(Player.Instance, SpellManager.Q.Range))
+                {
+                    SpellManager.Q.Cast(target);
+                }
+            }
+        }
+
+        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
+        {
+            if (!Settings.useLoveTaps || !(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
+                return;
+            bool newtarget = false;
+            foreach (var e in EntityManager.Heroes.Enemies.Where(t => !t.IsDead && t.IsTargetable && !t.IsZombie && !t.IsInvulnerable && Player.Instance.IsInRange(t, 500)).OrderBy(t => t.MaxHealth))
+            {
+                if (e.NetworkId == target.NetworkId)
+                    continue;
+                Orbwalker.ForcedTarget = e;
+                newtarget = true;
+                break;
+            }
+            if (!newtarget)
+            {
+                Orbwalker.ForcedTarget = null;
+                //Orbwalker.ResetAutoAttack();
+            }
         }
 
         private static void Obj_AI_Base_OnBuffGain(Obj_AI_Base sender, Obj_AI_BaseBuffGainEventArgs args)
         {
             if (sender.IsMe && args.Buff.DisplayName == "MissFortuneBulletSound")
             {
-                Console.WriteLine("ONBUFFGAIN");
                 Combo.Rchanneling = true;
                 Orbwalker.DisableAttacking = true;
                 Orbwalker.DisableMovement = true;

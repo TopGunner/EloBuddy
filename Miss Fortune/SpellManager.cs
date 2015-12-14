@@ -57,8 +57,10 @@ namespace MissFortune
             {
                 bool buff = false;
                 foreach (var b in killable.Buffs)
+                {
                     if (b.Name == "missfortunepassivestack")
                         buff = true;
+                }
 
                 foreach (var t in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && e.Position.Distance(killable) < 500))
                 {

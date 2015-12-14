@@ -92,7 +92,7 @@ namespace MissFortune.Modes
                         {
                             castOn = target;
                         }
-                        else if (!Settings.saveRforStunned && !Settings.alwaysROnStunned && collCount >= Settings.ROnEnemies)
+                        else if (!Settings.saveRforStunned && collCount >= Settings.ROnEnemies)
                         {
                             castOn = target;
                         }
