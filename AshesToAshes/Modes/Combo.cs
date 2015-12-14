@@ -36,7 +36,7 @@ namespace AshesToAshes.Modes
             }
             if (Settings.UseQ && Q.IsReady())
             {
-                if (Player.Instance.CountEnemiesInRange(550) > 0)
+                if (Player.Instance.CountEnemiesInRange(600) > 0)
                 {
                     foreach (var b in Player.Instance.Buffs)
                         if (b.Name == "asheqcastready")
@@ -58,7 +58,7 @@ namespace AshesToAshes.Modes
 
         private void castR()
         {
-            if (Settings.UseR && R.IsReady() && (Player.Instance.CountEnemiesInRange(550) == 0 || Player.Instance.HealthPercent < 25))
+            if (Settings.UseR && R.IsReady() && (Player.Instance.CountEnemiesInRange(600) == 0 || Player.Instance.HealthPercent < 25))
             {
                 var target = TargetSelector.GetTarget(1500, DamageType.Physical);
                 if (target != null && R.GetPrediction(target).HitChance >= HitChance.High)
