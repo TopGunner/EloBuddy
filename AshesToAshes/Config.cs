@@ -195,6 +195,7 @@ namespace AshesToAshes
                     // Here is another option on how to use the menu, but I prefer the
                     // way that I used in the combo class
                     Menu.AddGroupLabel("Harass");
+                    Menu.Add("harassUseQ", new CheckBox("Use Q"));
                     Menu.Add("harassUseW", new CheckBox("Use W"));
 
                     // Adding a slider, we have a little more options with them, using {0} {1} and {2}

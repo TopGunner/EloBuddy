@@ -26,6 +26,17 @@ namespace AshesToAshes.Modes
             if (Settings.Mana >= Player.Instance.ManaPercent)
                 return;
 
+            if (Settings.UseQ && Q.IsReady())
+            {
+                if (Player.Instance.CountEnemiesInRange(610) > 0)
+                {
+                    foreach (var b in Player.Instance.Buffs)
+                        if (b.Name == "asheqcastready")
+                        {
+                            Q.Cast();
+                        }
+                }
+            }
             if (Settings.UseW && W.IsReady())
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
