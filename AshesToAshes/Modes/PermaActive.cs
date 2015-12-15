@@ -29,10 +29,23 @@ namespace AshesToAshes.Modes
         public override void Execute()
         {
             ksWithW();
+            useAutoW();
             autoBuyStartingItems();
             skinChanger();
             castE();
             castQSS();
+        }
+
+        private void useAutoW()
+        {
+            if (Settings.useAutoW && W.IsReady())
+            {
+                var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
+                if (target != null && W.GetPrediction(target).HitChance >= HitChance.High)
+                {
+                    W.Cast(target);
+                }
+            }
         }
 
         private bool castQSS()
@@ -115,7 +128,7 @@ namespace AshesToAshes.Modes
                 {
                     return;
                 }
-                int[] leveler = new int[] { 2, 1, 3, 2, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3 };
+                int[] leveler = new int[] { 2, 1, 2, 3, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3 };
                 int skill = leveler[Player.Instance.Level];
 
                 if (skill == 1)

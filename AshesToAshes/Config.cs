@@ -36,6 +36,7 @@ namespace AshesToAshes
             private static readonly Menu Menu;
             public static readonly CheckBox _drawW;
             private static readonly CheckBox _ksW;
+            private static readonly CheckBox _useAutoW;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
             private static readonly CheckBox _autoBuyStartingItems;
@@ -46,6 +47,14 @@ namespace AshesToAshes
             public static bool ksW
             {
                 get { return _ksW.CurrentValue; }
+            }
+            public static bool useAutoW
+            {
+                get { return _useAutoW.CurrentValue; }
+            }
+            public static int Mana
+            {
+                get { return Menu["autoWMana"].Cast<Slider>().CurrentValue; }
             }
             public static bool useHeal
             {
@@ -76,6 +85,8 @@ namespace AshesToAshes
                 _drawW = Menu.Add("drawW", new CheckBox("Draw W"));
                 Menu.AddSeparator();
                 _ksW = Menu.Add("ksW", new CheckBox("Smart KS with W"));
+                _useAutoW = Menu.Add("useAutoW", new CheckBox("use W automatically if"));
+                Menu.Add("autoWMana", new Slider("mana > ({0}%)", 80));
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
