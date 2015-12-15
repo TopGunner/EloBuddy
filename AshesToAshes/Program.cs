@@ -11,7 +11,7 @@ using EloBuddy.SDK.Rendering;
 using SharpDX;
 using Settings = AshesToAshes.Config.Misc;
 using AshesToAshes;
-namespace MissFortune
+namespace AshesToAshes
 {
     public static class Program
     {
