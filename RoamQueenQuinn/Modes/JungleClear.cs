@@ -19,15 +19,13 @@ namespace RoamQueenQuinn.Modes
         public override bool ShouldBeExecuted()
         {
             if (Game.MapId == GameMapId.SummonersRift)
-                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear);
+                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             else
                 return false;
         }
 
         public override void Execute()
         {
-            if (Combo.Rchanneling)
-                return;
             if (Settings.mana >= Player.Instance.ManaPercent)
                 return;
 

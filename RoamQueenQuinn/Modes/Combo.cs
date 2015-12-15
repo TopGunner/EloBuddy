@@ -17,8 +17,6 @@ namespace RoamQueenQuinn.Modes
 {
     public sealed class Combo : ModeBase
     {
-        public static bool Rchanneling = false;
-        public static bool RcameOut = false;
         public override bool ShouldBeExecuted()
         {
             // Only execute this mode when the orbwalker is on combo mode
