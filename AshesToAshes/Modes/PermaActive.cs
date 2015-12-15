@@ -16,6 +16,7 @@ namespace AshesToAshes.Modes
 {
     public sealed class PermaActive : ModeBase
     {
+        List<AIHeroClient> tracker = new List<AIHeroClient>();
         int currentSkin = 0;
         bool bought = false;
         int ticks = 0;
@@ -34,6 +35,24 @@ namespace AshesToAshes.Modes
             skinChanger();
             castE();
             castQSS();
+            trackEnemies();
+        }
+
+        private void trackEnemies()
+        {
+            foreach (var e in tracker)
+            {
+                if (!e.IsVisible)
+                {
+                    E.Cast(E.GetPrediction(e).CastPosition);
+                }
+            }
+            tracker = new List<AIHeroClient>();
+            foreach(var e in EntityManager.Heroes.Enemies.Where(t => t.Distance(Player.Instance) < 700 && !t.IsDead && !t.IsInvulnerable && t.IsTargetable && !t.IsZombie))
+            {
+                if (e.IsVisible)
+                    tracker.Add(e);
+            }
         }
 
         private void useAutoW()
