@@ -40,6 +40,8 @@ namespace AshesToAshes.Modes
 
         private void trackEnemies()
         {
+            if (!Settings.useE)
+                return;
             foreach (var e in tracker)
             {
                 if (!e.IsVisible)
