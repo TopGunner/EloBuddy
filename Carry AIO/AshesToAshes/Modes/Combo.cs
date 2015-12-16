@@ -11,9 +11,9 @@ using EloBuddy.SDK.Rendering;
 using SharpDX;
 
 // Using the config like this makes your life easier, trust me
-using Settings = RoamQueenQuinn.Config.Modes.Combo;
+using Settings = AshesToAshes.Config.Modes.Combo;
 
-namespace RoamQueenQuinn.Modes
+namespace AshesToAshes.Modes
 {
     public sealed class Combo : ModeBase
     {
@@ -25,12 +25,24 @@ namespace RoamQueenQuinn.Modes
 
         public override void Execute()
         {
-            if (Settings.UseE && E.IsReady())
+            castR();
+            if (Settings.UseW && W.IsReady())
             {
-                var target = TargetSelector.GetTarget(E.Range, DamageType.Physical);
-                if (target != null)
+                var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
+                if (target != null && W.GetPrediction(target).HitChance >= HitChance.Medium)
                 {
-                    E.Cast(target);
+                    W.Cast(target);
+                }
+            }
+            if (Settings.UseQ && Q.IsReady())
+            {
+                if (Player.Instance.CountEnemiesInRange(650) > 0)
+                {
+                    foreach (var b in Player.Instance.Buffs)
+                        if (b.Name == "asheqcastready")
+                        {
+                            Q.Cast();
+                        }
                 }
             }
             if (Settings.useBOTRK)
@@ -42,39 +54,20 @@ namespace RoamQueenQuinn.Modes
             {
                 castYoumous();
             }
-
-            if (Settings.UseQ && Q.IsReady())
-            {
-                var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
-                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
-                {
-                    Q.Cast(target);
-                    return;
-                }
-            }
-            getVision();
         }
 
-        private void getVision()
+        private void castR()
         {
-            if (Player.Instance.IsDead || Player.Instance.IsInvulnerable || !Player.Instance.IsTargetable || Player.Instance.IsZombie || Player.Instance.IsInShopRange())
-                return;
-            if (Settings.UseW && W.IsReady() && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < W.Range && Game.Time - Program.lastSeen > 2)
+            if (Settings.UseR && R.IsReady() && (Player.Instance.CountEnemiesInRange(600) == 0 || Player.Instance.HealthPercent < 25))
             {
-                W.Cast(Program.predictedPos);
-            }
-            else if (Settings.useTrinketVision && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < 600 && Game.Time - Program.lastSeen > 2)
-            {
-                InventorySlot[] inv = Player.Instance.InventoryItems;
-                foreach (var item in inv)
+                var target = TargetSelector.GetTarget(1500, DamageType.Physical);
+                if (target != null && R.GetPrediction(target).HitChance >= HitChance.High)
                 {
-                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket)
-                    {
-                        item.Cast(Program.predictedPos);
-                    }
+                    R.Cast(target);
                 }
             }
         }
+ 
 
         private bool castYoumous()
         {

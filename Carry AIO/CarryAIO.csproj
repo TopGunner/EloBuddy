@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6CE561E6-368D-4E58-BFBB-77F4E96EF5C5}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CarryAIO</RootNamespace>
+    <AssemblyName>CarryAIO</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EloBuddy">
+      <HintPath>C:\Program Files (x86)\EloBuddy\System\EloBuddy.dll</HintPath>
+    </Reference>
+    <Reference Include="EloBuddy.SDK">
+      <HintPath>C:\Program Files (x86)\EloBuddy\System\EloBuddy.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>C:\Program Files (x86)\EloBuddy\System\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AshesToAshes\Ashe.cs" />
+    <Compile Include="AshesToAshes\Config.cs" />
+    <Compile Include="AshesToAshes\ModeManager.cs" />
+    <Compile Include="AshesToAshes\Modes\Combo.cs" />
+    <Compile Include="AshesToAshes\Modes\Flee.cs" />
+    <Compile Include="AshesToAshes\Modes\Harass.cs" />
+    <Compile Include="AshesToAshes\Modes\JungleClear.cs" />
+    <Compile Include="AshesToAshes\Modes\LaneClear.cs" />
+    <Compile Include="AshesToAshes\Modes\LastHit.cs" />
+    <Compile Include="AshesToAshes\Modes\ModeBase.cs" />
+    <Compile Include="AshesToAshes\Modes\PermaActive.cs" />
+    <Compile Include="AshesToAshes\SaveMePls.cs" />
+    <Compile Include="AshesToAshes\SpellManager.cs" />
+    <Compile Include="Kitelyn\Config.cs" />
+    <Compile Include="Kitelyn\ModeManager.cs" />
+    <Compile Include="Kitelyn\Modes\Combo.cs" />
+    <Compile Include="Kitelyn\Modes\Flee.cs" />
+    <Compile Include="Kitelyn\Modes\Harass.cs" />
+    <Compile Include="Kitelyn\Modes\JungleClear.cs" />
+    <Compile Include="Kitelyn\Modes\LaneClear.cs" />
+    <Compile Include="Kitelyn\Modes\LastHit.cs" />
+    <Compile Include="Kitelyn\Modes\ModeBase.cs" />
+    <Compile Include="Kitelyn\Modes\PermaActive.cs" />
+    <Compile Include="Kitelyn\Program.cs" />
+    <Compile Include="Kitelyn\SaveMePls.cs" />
+    <Compile Include="Kitelyn\SpellManager.cs" />
+    <Compile Include="MissFortune\Config.cs" />
+    <Compile Include="MissFortune\ModeManager.cs" />
+    <Compile Include="MissFortune\Modes\Combo.cs" />
+    <Compile Include="MissFortune\Modes\Flee.cs" />
+    <Compile Include="MissFortune\Modes\Harass.cs" />
+    <Compile Include="MissFortune\Modes\JungleClear.cs" />
+    <Compile Include="MissFortune\Modes\LaneClear.cs" />
+    <Compile Include="MissFortune\Modes\LastHit.cs" />
+    <Compile Include="MissFortune\Modes\ModeBase.cs" />
+    <Compile Include="MissFortune\Modes\PermaActive.cs" />
+    <Compile Include="MissFortune\MF.cs" />
+    <Compile Include="MissFortune\SaveMePls.cs" />
+    <Compile Include="MissFortune\SpellManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoamQueenQuinn\Config.cs" />
+    <Compile Include="RoamQueenQuinn\ModeManager.cs" />
+    <Compile Include="RoamQueenQuinn\Modes\Combo.cs" />
+    <Compile Include="RoamQueenQuinn\Modes\Flee.cs" />
+    <Compile Include="RoamQueenQuinn\Modes\Harass.cs" />
+    <Compile Include="RoamQueenQuinn\Modes\JungleClear.cs" />
+    <Compile Include="RoamQueenQuinn\Modes\LaneClear.cs" />
+    <Compile Include="RoamQueenQuinn\Modes\LastHit.cs" />
+    <Compile Include="RoamQueenQuinn\Modes\ModeBase.cs" />
+    <Compile Include="RoamQueenQuinn\Modes\PermaActive.cs" />
+    <Compile Include="RoamQueenQuinn\Program.cs" />
+    <Compile Include="RoamQueenQuinn\SaveMePls.cs" />
+    <Compile Include="RoamQueenQuinn\SpellManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

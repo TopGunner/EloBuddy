@@ -24,13 +24,8 @@ namespace RoamQueenQuinn
         public static float lastSeen = Game.Time;
         public static Vector3 predictedPos;
 
-        public static void Main(string[] args)
-        {
-            // Wait till the loading screen has passed
-            Loading.OnLoadingComplete += OnLoadingComplete;
-        }
 
-        private static void OnLoadingComplete(EventArgs args)
+        public static void OnLoadingComplete(EventArgs args)
         {
             // Verify the champion we made this addon for
             if (Player.Instance.ChampionName != ChampName)

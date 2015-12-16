@@ -3,7 +3,7 @@ using EloBuddy.SDK.Menu.Values;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberHidesStaticFromOuterClass
-namespace RoamQueenQuinn
+namespace AshesToAshes
 {
     // I can't really help you with my layout of a good config class
     // since everyone does it the way they like it most, go checkout my
@@ -11,7 +11,7 @@ namespace RoamQueenQuinn
     // complex way that I use
     public static class Config
     {
-        private const string MenuName = "RoamQueenQuinn";
+        private const string MenuName = "AshesToAshes";
 
         private static readonly Menu Menu;
 
@@ -19,7 +19,7 @@ namespace RoamQueenQuinn
         {
             // Initialize the menu
             Menu = MainMenu.AddMenu(MenuName, MenuName.ToLower());
-            Menu.AddGroupLabel("Welcome to RoamQueenQuinn by TopGunner");
+            Menu.AddGroupLabel("Welcome to AshesToAshes by TopGunner");
 
             // Initialize the modes
             Modes.Initialize();
@@ -34,26 +34,27 @@ namespace RoamQueenQuinn
         {
 
             private static readonly Menu Menu;
-            public static readonly CheckBox _drawQ;
             public static readonly CheckBox _drawW;
-            public static readonly CheckBox _drawE;
-            private static readonly CheckBox _ksQ;
-            private static readonly CheckBox _useHarrier;
+            private static readonly CheckBox _ksW;
+            private static readonly CheckBox _useAutoW;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
-            private static readonly CheckBox _castROnBase;
             private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _autolevelskills;
             private static readonly Slider _skinId;
 
 
-            public static bool ksQ
+            public static bool ksW
             {
-                get { return _ksQ.CurrentValue; }
+                get { return _ksW.CurrentValue; }
             }
-            public static bool useHarrier
+            public static bool useAutoW
             {
-                get { return _useHarrier.CurrentValue; }
+                get { return _useAutoW.CurrentValue; }
+            }
+            public static int Mana
+            {
+                get { return Menu["autoWMana"].Cast<Slider>().CurrentValue; }
             }
             public static bool useHeal
             {
@@ -71,10 +72,6 @@ namespace RoamQueenQuinn
             {
                 get { return _autolevelskills.CurrentValue; }
             }
-            public static bool castROnBase
-            {
-                get { return _castROnBase.CurrentValue; }
-            }
             public static int skinId
             {
                 get { return _skinId.CurrentValue; }
@@ -85,14 +82,11 @@ namespace RoamQueenQuinn
             {
                 // Initialize the menu values
                 Menu = Config.Menu.AddSubMenu("Misc");
-                _drawQ = Menu.Add("drawQ", new CheckBox("Draw Q"));
                 _drawW = Menu.Add("drawW", new CheckBox("Draw W"));
-                _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
                 Menu.AddSeparator();
-                _useHarrier = Menu.Add("LoveTaps", new CheckBox("Use Harrier"));
-                _castROnBase = Menu.Add("castROnBase", new CheckBox("Cast R in base"));
-                Menu.AddSeparator();
-                _ksQ = Menu.Add("ksQ", new CheckBox("Smart KS with Q"));
+                _ksW = Menu.Add("ksW", new CheckBox("Smart KS with W"));
+                _useAutoW = Menu.Add("useAutoW", new CheckBox("use W automatically if"));
+                Menu.Add("autoWMana", new Slider("mana > ({0}%)", 80));
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
@@ -100,7 +94,7 @@ namespace RoamQueenQuinn
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
                 Menu.AddSeparator();
-                _skinId = Menu.Add("skinId", new Slider("Skin ID", 2, 1, 4));
+                _skinId = Menu.Add("skinId", new Slider("Skin ID", 7, 1, 8));
             }
 
             public static void Initialize()
@@ -126,6 +120,7 @@ namespace RoamQueenQuinn
                 // Harass
                 Harass.Initialize();
                 LaneClear.Initialize();
+                Flee.Initialize();
             }
 
             public static void Initialize()
@@ -136,10 +131,9 @@ namespace RoamQueenQuinn
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-                private static readonly CheckBox _useE;
+                private static readonly CheckBox _useR;
                 private static readonly CheckBox _useBOTRK;
                 private static readonly CheckBox _useYOUMOUS;
-                private static readonly CheckBox _useTrinketVision;
 
                 public static bool UseQ
                 {
@@ -149,9 +143,9 @@ namespace RoamQueenQuinn
                 {
                     get { return _useW.CurrentValue; }
                 }
-                public static bool UseE
+                public static bool UseR
                 {
-                    get { return _useE.CurrentValue; }
+                    get { return _useR.CurrentValue; }
                 }
                 public static bool useBOTRK
                 {
@@ -161,22 +155,17 @@ namespace RoamQueenQuinn
                 {
                     get { return _useYOUMOUS.CurrentValue; }
                 }
-                public static bool useTrinketVision
-                {
-                    get { return _useTrinketVision.CurrentValue; }
-                }
 
                 static Combo()
                 {
                     // Initialize the menu values
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
-                    _useW = Menu.Add("comboUseW", new CheckBox("Use Smart W"));
-                    _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
+                    _useW = Menu.Add("comboUseW", new CheckBox("Use W"));
+                    _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
                     Menu.AddSeparator();
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
-                    _useTrinketVision = Menu.Add("useTrinketVision", new CheckBox("Use Trinkets for Vision"));
                 }
 
                 public static void Initialize()
@@ -190,6 +179,14 @@ namespace RoamQueenQuinn
                 public static bool UseQ
                 {
                     get { return Menu["harassUseQ"].Cast<CheckBox>().CurrentValue; }
+                }
+                public static bool useQMinionKillOnly
+                {
+                    get { return Menu["harassUseQKillingBlowOnly"].Cast<CheckBox>().CurrentValue; }
+                }
+                public static bool UseW
+                {
+                    get { return Menu["harassUseW"].Cast<CheckBox>().CurrentValue; }
                 }
                 public static bool UseE
                 {
@@ -210,11 +207,11 @@ namespace RoamQueenQuinn
                     // way that I used in the combo class
                     Menu.AddGroupLabel("Harass");
                     Menu.Add("harassUseQ", new CheckBox("Use Q"));
-                    Menu.Add("harassUseE", new CheckBox("Use E", false)); // Default false
+                    Menu.Add("harassUseW", new CheckBox("Use W"));
 
                     // Adding a slider, we have a little more options with them, using {0} {1} and {2}
                     // in the display name will replace it with 0=current 1=min and 2=max value
-                    Menu.Add("harassMana", new Slider("Maximum mana usage in percent ({0}%)", 60));
+                    Menu.Add("harassMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
                 }
                 public static void Initialize()
                 {
@@ -225,16 +222,16 @@ namespace RoamQueenQuinn
             public static class LaneClear
             {
                 private static readonly CheckBox _useQ;
-                private static readonly CheckBox _useE;
+                private static readonly CheckBox _useW;
                 private static readonly Slider _mana;
 
                 public static bool UseQ
                 {
                     get { return _useQ.CurrentValue; }
                 }
-                public static bool UseE
+                public static bool UseW
                 {
-                    get { return _useE.CurrentValue; }
+                    get { return _useW.CurrentValue; }
                 }
                 public static int mana
                 {
@@ -246,8 +243,28 @@ namespace RoamQueenQuinn
                     // Initialize the menu values
                     Menu.AddGroupLabel("Lane Clear");
                     _useQ = Menu.Add("clearUseQ", new CheckBox("Use Q"));
-                    _useE = Menu.Add("clearUseE", new CheckBox("Use E"));
+                    _useW = Menu.Add("clearUseW", new CheckBox("Use W"));
                     _mana = Menu.Add("clearMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
+                }
+
+                public static void Initialize()
+                {
+                }
+            }
+            public static class Flee
+            {
+                private static readonly CheckBox _useW;
+
+                public static bool UseW
+                {
+                    get { return _useW.CurrentValue; }
+                }
+
+                static Flee()
+                {
+                    // Initialize the menu values
+                    Menu.AddGroupLabel("Flee");
+                    _useW = Menu.Add("fleeUseW", new CheckBox("Use W"));
                 }
 
                 public static void Initialize()

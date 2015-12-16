@@ -11,9 +11,9 @@ using EloBuddy.SDK.Rendering;
 using SharpDX;
 
 // Using the config like this makes your life easier, trust me
-using Settings = RoamQueenQuinn.Config.Modes.Combo;
+using Settings = Kitelyn.Config.Modes.Combo;
 
-namespace RoamQueenQuinn.Modes
+namespace Kitelyn.Modes
 {
     public sealed class Combo : ModeBase
     {
@@ -25,12 +25,23 @@ namespace RoamQueenQuinn.Modes
 
         public override void Execute()
         {
-            if (Settings.UseE && E.IsReady())
+            if (Settings.UseQ && Q.IsReady())
             {
-                var target = TargetSelector.GetTarget(E.Range, DamageType.Physical);
-                if (target != null)
+                var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
+                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.High && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.Q) > Player.Instance.GetAutoAttackDamage(target) && Player.Instance.Level < 11)
                 {
-                    E.Cast(target);
+                    var colls = Q.GetPrediction(Player.Instance).GetCollisionObjects<Obj_AI_Base>();
+                    if(colls.Count() > 0 && colls[0] is AIHeroClient)
+                    {
+                        Q.Cast(target);
+                    }
+                    else if (Q.GetPrediction(Player.Instance).GetCollisionObjects<AIHeroClient>().Count() > 1)
+                    {
+                        Q.Cast(target);
+                    }
+                    /**PRESEASON
+                     * else if(target has Buff Snap Trap)
+                     **/
                 }
             }
             if (Settings.useBOTRK)
@@ -42,16 +53,7 @@ namespace RoamQueenQuinn.Modes
             {
                 castYoumous();
             }
-
-            if (Settings.UseQ && Q.IsReady())
-            {
-                var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
-                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
-                {
-                    Q.Cast(target);
-                    return;
-                }
-            }
+            castE();
             getVision();
         }
 
@@ -59,7 +61,7 @@ namespace RoamQueenQuinn.Modes
         {
             if (Player.Instance.IsDead || Player.Instance.IsInvulnerable || !Player.Instance.IsTargetable || Player.Instance.IsZombie || Player.Instance.IsInShopRange())
                 return;
-            if (Settings.UseW && W.IsReady() && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < W.Range && Game.Time - Program.lastSeen > 2)
+            if (Settings.useWVision && W.IsReady() && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < W.Range && Game.Time - Program.lastSeen > 2)
             {
                 W.Cast(Program.predictedPos);
             }
@@ -68,12 +70,61 @@ namespace RoamQueenQuinn.Modes
                 InventorySlot[] inv = Player.Instance.InventoryItems;
                 foreach (var item in inv)
                 {
-                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket)
+                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket )
                     {
                         item.Cast(Program.predictedPos);
                     }
                 }
             }
+            else if (Settings.useWardVision && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < R.Range && Game.Time - Program.lastSeen > 2)
+            {
+                InventorySlot[] inv = Player.Instance.InventoryItems;
+                foreach (var item in inv)
+                {
+                    if (item.Id == ItemId.Stealth_Ward || item.Id == ItemId.Vision_Ward)
+                    {
+                        item.Cast(Program.predictedPos);
+                    }
+                }
+            }
+        }
+ 
+        private void castE()
+        {
+            if (Settings.UseE && E.IsReady())
+            {
+                var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsInRange(Player.Instance, 200) && !t.IsRanged && t.IsValid && t.IsTargetable && !t.IsInvulnerable && !t.IsDead);
+                AIHeroClient bestShot = new AIHeroClient();
+                if(enemies != null && enemies.Count() > 0)
+                    bestShot = enemies.First();
+                int enemiesInRange = Player.Instance.CountEnemiesInRange(400);
+                int enemiesInLargeRange = Player.Instance.CountEnemiesInRange(1000);
+                Vector3 newPos = new Vector3(0,0,0);
+                foreach (var e in enemies)
+                {
+                    var pos = Player.Instance.Position.Extend(e, -400).To3D();
+                    if (pos.CountEnemiesInRange(400) <= enemiesInRange && pos.CountEnemiesInRange(1000) <= enemiesInLargeRange)
+                    {
+                        if (!intowerrange(pos))
+                        {
+                            E.Cast(e);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool intowerrange(Vector3 pos)
+        {
+            foreach (var t in EntityManager.Turrets.Enemies)
+            {
+                if (pos.IsInRange(t, 775))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool castYoumous()

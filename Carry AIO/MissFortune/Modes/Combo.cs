@@ -11,12 +11,14 @@ using EloBuddy.SDK.Rendering;
 using SharpDX;
 
 // Using the config like this makes your life easier, trust me
-using Settings = RoamQueenQuinn.Config.Modes.Combo;
+using Settings = MissFortune.Config.Modes.Combo;
 
-namespace RoamQueenQuinn.Modes
+namespace MissFortune.Modes
 {
     public sealed class Combo : ModeBase
     {
+        public static bool Rchanneling = false;
+        public static bool RcameOut = false;
         public override bool ShouldBeExecuted()
         {
             // Only execute this mode when the orbwalker is on combo mode
@@ -25,12 +27,23 @@ namespace RoamQueenQuinn.Modes
 
         public override void Execute()
         {
+            if (Rchanneling)
+                return;
+            if (castR())
+                return;
             if (Settings.UseE && E.IsReady())
             {
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Physical);
                 if (target != null)
                 {
                     E.Cast(target);
+                }
+            }
+            if (Settings.UseW && W.IsReady())
+            {
+                if (Player.Instance.CountEnemiesInRange(550) > 0)
+                {
+                    W.Cast();
                 }
             }
             if (Settings.useBOTRK)
@@ -42,39 +55,61 @@ namespace RoamQueenQuinn.Modes
             {
                 castYoumous();
             }
+            castQ();
 
-            if (Settings.UseQ && Q.IsReady())
-            {
-                var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
-                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
-                {
-                    Q.Cast(target);
-                    return;
-                }
-            }
-            getVision();
         }
 
-        private void getVision()
+        private bool castR()
         {
-            if (Player.Instance.IsDead || Player.Instance.IsInvulnerable || !Player.Instance.IsTargetable || Player.Instance.IsZombie || Player.Instance.IsInShopRange())
-                return;
-            if (Settings.UseW && W.IsReady() && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < W.Range && Game.Time - Program.lastSeen > 2)
+            if (Settings.UseR && R.IsReady())
             {
-                W.Cast(Program.predictedPos);
-            }
-            else if (Settings.useTrinketVision && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < 600 && Game.Time - Program.lastSeen > 2)
-            {
-                InventorySlot[] inv = Player.Instance.InventoryItems;
-                foreach (var item in inv)
+                var enemies = EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1300) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie);
+                AIHeroClient castOn = null;
+                foreach (var target in enemies)
                 {
-                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket)
+                    if (target != null)
                     {
-                        item.Cast(Program.predictedPos);
+                        int collCount = 1;
+                        foreach (var e in enemies)
+                        {
+                            if (e == target)
+                                continue;
+                            if (Math.Abs(e.Position.AngleBetween(Player.Instance.Position) - target.Position.AngleBetween(Player.Instance.Position)) < 0.3)
+                            {
+                                collCount++;
+                            }
+                        }
+                        if (Settings.saveRforStunned && (target.HasBuffOfType(BuffType.Suppression) || target.HasBuffOfType(BuffType.Charm) || target.HasBuffOfType(BuffType.Flee) || target.HasBuffOfType(BuffType.Blind) ||
+                        target.HasBuffOfType(BuffType.Polymorph) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Taunt)))
+                        {
+                            if (collCount > Settings.ROnEnemies)
+                            {
+                                castOn = target;
+                            }
+                        }
+                        else if (Settings.alwaysROnStunned && (target.HasBuffOfType(BuffType.Suppression) || target.HasBuffOfType(BuffType.Charm) || target.HasBuffOfType(BuffType.Flee) || target.HasBuffOfType(BuffType.Blind) ||
+                        target.HasBuffOfType(BuffType.Polymorph) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Taunt)))
+                        {
+                            castOn = target;
+                        }
+                        else if (!Settings.saveRforStunned && collCount >= Settings.ROnEnemies)
+                        {
+                            castOn = target;
+                        }
                     }
                 }
+                if (castOn != null)
+                {
+                    Orbwalker.DisableAttacking = true;
+                    Orbwalker.DisableMovement = true;
+                    Rchanneling = true;
+                    R.Cast(castOn);
+                    return true;
+                }
             }
+            return false;
         }
+ 
 
         private bool castYoumous()
         {
@@ -123,6 +158,17 @@ namespace RoamQueenQuinn.Modes
                 }
             }
             return false;
+        }
+
+        public void castQ()
+        {
+            if (Settings.UseQ && Q.IsReady())
+            {
+                var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
+                if (target != null)
+                    Q.Cast(target);
+                SpellManager.castQ(true, false);
+            }
         }
     }
 }

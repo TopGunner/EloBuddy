@@ -9,28 +9,20 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
-using Settings = RoamQueenQuinn.Config.Misc;
-using RoamQueenQuinn.Modes;
-namespace RoamQueenQuinn
+using Settings = Kitelyn.Config.Misc;
+using Kitelyn.Modes;
+namespace Kitelyn
 {
     public static class Program
     {
         // Change this line to the champion you want to make the addon for,
         // watch out for the case being correct!
-        public const string ChampName = "Quinn";
-        public static int counter = 0;
-
+        public const string ChampName = "Caitlyn";
         public static AIHeroClient lastTarget;
         public static float lastSeen = Game.Time;
         public static Vector3 predictedPos;
 
-        public static void Main(string[] args)
-        {
-            // Wait till the loading screen has passed
-            Loading.OnLoadingComplete += OnLoadingComplete;
-        }
-
-        private static void OnLoadingComplete(EventArgs args)
+        public static void OnLoadingCompleteCait(EventArgs args)
         {
             // Verify the champion we made this addon for
             if (Player.Instance.ChampionName != ChampName)
@@ -47,35 +39,50 @@ namespace RoamQueenQuinn
             SaveMePls.Initialize();
             if (Settings.autolevelskills)
             {
-                Player.Instance.Spellbook.LevelSpell(SpellSlot.Q);
+                Player.Instance.Spellbook.LevelSpell(SpellSlot.W);
             }
 
             // Listen to events we need
             Drawing.OnDraw += OnDraw;
-            Player.OnLevelUp += RoamQueenQuinn.Modes.PermaActive.autoLevelSkills;
-            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
+            Player.OnLevelUp += Kitelyn.Modes.PermaActive.autoLevelSkills;
+            Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
+            Player.OnBasicAttack += Player_OnBasicAttack;
+            Game.OnTick += Game_OnTick;
+
+            
         }
 
-        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
+        private static void Game_OnTick(EventArgs args)
         {
-            if (!Settings.useHarrier || !(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
-                return;
-            bool newtarget = false;
-            foreach (var e in EntityManager.Heroes.Enemies.Where(t => !t.IsDead && t.IsTargetable && !t.IsZombie && !t.IsInvulnerable && Player.Instance.IsInRange(t, 525)).OrderBy(t => t.MaxHealth))
+            if (lastTarget != null)
             {
-                if (e.HasBuff("quinnw"))
+                if (lastTarget.IsVisible)
                 {
-                    Console.WriteLine(e.Name);
-                    Orbwalker.ForcedTarget = e;
-                    newtarget = true;
-
-                    break;
+                    predictedPos = Prediction.Position.PredictUnitPosition(lastTarget, 300).To3D();
+                    lastSeen = Game.Time;
                 }
             }
-            if (!newtarget)
+        }
+
+        private static void Player_OnBasicAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender != Player.Instance)
+                return;
+            if (args.Target is AIHeroClient)
+                lastTarget = (AIHeroClient)args.Target;
+            else
+                lastTarget = null;
+        }
+
+        private static void Gapcloser_OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
+        {
+            if (Settings.useWOnGapcloser && sender.IsEnemy)
             {
-                Orbwalker.ForcedTarget = null;
-                //Orbwalker.ResetAutoAttack();
+                SpellManager.W.Cast(e.End);
+            }
+            else if (Settings.useEOnGapcloser && sender.IsEnemy)
+            {
+                SpellManager.E.Cast(sender);
             }
         }
 
@@ -88,6 +95,8 @@ namespace RoamQueenQuinn
                 Circle.Draw(Color.Aqua, SpellManager.W.Range, Player.Instance.Position);
             if (Settings._drawE.CurrentValue)
                 Circle.Draw(Color.DarkGreen, SpellManager.E.Range, Player.Instance.Position);
+            if (Settings._drawR.CurrentValue)
+                Circle.Draw(Color.DarkOrange, SpellManager.RRange, Player.Instance.Position);
 
         }
     }
