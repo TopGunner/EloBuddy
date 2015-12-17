@@ -23,7 +23,7 @@ namespace Kitelyn
 
             // Initialize the modes
             Modes.Initialize();
-            
+
         }
 
         public static void Initialize()
@@ -123,7 +123,7 @@ namespace Kitelyn
             }
 
 
-           static Misc()
+            static Misc()
             {
                 // Initialize the menu values
                 Menu = Config.Menu.AddSubMenu("Misc");
@@ -132,7 +132,7 @@ namespace Kitelyn
                 _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
                 _drawR = Menu.Add("drawR", new CheckBox("Draw R"));
                 _drawCombo = Menu.Add("drawCombo", new CheckBox("Draw Combo Damge"));
-                Menu.AddSeparator(); 
+                Menu.AddSeparator();
                 _useR = Menu.Add("useR", new CheckBox("Use R to kill out of range targets"));
                 _useRAlways = Menu.Add("useRAlways", new CheckBox("Always use R if killable", false));
                 _useScryingOrbMarker = Menu.Add("useScryingOrbMarker", new CheckBox("Use Scrying Orb to mark enemies for later ult"));
@@ -184,6 +184,7 @@ namespace Kitelyn
             public static class Combo
             {
                 private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useQNotStunned;
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useBOTRK;
@@ -195,6 +196,14 @@ namespace Kitelyn
                 public static bool UseQ
                 {
                     get { return _useQ.CurrentValue; }
+                }
+                public static bool UseQNotStunned
+                {
+                    get { return _useQNotStunned.CurrentValue; }
+                }
+                public static int ManaQAlways
+                {
+                    get { return Menu["comboManaQAlways"].Cast<Slider>().CurrentValue; }
                 }
                 public static bool UseW
                 {
@@ -237,6 +246,8 @@ namespace Kitelyn
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("comboUseW", new CheckBox("Use Smart W"));
                     Menu.Add("comboStockW", new Slider("Keep at least x traps for CC", 1, 0, 5));
+                    _useQNotStunned = Menu.Add("comboUseQNotStunned", new CheckBox("Use Q always", false));
+                    Menu.Add("comboManaQAlways", new Slider("Use Q always if Mana > ", 75, 0, 100));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use Smart E"));
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
@@ -255,6 +266,14 @@ namespace Kitelyn
                 public static bool UseQ
                 {
                     get { return Menu["harassUseQ"].Cast<CheckBox>().CurrentValue; }
+                }
+                public static bool UseQNotStunned
+                {
+                    get { return Menu["harassUseQNotStunned"].Cast<CheckBox>().CurrentValue; }
+                }
+                public static int ManaQAlways
+                {
+                    get { return Menu["harassManaQAlways"].Cast<Slider>().CurrentValue; }
                 }
                 public static bool UseW
                 {
@@ -283,6 +302,8 @@ namespace Kitelyn
                     // way that I used in the combo class
                     Menu.AddGroupLabel("Harass");
                     Menu.Add("harassUseQ", new CheckBox("Use Q"));
+                    Menu.Add("harassUseQNotStunned", new CheckBox("Use Q always"));
+                    Menu.Add("harassManaQAlways", new Slider("Use Q always if Mana > ", 75, 0, 100));
                     Menu.Add("harassUseW", new CheckBox("Use Smart W"));
                     Menu.Add("harassStockW", new Slider("Keep at least x traps for CC", 1, 0, 5));
                     Menu.Add("harassUseR", new CheckBox("Use R", false)); // Default false

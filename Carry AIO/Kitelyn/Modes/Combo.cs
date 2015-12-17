@@ -34,11 +34,15 @@ namespace Kitelyn.Modes
                         (target.HasBuffOfType(BuffType.Fear) || target.HasBuffOfType(BuffType.Flee) || target.HasBuffOfType(BuffType.Knockup) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Taunt) || target.HasBuffOfType(BuffType.Suppression))
                         ) && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>().Count() > 0 && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId)
                     {
-                        Q.Cast(target);
+                        Q.Cast(Q.GetPrediction(target).CastPosition);
                     }
                     else if (Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>().Count() > 0 && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId && Q.GetPrediction(target).HitChance >= HitChance.Medium)
                     {
-                        Q.Cast(target);
+                        Q.Cast(Q.GetPrediction(target).CastPosition);
+                    }
+                    if (Settings.UseQNotStunned && Player.Instance.ManaPercent > Settings.ManaQAlways)
+                    {
+                        Q.Cast(Q.GetPrediction(target).CastPosition);
                     }
                     /**PRESEASON
                      * else if(target has Buff Snap Trap)
@@ -81,7 +85,7 @@ namespace Kitelyn.Modes
                 InventorySlot[] inv = Player.Instance.InventoryItems;
                 foreach (var item in inv)
                 {
-                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket )
+                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket)
                     {
                         item.Cast(Program.predictedPos);
                     }
@@ -99,18 +103,18 @@ namespace Kitelyn.Modes
                 }
             }
         }
- 
+
         private void castE()
         {
             if (Settings.UseE && E.IsReady())
             {
                 var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsInRange(Player.Instance, 200) && !t.IsRanged && t.IsValid && t.IsTargetable && !t.IsInvulnerable && !t.IsDead);
                 AIHeroClient bestShot = new AIHeroClient();
-                if(enemies != null && enemies.Count() > 0)
+                if (enemies != null && enemies.Count() > 0)
                     bestShot = enemies.First();
                 int enemiesInRange = Player.Instance.CountEnemiesInRange(400);
                 int enemiesInLargeRange = Player.Instance.CountEnemiesInRange(1000);
-                Vector3 newPos = new Vector3(0,0,0);
+                Vector3 newPos = new Vector3(0, 0, 0);
                 foreach (var e in enemies)
                 {
                     var pos = Player.Instance.Position.Extend(e, -400).To3D();
@@ -180,7 +184,7 @@ namespace Kitelyn.Modes
                 if ((item.Id == ItemId.Blade_of_the_Ruined_King) && item.CanUseItem())
                 {
                     var target = TargetSelector.GetTarget(550, DamageType.Physical);
-                    if(target != null && Player.Instance.Health <= DamageLibrary.GetItemDamage(Player.Instance, target, ItemId.Blade_of_the_Ruined_King))
+                    if (target != null && Player.Instance.Health <= DamageLibrary.GetItemDamage(Player.Instance, target, ItemId.Blade_of_the_Ruined_King))
                         return item.Cast(target);
                 }
             }

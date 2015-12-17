@@ -34,11 +34,15 @@ namespace Kitelyn.Modes
                         (target.HasBuffOfType(BuffType.Fear) || target.HasBuffOfType(BuffType.Flee) || target.HasBuffOfType(BuffType.Knockup) || target.HasBuffOfType(BuffType.Snare) ||  target.HasBuffOfType(BuffType.Stun) ||  target.HasBuffOfType(BuffType.Taunt) ||  target.HasBuffOfType(BuffType.Suppression))
                         ) && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>().Count() > 0 && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId)
                     {
-                        Q.Cast(target);
+                        Q.Cast(Q.GetPrediction(target).CastPosition);
                     }
                     else if (Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>().Count() > 0 && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId && Q.GetPrediction(target).HitChance >= HitChance.Medium)
                     {
-                        Q.Cast(target);
+                        Q.Cast(Q.GetPrediction(target).CastPosition);
+                    }
+                    if (Settings.UseQNotStunned && Player.Instance.ManaPercent > Settings.ManaQAlways)
+                    {
+                        Q.Cast(Q.GetPrediction(target).CastPosition);
                     }
                     /**PRESEASON
                      * else if(target has Buff Snap Trap)
