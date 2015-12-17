@@ -25,12 +25,14 @@ namespace RoamQueenQuinn.Modes
 
         public override void Execute()
         {
-            if (Settings.UseE && E.IsReady())
+            if (Settings.UseE && E.IsReady() && Orbwalker.ForcedTarget == null)
             {
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Physical);
                 if (target != null)
                 {
                     E.Cast(target);
+                    Orbwalker.ForcedTarget = target;
+                    return;
                 }
             }
             if (Settings.useBOTRK)
@@ -43,12 +45,27 @@ namespace RoamQueenQuinn.Modes
                 castYoumous();
             }
 
-            if (Settings.UseQ && Q.IsReady())
+            if (Settings.UseQ && Q.IsReady() && Orbwalker.ForcedTarget == null)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
                 if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
                 {
                     Q.Cast(target);
+                    bool newtarget = false;
+                    foreach (var e in EntityManager.Heroes.Enemies.Where(t => !t.IsDead && t.IsTargetable && !t.IsZombie && !t.IsInvulnerable && Player.Instance.IsInRange(t, 550)).OrderBy(t => t.MaxHealth))
+                    {
+                        if (e.HasBuff("quinnw"))
+                        {
+                            Orbwalker.ForcedTarget = e;
+                            newtarget = true;
+                            break;
+                        }
+                    }
+                    if (!newtarget)
+                    {
+                        Orbwalker.ForcedTarget = null;
+                        //Orbwalker.ResetAutoAttack();
+                    }
                     return;
                 }
             }

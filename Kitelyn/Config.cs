@@ -184,6 +184,7 @@ namespace Kitelyn
             public static class Combo
             {
                 private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useQNotStunned;
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useBOTRK;
@@ -195,6 +196,10 @@ namespace Kitelyn
                 public static bool UseQ
                 {
                     get { return _useQ.CurrentValue; }
+                }
+                public static bool UseQNotStunned
+                {
+                    get { return _useQNotStunned.CurrentValue; }
                 }
                 public static bool UseW
                 {
