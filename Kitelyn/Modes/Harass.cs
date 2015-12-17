@@ -31,7 +31,16 @@ namespace Kitelyn.Modes
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
                 if (target != null && Q.GetPrediction(target).HitChance >= HitChance.High && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.Q) > Player.Instance.GetAutoAttackDamage(target))
                 {
-                    Q.Cast(target);
+                    if (target.HasBuff("caitlynyordletrapsight") || (
+                        (target.HasBuffOfType(BuffType.Fear) || target.HasBuffOfType(BuffType.Flee) || target.HasBuffOfType(BuffType.Knockup) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Taunt) || target.HasBuffOfType(BuffType.Suppression))
+                        ) && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>().Count() > 0 && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId)
+                    {
+                        Q.Cast(target);
+                    }
+                    /**PRESEASON
+                     * else if(target has Buff Snap Trap)
+                     **/
+                    //caitlynyordletrapsight
                 }
             }
             if (Settings.UseR && R.IsReady())

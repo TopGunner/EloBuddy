@@ -10,9 +10,9 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = Kitelyn.Config.Misc;
+using Settings = Corki.Config.Misc;
 
-namespace Kitelyn.Modes
+namespace Corki.Modes
 {
     public sealed class PermaActive : ModeBase
     {
@@ -27,25 +27,42 @@ namespace Kitelyn.Modes
 
         public override void Execute()
         {
-            trapped();
-            castR();
             autoBuyStartingItems();
             skinChanger();
-            castW();
             castQSS();
+            ks();
         }
 
-        private void trapped()
+        private void ks()
         {
-            foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.Distance(Player.Instance) < 1500))
-                foreach (var b in e.Buffs)
+            foreach (var enemy in EntityManager.Heroes.Enemies.Where(target => target.HealthPercent > 0 && !target.IsInvulnerable && target.IsEnemy && !target.IsPhysicalImmune && !target.IsZombie))
+            {
+                if (enemy.IsInRange(Player.Instance, Q.Range) && Settings.ksQ && Settings.ksR && Q.IsReady() && R.IsReady())
                 {
-                    if (e.HasBuff("caitlynyordletrapsight"))
+                    if (enemy.Health < DamageLibrary.GetSpellDamage(Player.Instance, enemy, SpellSlot.Q) + DamageLibrary.GetSpellDamage(Player.Instance, enemy, SpellSlot.R) && R.GetPrediction(enemy).CollisionObjects.Count() > 0 && R.GetPrediction(enemy).CollisionObjects[0].NetworkId == enemy.NetworkId)
                     {
-                        Orbwalker.ForcedTarget = e;
+                        Q.Cast(Q.GetPrediction(enemy).CastPosition);
+                        R.Cast(R.GetPrediction(enemy).CastPosition);
                     }
                 }
+                if (enemy.IsInRange(Player.Instance, Q.Range) && Settings.ksQ && Q.IsReady())
+                {
+                    if (enemy.Health < DamageLibrary.GetSpellDamage(Player.Instance, enemy, SpellSlot.Q))
+                    {
+                        Q.Cast(Q.GetPrediction(enemy).CastPosition);
+                    }
+                }
+                if (enemy.IsInRange(Player.Instance, R.Range) && Settings.ksR && R.IsReady())
+                {
+                    if (enemy.Health < DamageLibrary.GetSpellDamage(Player.Instance, enemy, SpellSlot.R) && R.GetPrediction(enemy).CollisionObjects.Count() > 0 && R.GetPrediction(enemy).CollisionObjects[0].NetworkId == enemy.NetworkId)
+                    {
+                        R.Cast(R.GetPrediction(enemy).CastPosition);
+                    }
+                }
+            }
         }
+
+
         private bool castQSS()
         {
             if (!Settings.useQSS)
@@ -68,75 +85,13 @@ namespace Kitelyn.Modes
             return false;
         }
 
-        private void castW()
-        {
-            if (Settings.useWOnTP)
-            {
-                foreach(var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range)))
-                {
-                    if (e.HasBuff("summonerteleport"))
-                    {
-                        W.Cast(e);
-                    }
-                }
-            }
-            else if (Settings.useWOnZhonyas)
-            {
-                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range)))
-                {
-                    if (e.HasBuff("zhonyasringshield"))
-                    {
-                        W.Cast(e);
-                    }
-                }
-            }
-            else if (Config.Modes.Combo.UseW)
-            {
-                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range) && (e.HasBuffOfType(BuffType.Stun) || e.HasBuffOfType(BuffType.Suppression) || e.HasBuffOfType(BuffType.Snare) || e.HasBuffOfType(BuffType.Knockup)) && e.GetMovementDebuffDuration() > 1 && !e.IsDead).OrderBy(t => t.MaxHealth))
-                {
-                    if (e != null)
-                    {
-                        W.Cast(e);
-                    }
-                }
-            }
-        }
-
-        private void castR()
-        {
-            if (Settings.UseR && R.IsReady())
-            {
-                var target = TargetSelector.GetTarget(SpellManager.RRange, DamageType.Physical);
-                if (target != null && ((target.Distance(Player.Instance) > 700 && Player.Instance.CountEnemiesInRange(650) == 0) || Settings.UseRAlways) && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R)>target.Health + 2/5 * target.HPRegenRate)
-                {
-                    R.Cast(target);
-                }
-                else if (target != null && target.Distance(Player.Instance) > 700 && !Settings.UseRAlways && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R) > target.Health + 2 / 5 * target.HPRegenRate)
-                {
-                    if (Settings.useScryingOrbMarker)
-                    {
-                        InventorySlot[] inv = Player.Instance.InventoryItems;
-                        foreach (var item in inv)
-                        {
-                            if (item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket)
-                            {
-                                item.Cast(target);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         private void autoBuyStartingItems()
         {
-            
             if (bought || ticks / Game.TicksPerSecond < 3)
             {
                 ticks++;
                 return;
             }
-
             bought = true;
             if (Settings.autoBuyStartingItems)
             {
@@ -160,17 +115,13 @@ namespace Kitelyn.Modes
 
         internal static void autoLevelSkills(Obj_AI_Base sender, Obj_AI_BaseLevelUpEventArgs args)
         {
-            if (args.Level == 6 || args.Level == 11 || args.Level == 16)
-            {
-                SpellManager.RRange += 500;
-            }
             if (Settings.autolevelskills)
             {
                 if (!sender.IsMe || args.Level > 17)
                 {
                     return;
                 }
-                int[] leveler = new int[] { 2, 1, 3, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2 };
+                int[] leveler = new int[] { 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 3, 3, 2, 2, 4, 2, 2 };
                 int skill = leveler[Player.Instance.Level];
 
                 if (skill == 1)

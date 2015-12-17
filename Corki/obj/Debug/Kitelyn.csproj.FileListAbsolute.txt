@@ -2,4 +2,3 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Kitelyn
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Kitelyn\obj\Debug\Anivia.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Kitelyn\obj\Debug\Anivia.pdb
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Kitelyn\obj\Debug\Kitelyn.csprojResolveAssemblyReference.cache
-F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Kitelyn\bin\Debug\Kitelyn.exe.config

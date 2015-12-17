@@ -54,8 +54,17 @@ namespace Kitelyn
             Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
             Player.OnBasicAttack += Player_OnBasicAttack;
             Game.OnTick += Game_OnTick;
+            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
 
             
+        }
+
+        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
+        {
+            if (Orbwalker.ForcedTarget != null)
+            {
+                Orbwalker.ForcedTarget = null;
+            }
         }
 
         private static void Game_OnTick(EventArgs args)

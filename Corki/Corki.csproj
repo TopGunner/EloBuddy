@@ -7,8 +7,8 @@
     <ProjectGuid>{6CE561E6-368D-4E58-BFBB-77F4E96EF5C5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kitelyn</RootNamespace>
-    <AssemblyName>Kitelyn</AssemblyName>
+    <RootNamespace>Corki</RootNamespace>
+    <AssemblyName>Corki</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

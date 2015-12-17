@@ -9,20 +9,26 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
-using Settings = Kitelyn.Config.Misc;
-using Kitelyn.Modes;
-namespace Kitelyn
+using Settings = Corki.Config.Misc;
+using Corki.Modes;
+namespace Corki
 {
     public static class Program
     {
         // Change this line to the champion you want to make the addon for,
         // watch out for the case being correct!
-        public const string ChampName = "Caitlyn";
+        public const string ChampName = "Corki";
         public static AIHeroClient lastTarget;
         public static float lastSeen = Game.Time;
         public static Vector3 predictedPos;
 
-        public static void OnLoadingCompleteCait(EventArgs args)
+        public static void Main(string[] args)
+        {
+            // Wait till the loading screen has passed
+            Loading.OnLoadingComplete += OnLoadingComplete;
+        }
+
+        private static void OnLoadingComplete(EventArgs args)
         {
             // Verify the champion we made this addon for
             if (Player.Instance.ChampionName != ChampName)
@@ -39,26 +45,20 @@ namespace Kitelyn
             SaveMePls.Initialize();
             if (Settings.autolevelskills)
             {
-                Player.Instance.Spellbook.LevelSpell(SpellSlot.W);
+                Player.Instance.Spellbook.LevelSpell(SpellSlot.Q);
             }
 
             // Listen to events we need
             Drawing.OnDraw += OnDraw;
-            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
-            Player.OnLevelUp += Kitelyn.Modes.PermaActive.autoLevelSkills;
+            Player.OnLevelUp += Corki.Modes.PermaActive.autoLevelSkills;
             Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
             Player.OnBasicAttack += Player_OnBasicAttack;
             Game.OnTick += Game_OnTick;
+            Orbwalker.OnPostAttack += Modes.Combo.Spellblade;
 
             
         }
-        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
-        {
-            if (Orbwalker.ForcedTarget != null)
-            {
-                Orbwalker.ForcedTarget = null;
-            }
-        }
+
         private static void Game_OnTick(EventArgs args)
         {
             if (lastTarget != null)
@@ -67,6 +67,10 @@ namespace Kitelyn
                 {
                     predictedPos = Prediction.Position.PredictUnitPosition(lastTarget, 300).To3D();
                     lastSeen = Game.Time;
+                }
+                if (lastTarget.Distance(Player.Instance) > 700)
+                {
+                    lastTarget = null;
                 }
             }
         }
@@ -85,11 +89,8 @@ namespace Kitelyn
         {
             if (Settings.useWOnGapcloser && sender.IsEnemy)
             {
-                SpellManager.W.Cast(e.End);
-            }
-            else if (Settings.useEOnGapcloser && sender.IsEnemy)
-            {
-                SpellManager.E.Cast(sender);
+                Vector3 castTo = e.End + 5 * (Player.Instance.Position- e.End);
+                SpellManager.W.Cast(castTo);
             }
         }
 
@@ -103,7 +104,7 @@ namespace Kitelyn
             if (Settings._drawE.CurrentValue)
                 Circle.Draw(Color.DarkGreen, SpellManager.E.Range, Player.Instance.Position);
             if (Settings._drawR.CurrentValue)
-                Circle.Draw(Color.DarkOrange, SpellManager.RRange, Player.Instance.Position);
+                Circle.Draw(Color.DarkOrange, SpellManager.R.Range, Player.Instance.Position);
 
         }
     }

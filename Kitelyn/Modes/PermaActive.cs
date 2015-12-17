@@ -27,11 +27,24 @@ namespace Kitelyn.Modes
 
         public override void Execute()
         {
+            trapped();
             castR();
             autoBuyStartingItems();
             skinChanger();
             castW();
             castQSS();
+        }
+
+        private void trapped()
+        {
+            foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.Distance(Player.Instance) < 1500))
+                foreach (var b in e.Buffs)
+                {
+                    if (e.HasBuff("caitlynyordletrapsight"))
+                    {
+                        Orbwalker.ForcedTarget = e;
+                    }
+                }
         }
 
 
