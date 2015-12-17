@@ -224,6 +224,10 @@ namespace Kitelyn
                 {
                     get { return _useYOUMOUS.CurrentValue; }
                 }
+                public static int StockW
+                {
+                    get { return Menu["comboStockW"].Cast<Slider>().CurrentValue; }
+                }
 
 
                 static Combo()
@@ -232,6 +236,7 @@ namespace Kitelyn
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("comboUseW", new CheckBox("Use Smart W"));
+                    Menu.Add("comboStockW", new Slider("Keep at least x traps for CC", 1, 0, 5));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use Smart E"));
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
@@ -267,6 +272,10 @@ namespace Kitelyn
                 {
                     get { return Menu["harassMana"].Cast<Slider>().CurrentValue; }
                 }
+                public static int StockW
+                {
+                    get { return Menu["harassStockW"].Cast<Slider>().CurrentValue; }
+                }
 
                 static Harass()
                 {
@@ -275,6 +284,7 @@ namespace Kitelyn
                     Menu.AddGroupLabel("Harass");
                     Menu.Add("harassUseQ", new CheckBox("Use Q"));
                     Menu.Add("harassUseW", new CheckBox("Use Smart W"));
+                    Menu.Add("harassStockW", new Slider("Keep at least x traps for CC", 1, 0, 5));
                     Menu.Add("harassUseR", new CheckBox("Use R", false)); // Default false
 
                     // Adding a slider, we have a little more options with them, using {0} {1} and {2}

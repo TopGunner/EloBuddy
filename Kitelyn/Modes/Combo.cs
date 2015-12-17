@@ -36,10 +36,23 @@ namespace Kitelyn.Modes
                     {
                         Q.Cast(target);
                     }
+                    else if (Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>().Count() > 0 && Q.GetPrediction(target).GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId && Q.GetPrediction(target).HitChance >= HitChance.Medium)
+                    {
+                        Q.Cast(target);
+                    }
                     /**PRESEASON
                      * else if(target has Buff Snap Trap)
                      **/
                     //caitlynyordletrapsight
+                }
+            }
+            if (Settings.UseW && W.IsReady())
+            {
+                if (Player.Instance.Spellbook.GetSpell(SpellSlot.W).Ammo > Settings.StockW)
+                {
+                    var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
+                    if(target != null)
+                        W.Cast(W.GetPrediction(target).CastPosition);
                 }
             }
             if (Settings.useBOTRK)
