@@ -37,7 +37,7 @@ namespace Kitelyn.Modes
 
         private void trapped()
         {
-            foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.Distance(Player.Instance) < 1500))
+            foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.Distance(Player.Instance) < Player.Instance.GetAutoAttackRange(e)))
                 foreach (var b in e.Buffs)
                 {
                     if (e.HasBuff("caitlynyordletrapsight"))
