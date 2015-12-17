@@ -19,7 +19,7 @@ namespace MissFortune.Modes
         public override bool ShouldBeExecuted()
         {
             if (Game.MapId == GameMapId.SummonersRift)
-                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear));
+                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
             else
                 return false;
         }
