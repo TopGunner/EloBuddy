@@ -59,12 +59,12 @@ namespace AshesToAshes.Modes
 
         private void useAutoW()
         {
-            if (Settings.useAutoW && W.IsReady())
+            if (Settings.useAutoW && W.IsReady() && Player.Instance.ManaPercent >= Settings.autoWMana)
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
                 if (target != null && W.GetPrediction(target).HitChance >= HitChance.High)
                 {
-                    W.Cast(target);
+                    W.Cast(W.GetPrediction(target).CastPosition);
                 }
             }
         }

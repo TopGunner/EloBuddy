@@ -52,7 +52,7 @@ namespace AshesToAshes
             {
                 get { return _useAutoW.CurrentValue; }
             }
-            public static int Mana
+            public static int autoWMana
             {
                 get { return Menu["autoWMana"].Cast<Slider>().CurrentValue; }
             }
