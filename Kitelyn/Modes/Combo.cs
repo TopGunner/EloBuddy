@@ -40,7 +40,12 @@ namespace Kitelyn.Modes
                     {
                         Q.Cast(Q.GetPrediction(target).CastPosition);
                     }
-                    if (Settings.UseQNotStunned && Player.Instance.ManaPercent > Settings.ManaQAlways)
+                    else if ((target.HasBuffOfType(BuffType.Fear) || target.HasBuffOfType(BuffType.Flee) || target.HasBuffOfType(BuffType.Knockup) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Taunt) || target.HasBuffOfType(BuffType.Suppression)
+                        ) && Settings.UseQStunned && Player.Instance.ManaPercent > Settings.ManaQAlways)
+                    {
+                        Q.Cast(Q.GetPrediction(target).CastPosition);
+                    }
+                    else if (Settings.UseQNotStunned && Player.Instance.ManaPercent > Settings.ManaQAlways)
                     {
                         Q.Cast(Q.GetPrediction(target).CastPosition);
                     }

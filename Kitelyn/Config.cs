@@ -185,6 +185,7 @@ namespace Kitelyn
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useQNotStunned;
+                private static readonly CheckBox _useQStunned;
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useBOTRK;
@@ -200,6 +201,10 @@ namespace Kitelyn
                 public static bool UseQNotStunned
                 {
                     get { return _useQNotStunned.CurrentValue; }
+                }
+                public static bool UseQStunned
+                {
+                    get { return _useQStunned.CurrentValue; }
                 }
                 public static int ManaQAlways
                 {
@@ -247,6 +252,7 @@ namespace Kitelyn
                     _useW = Menu.Add("comboUseW", new CheckBox("Use Smart W"));
                     Menu.Add("comboStockW", new Slider("Keep at least x traps for CC", 1, 0, 5));
                     _useQNotStunned = Menu.Add("comboUseQNotStunned", new CheckBox("Use Q always", false));
+                    _useQStunned = Menu.Add("comboUseQStunned", new CheckBox("Use Q always on stunned enemies even for less dmg"));
                     Menu.Add("comboManaQAlways", new Slider("Use Q always if Mana > ", 75, 0, 100));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use Smart E"));
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
@@ -270,6 +276,10 @@ namespace Kitelyn
                 public static bool UseQNotStunned
                 {
                     get { return Menu["harassUseQNotStunned"].Cast<CheckBox>().CurrentValue; }
+                }
+                public static bool UseQStunned
+                {
+                    get { return Menu["harassUseQStunned"].Cast<CheckBox>().CurrentValue; }
                 }
                 public static int ManaQAlways
                 {
@@ -303,6 +313,7 @@ namespace Kitelyn
                     Menu.AddGroupLabel("Harass");
                     Menu.Add("harassUseQ", new CheckBox("Use Q"));
                     Menu.Add("harassUseQNotStunned", new CheckBox("Use Q always"));
+                    Menu.Add("harassUseQStunned", new CheckBox("Use Q always on stunned enemies even for less dmg"));
                     Menu.Add("harassManaQAlways", new Slider("Use Q always if Mana > ", 75, 0, 100));
                     Menu.Add("harassUseW", new CheckBox("Use Smart W"));
                     Menu.Add("harassStockW", new Slider("Keep at least x traps for CC", 1, 0, 5));
