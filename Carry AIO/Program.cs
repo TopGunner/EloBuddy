@@ -41,6 +41,10 @@ namespace CarryAIO
             {
                 RoamQueenQuinn.Program.OnLoadingComplete(args);
             }
+            else if (Player.Instance.ChampionName == "Corki")
+            {
+                Corki.Program.OnLoadingComplete(args);
+            }
         }
     }
 }
