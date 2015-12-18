@@ -42,7 +42,7 @@ namespace AshesToAshes.Modes
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
                 if (target != null && E.GetPrediction(target).HitChance >= HitChance.High)
                 {
-                    W.Cast(target);
+                    W.Cast(W.GetPrediction(target).CastPosition);
                 }
             }
         }

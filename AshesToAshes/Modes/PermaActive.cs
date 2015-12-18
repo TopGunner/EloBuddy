@@ -104,7 +104,7 @@ namespace AshesToAshes.Modes
                 {
                     if (W.GetPrediction(e).HitChance >= HitChance.Medium)
                     {
-                        W.Cast(e);
+                        W.Cast(W.GetPrediction(e).CastPosition);
                         return;
                     }
                 }
