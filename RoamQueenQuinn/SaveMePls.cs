@@ -10,40 +10,70 @@ namespace RoamQueenQuinn
 {
     public class SaveMePls
     {
-        private static readonly Dictionary<float, float> IncDamage = new Dictionary<float, float>();
-        private static readonly Dictionary<float, float> InstDamage = new Dictionary<float, float>();
-        public static float IncomingDamage
+        private static readonly Dictionary<float, float>[] IncDamage = new Dictionary<float, float>[]
         {
-            get { return IncDamage.Sum(e => e.Value) + InstDamage.Sum(e => e.Value); }
-        }
+            new Dictionary<float, float>(), new Dictionary<float, float>(), new Dictionary<float, float>(), new Dictionary<float, float>(), new Dictionary<float, float>()
+        };
+        private static readonly Dictionary<float, float>[] InstDamage = new Dictionary<float, float>[]
+        {
+            new Dictionary<float, float>(), new Dictionary<float, float>(), new Dictionary<float, float>(), new Dictionary<float, float>(), new Dictionary<float, float>()
+        };
 
+        public static int me = int.MaxValue;
+        public static bool castOnMe = false;
+
+        public static float getIncomingDamageForI(int i)
+        {
+            return IncDamage[i].Sum(e => e.Value) + InstDamage[i].Sum(e => e.Value);
+        }
         public static void Initialize()
         {
             // Listen to related events
             Game.OnUpdate += OnUpdate;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
+            for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+            {
+                if (EntityManager.Heroes.Allies[i].NetworkId == Player.Instance.NetworkId)
+                {
+                    me = i;
+                }
+            }
+            if (me == int.MaxValue)
+            {
+                me = EntityManager.Heroes.Allies[0].NetworkId;
+            }
         }
 
         private static void OnUpdate(EventArgs args)
         {
-            // Check spell arrival
-            foreach (var entry in IncDamage.Where(entry => entry.Key < Game.Time).ToArray())
+            if (!Settings.useHeal)
+                return;
+            for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
             {
-                IncDamage.Remove(entry.Key);
-            }
-
-            // Instant damage removal
-            foreach (var entry in InstDamage.Where(entry => entry.Key < Game.Time).ToArray())
-            {
-                InstDamage.Remove(entry.Key);
-            }
-            if (Settings.useHeal)
-            {
-                if ((Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0) || (IncomingDamage > Player.Instance.Health && IncomingDamage < Player.Instance.Health + 75 + (15 * Player.Instance.Level)))
+                // Check spell arrival
+                foreach (var entry in IncDamage[i].Where(entry => entry.Key < Game.Time).ToArray())
                 {
-                    if (SpellManager.heal != null && SpellManager.heal.Cast())
+                    IncDamage[i].Remove(entry.Key);
+                }
+
+                // Instant damage removal
+                foreach (var entry in InstDamage[i].Where(entry => entry.Key < Game.Time).ToArray())
+                {
+                    InstDamage[i].Remove(entry.Key);
+                }
+            }
+            for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+            {
+                if (SpellManager.heal.IsReady() && Settings.useHealOnI(i) && EntityManager.Heroes.Allies[i].IsInRange(Player.Instance, SpellManager.heal.Range))
+                {
+                    if ((Player.Instance.HealthPercent < 5) || (getIncomingDamageForI(i) >= EntityManager.Heroes.Allies[i].Health))
                     {
-                        return;
+                        SpellManager.heal.Cast();
+                        if (i == me)
+                        {
+                            castOnMe = true;
+                        }
+                        break;
                     }
                 }
             }
@@ -51,12 +81,19 @@ namespace RoamQueenQuinn
 
         private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-
-            if (sender.IsEnemy)
+            if (!Settings.useHeal)
+                return;
+            if (sender.IsEnemy || sender.IsMonster)
             {
-                if ((!(sender is AIHeroClient) || args.SData.IsAutoAttack()) && args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId)
+                if ((sender.IsMinion || sender.IsMonster || args.SData.IsAutoAttack()) && args.Target != null)
                 {
-                    IncDamage[Player.Instance.ServerPosition.Distance(sender.ServerPosition) / args.SData.MissileSpeed + Game.Time] = sender.GetAutoAttackDamage(Player.Instance);
+                    for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+                    {
+                        if (args.Target.NetworkId == EntityManager.Heroes.Allies[i].NetworkId)
+                        {
+                            IncDamage[i][EntityManager.Heroes.Allies[i].ServerPosition.Distance(sender.ServerPosition) / args.SData.MissileSpeed + Game.Time] = sender.GetAutoAttackDamage(EntityManager.Heroes.Allies[i]);
+                        }
+                    }
                 }
                 else if (!(sender is AIHeroClient))
                 {
@@ -71,26 +108,24 @@ namespace RoamQueenQuinn
 
                         if (slot != SpellSlot.Unknown)
                         {
-                            if (slot == attacker.GetSpellSlotFromName("SummonerDot") && args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId)
+                            if (slot == attacker.GetSpellSlotFromName("SummonerDot") && args.Target != null)
                             {
-                                InstDamage[Game.Time + 2] = attacker.GetSummonerSpellDamage(Player.Instance, DamageLibrary.SummonerSpells.Ignite);
+                                for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+                                {
+                                    if (args.Target.NetworkId == EntityManager.Heroes.Allies[i].NetworkId)
+                                    {
+                                        InstDamage[i][Game.Time + 2] = attacker.GetSummonerSpellDamage(EntityManager.Heroes.Allies[i], DamageLibrary.SummonerSpells.Ignite);
+                                    }
+                                }
                             }
                             else
                             {
-                                switch (slot)
+                                for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
                                 {
-                                    case SpellSlot.Q:
-                                    case SpellSlot.W:
-                                    case SpellSlot.E:
-                                    case SpellSlot.R:
-
-                                        if ((args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId) || args.End.Distance(Player.Instance.ServerPosition) < Math.Pow(args.SData.LineWidth, 2))
-                                        {
-                                            // Instant damage to target
-                                            InstDamage[Game.Time + 2] = attacker.GetSpellDamage(Player.Instance, slot);
-                                        }
-
-                                        break;
+                                    if ((args.Target != null && args.Target.NetworkId == EntityManager.Heroes.Allies[i].NetworkId) || args.End.Distance(EntityManager.Heroes.Allies[i].ServerPosition) < Math.Pow(args.SData.LineWidth, 2))
+                                    {
+                                        InstDamage[i][Game.Time + 2] = attacker.GetSpellDamage(EntityManager.Heroes.Allies[i], slot);
+                                    }
                                 }
                             }
                         }

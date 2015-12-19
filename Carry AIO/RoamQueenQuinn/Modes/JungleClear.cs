@@ -18,10 +18,7 @@ namespace RoamQueenQuinn.Modes
     {
         public override bool ShouldBeExecuted()
         {
-            if (Game.MapId == GameMapId.SummonersRift)
-                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
-            else
-                return false;
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
         }
 
         public override void Execute()
@@ -31,18 +28,18 @@ namespace RoamQueenQuinn.Modes
 
             if (Settings.UseQ && Q.IsReady())
             {
-                var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderBy(t => t.MaxHealth);
-                if(minion != null)
+                var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable);
+                if (minion != null && minion.Count() > 0)
                 {
-                    Q.Cast(minion.First());
+                    Q.Cast(minion.OrderByDescending(t => t.MaxHealth).First());
                 }
             }
             if (Settings.UseE && E.IsReady())
             {
-                var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderBy(t => t.MaxHealth);
-                if (minion != null)
+                var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable);
+                if (minion != null && minion.Count() > 0)
                 {
-                    E.Cast(minion.First());
+                    Q.Cast(minion.OrderByDescending(t => t.MaxHealth).First());
                 }
             }
         }

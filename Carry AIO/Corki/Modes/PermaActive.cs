@@ -29,7 +29,14 @@ namespace Corki.Modes
         {
             if (Player.Instance.IsInShopRange())
             {
-                //foreach(var t in ObjectManager.Get<Obj_AI_Base>().Where(t => t.Distance(Player.Instance) < 3000))
+                foreach (var t in ObjectManager.Get<Obj_AI_Base>().Where(t => t.Distance(Player.Instance) < 3000))
+                {
+                    if (t.Name == "CorkiBomb")
+                    {
+                        //Orbwalker.MoveTo(t.Position);
+                        //Player.IssueOrder(GameObjectOrder.AutoAttackPet, t);
+                    }
+                }
                     //Console.WriteLine(t.Name);
                 //CorkiBomb
                 //CorkiBombAlly

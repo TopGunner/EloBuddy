@@ -36,7 +36,7 @@ namespace RoamQueenQuinn
             var slot = ObjectManager.Player.GetSpellSlotFromName("summonerheal");
             if (slot != SpellSlot.Unknown)
             {
-                heal = new Spell.Active(slot);
+                heal = new Spell.Active(slot, 850);
             }
             var slot2 = ObjectManager.Player.GetSpellSlotFromName("summonerdot");
             if (slot2 != SpellSlot.Unknown)

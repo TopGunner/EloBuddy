@@ -53,18 +53,30 @@ namespace RoamQueenQuinn
 
         private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
         {
-            if (!Settings.useHarrier || !(Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
-                return;
             bool newtarget = false;
-            foreach (var e in EntityManager.Heroes.Enemies.Where(t => !t.IsDead && t.IsTargetable && !t.IsZombie && !t.IsInvulnerable && Player.Instance.IsInRange(t, 525)).OrderBy(t => t.MaxHealth))
+            if (Settings.useHarrier && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
             {
-                if (e.HasBuff("quinnw"))
+                foreach (var e in EntityManager.Heroes.Enemies.Where(t => !t.IsDead && t.IsTargetable && !t.IsZombie && !t.IsInvulnerable && Player.Instance.IsInRange(t, 525)).OrderBy(t => t.MaxHealth))
                 {
-                    Console.WriteLine(e.Name);
-                    Orbwalker.ForcedTarget = e;
-                    newtarget = true;
+                    if (e.HasBuff("quinnw"))
+                    {
+                        Orbwalker.ForcedTarget = e;
+                        newtarget = true;
 
-                    break;
+                        break;
+                    }
+                }
+            }
+            else if (Settings.useHarrier)
+            {
+                foreach (var e in EntityManager.MinionsAndMonsters.CombinedAttackable)
+                {
+                    if (e.HasBuff("quinnw"))
+                    {
+                        Orbwalker.ForcedTarget = e;
+                        newtarget = true;
+                        break;
+                    }
                 }
             }
             if (!newtarget)
