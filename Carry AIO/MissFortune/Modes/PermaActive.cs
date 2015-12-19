@@ -97,7 +97,7 @@ namespace MissFortune.Modes
                 {
                     if (e != null)
                     {
-                        E.Cast(e);
+                        //E.Cast(e);
                     }
                 }
             }

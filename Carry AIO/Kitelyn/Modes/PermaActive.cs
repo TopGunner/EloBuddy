@@ -42,7 +42,11 @@ namespace Kitelyn.Modes
                 {
                     if (e.HasBuff("caitlynyordletrapsight"))
                     {
-                        Orbwalker.ForcedTarget = e;
+                        if (Settings.forceAAOnTrap)
+                        {
+                            //Player.IssueOrder(GameObjectOrder., e);
+                            Orbwalker.ForcedTarget = e;
+                        }
                     }
                 }
         }

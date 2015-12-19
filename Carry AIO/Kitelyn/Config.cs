@@ -55,6 +55,7 @@ namespace Kitelyn
             private static readonly Slider _skinId;
             private static readonly CheckBox _cleanseStun;
             private static readonly Slider _cleanseEnemies;
+            private static readonly CheckBox _forceAAOnTrap;
 
 
             public static bool UseR
@@ -121,6 +122,10 @@ namespace Kitelyn
             {
                 get { return _drawCombo.CurrentValue; }
             }
+            public static bool forceAAOnTrap
+            {
+                get { return _forceAAOnTrap.CurrentValue; }
+            }
 
 
             static Misc()
@@ -145,6 +150,7 @@ namespace Kitelyn
                 _useWOnGapcloser = Menu.Add("useWOnGapcloser", new CheckBox("Use W on Gapcloser"));
                 _useEOnGapcloser = Menu.Add("useEOnGapcloser", new CheckBox("Use E on Gapcloser", false));
                 _useEFlee = Menu.Add("useEFlee", new CheckBox("Use E in Fleemode to mouse"));
+                _forceAAOnTrap = Menu.Add("forceAAOnTrap", new CheckBox("Focus trapped enemy"));
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));

@@ -82,7 +82,6 @@ namespace MissFortune
             if (!newtarget)
             {
                 Orbwalker.ForcedTarget = null;
-                //Orbwalker.ResetAutoAttack();
             }
         }
 
