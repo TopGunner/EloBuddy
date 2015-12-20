@@ -34,7 +34,7 @@ namespace MissFortune
                 // therefore we return
                 return;
             }
-
+            
             // Initialize the classes that we need
             Config.Initialize();
             SpellManager.Initialize();
@@ -52,6 +52,7 @@ namespace MissFortune
             Obj_AI_Base.OnBuffGain += Obj_AI_Base_OnBuffGain;
             Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
             Orbwalker.OnUnkillableMinion += UnkillableMinion;
+            Game.OnUpdate += Combo.Update;
             
         }
 

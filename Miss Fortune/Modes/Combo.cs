@@ -109,7 +109,8 @@ namespace MissFortune.Modes
             }
             return false;
         }
- 
+        
+
 
         private bool castYoumous()
         {
@@ -168,6 +169,18 @@ namespace MissFortune.Modes
                 if (target != null)
                     Q.Cast(target);
                 SpellManager.castQ(true, false);
+            }
+        }
+
+        internal static void Update(EventArgs args)
+        {
+            if (!Settings.UseRHotkey)
+                return;
+            if (Settings.RPressed)
+            {
+                Orbwalker.DisableAttacking = true;
+                Orbwalker.DisableMovement = true;
+                Rchanneling = true;
             }
         }
     }

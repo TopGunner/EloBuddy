@@ -160,6 +160,7 @@ namespace MissFortune
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useR;
+                private static readonly CheckBox _useRHotkey;
                 private static readonly CheckBox _useBOTRK;
                 private static readonly CheckBox _useYOUMOUS;
                 private static readonly CheckBox _saveRforStunned;
@@ -181,6 +182,10 @@ namespace MissFortune
                 {
                     get { return _useR.CurrentValue; }
                 }
+                public static bool UseRHotkey
+                {
+                    get { return _useRHotkey.CurrentValue; }
+                }
                 public static bool useBOTRK
                 {
                     get { return _useBOTRK.CurrentValue; }
@@ -201,6 +206,10 @@ namespace MissFortune
                 {
                     get { return _alwaysROnStunned.CurrentValue; }
                 }
+                public static bool RPressed
+                {
+                    get { return Menu["RHotkey"].Cast<KeyBind>().CurrentValue; }
+                }
 
                 static Combo()
                 {
@@ -210,6 +219,8 @@ namespace MissFortune
                     _useW = Menu.Add("comboUseW", new CheckBox("Use Smart W"));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
+                    _useRHotkey = Menu.Add("comboUseRHotkey", new CheckBox("Use R Hotkey", false));
+                    Menu.Add("RHotkey", new KeyBind("Manual R Cast", false, KeyBind.BindTypes.PressToggle, 'R'));
                     Menu.Add("comboROnEnemies", new Slider("Minimum enemies for casting R", 2, 1, 5));
                     Menu.AddSeparator();
                     _saveRforStunned = Menu.Add("saveRforStunned", new CheckBox("Only use R if at least one of the x enemies is stunned"));
@@ -219,6 +230,7 @@ namespace MissFortune
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
                 }
+                
 
                 public static void Initialize()
                 {
