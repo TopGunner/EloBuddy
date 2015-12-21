@@ -52,6 +52,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Evade\Collision.cs" />
+    <Compile Include="Evade\Config.cs" />
+    <Compile Include="Evade\Evade.cs" />
+    <Compile Include="Evade\EvadeSpellData.cs" />
+    <Compile Include="Evade\EvadeSpellDatabase.cs" />
+    <Compile Include="Evade\Geometry.cs" />
+    <Compile Include="Evade\Skillshot.cs" />
+    <Compile Include="Evade\SkillshotDetector.cs" />
+    <Compile Include="Evade\SpellData.cs" />
+    <Compile Include="Evade\SpellDatabase.cs" />
+    <Compile Include="Evade\Utils.cs" />
     <Compile Include="ModeManager.cs" />
     <Compile Include="Modes\PermaActive.cs" />
     <Compile Include="Modes\Flee.cs" />

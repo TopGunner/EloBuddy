@@ -51,7 +51,7 @@ namespace SivirDamage.Modes
                         Q.Cast(Q.GetPrediction(target).CastPosition);
                     }
                 }
-            }
+            }/*
             if (Settings.UseW && W.IsReady())
             {
                 var target = TargetSelector.GetTarget(500, DamageType.Physical);
@@ -59,7 +59,7 @@ namespace SivirDamage.Modes
                 {
                     W.Cast();
                 }
-            }
+            }*/
             if (Settings.useBOTRK)
             {
                 if (!castBOTRK())
@@ -127,6 +127,23 @@ namespace SivirDamage.Modes
                 }
             }
             return false;
+        }
+
+        internal static void PostAttack(AttackableUnit target, EventArgs args)
+        {
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+                return;
+            if (target == null || !(target is AIHeroClient) || target.IsDead || target.IsInvulnerable || !target.IsEnemy || target.IsPhysicalImmune || target.IsZombie)
+                return;
+
+            if (Settings.UseW && SpellManager.W.IsReady())
+            {
+                var t = TargetSelector.GetTarget(500, DamageType.Physical);
+                if (t != null)
+                {
+                    SpellManager.W.Cast();
+                }
+            }
         }
     }
 }

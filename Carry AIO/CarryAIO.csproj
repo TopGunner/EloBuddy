@@ -119,6 +119,17 @@
     <Compile Include="RoamQueenQuinn\SaveMePls.cs" />
     <Compile Include="RoamQueenQuinn\SpellManager.cs" />
     <Compile Include="SivirDamage\Config.cs" />
+    <Compile Include="SivirDamage\Evade\Collision.cs" />
+    <Compile Include="SivirDamage\Evade\Config.cs" />
+    <Compile Include="SivirDamage\Evade\Evade.cs" />
+    <Compile Include="SivirDamage\Evade\EvadeSpellData.cs" />
+    <Compile Include="SivirDamage\Evade\EvadeSpellDatabase.cs" />
+    <Compile Include="SivirDamage\Evade\Geometry.cs" />
+    <Compile Include="SivirDamage\Evade\Skillshot.cs" />
+    <Compile Include="SivirDamage\Evade\SkillshotDetector.cs" />
+    <Compile Include="SivirDamage\Evade\SpellData.cs" />
+    <Compile Include="SivirDamage\Evade\SpellDatabase.cs" />
+    <Compile Include="SivirDamage\Evade\Utils.cs" />
     <Compile Include="SivirDamage\ModeManager.cs" />
     <Compile Include="SivirDamage\Modes\Combo.cs" />
     <Compile Include="SivirDamage\Modes\Flee.cs" />

@@ -51,7 +51,7 @@ namespace SivirDamage.Modes
                         Q.Cast(Q.GetPrediction(target).CastPosition);
                     }
                 }
-            }
+            }/*
             if (Settings.UseW && W.IsReady())
             {
                 var target = TargetSelector.GetTarget(500, DamageType.Physical);
@@ -59,7 +59,7 @@ namespace SivirDamage.Modes
                 {
                     W.Cast();
                 }
-            }
+            }*/
             if (Settings.useBOTRK)
             {
                 if (!castBOTRK())
@@ -78,7 +78,7 @@ namespace SivirDamage.Modes
                 R.Cast();
             }
         }
- 
+
 
         private bool castYoumous()
         {
@@ -122,11 +122,28 @@ namespace SivirDamage.Modes
                 if ((item.Id == ItemId.Blade_of_the_Ruined_King) && item.CanUseItem())
                 {
                     var target = TargetSelector.GetTarget(550, DamageType.Physical);
-                    if(target != null && Player.Instance.Health <= DamageLibrary.GetItemDamage(Player.Instance, target, ItemId.Blade_of_the_Ruined_King))
+                    if (target != null && Player.Instance.Health <= DamageLibrary.GetItemDamage(Player.Instance, target, ItemId.Blade_of_the_Ruined_King))
                         return item.Cast(target);
                 }
             }
             return false;
+        }
+
+        internal static void PostAttack(AttackableUnit target, EventArgs args)
+        {
+            if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+                return;
+            if (target == null || !(target is AIHeroClient) || target.IsDead || target.IsInvulnerable || !target.IsEnemy || target.IsPhysicalImmune || target.IsZombie)
+                return;
+
+            if (Settings.UseW && SpellManager.W.IsReady())
+            {
+                var t = TargetSelector.GetTarget(500, DamageType.Physical);
+                if (t != null)
+                {
+                    SpellManager.W.Cast();
+                }
+            }
         }
     }
 }

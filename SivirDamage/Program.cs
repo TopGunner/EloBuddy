@@ -48,7 +48,8 @@ namespace SivirDamage
             // Listen to events we need
             Drawing.OnDraw += OnDraw;
             Player.OnLevelUp += SivirDamage.Modes.PermaActive.autoLevelSkills;
-            
+
+            Orbwalker.OnPostAttack += Modes.Combo.PostAttack;
         }
 
         private static void OnDraw(EventArgs args)
