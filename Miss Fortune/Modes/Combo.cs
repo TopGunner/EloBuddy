@@ -175,12 +175,23 @@ namespace MissFortune.Modes
         internal static void Update(EventArgs args)
         {
             if (!Settings.UseRHotkey)
+            {
                 return;
+            }
             if (Settings.RPressed)
             {
                 Orbwalker.DisableAttacking = true;
                 Orbwalker.DisableMovement = true;
                 Rchanneling = true;
+                Settings.resetRKey();
+            }
+            else
+            {
+                if (!Rchanneling)
+                {
+                    Orbwalker.DisableAttacking = false;
+                    Orbwalker.DisableMovement = false;
+                }
             }
         }
     }

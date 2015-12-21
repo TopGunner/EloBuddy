@@ -210,6 +210,10 @@ namespace MissFortune
                 {
                     get { return Menu["RHotkey"].Cast<KeyBind>().CurrentValue; }
                 }
+                public static void resetRKey()
+                {
+                    Menu["RHotkey"].Cast<KeyBind>().CurrentValue = false;
+                }
 
                 static Combo()
                 {
