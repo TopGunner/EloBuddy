@@ -68,6 +68,8 @@ namespace SivirDamage
                 {
                     if ((Player.Instance.HealthPercent < 5) || (getIncomingDamageForI(i) >= EntityManager.Heroes.Allies[i].Health))
                     {
+                        if (!Settings.useHeal)
+                            return;
                         SpellManager.heal.Cast();
                         if (i == me)
                         {
@@ -81,8 +83,6 @@ namespace SivirDamage
 
         private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!Settings.useHeal)
-                return;
             if (sender.IsEnemy || sender.IsMonster)
             {
                 if ((sender.IsMinion || sender.IsMonster || args.SData.IsAutoAttack()) && args.Target != null)
@@ -92,6 +92,26 @@ namespace SivirDamage
                         if (args.Target.NetworkId == EntityManager.Heroes.Allies[i].NetworkId)
                         {
                             IncDamage[i][EntityManager.Heroes.Allies[i].ServerPosition.Distance(sender.ServerPosition) / args.SData.MissileSpeed + Game.Time] = sender.GetAutoAttackDamage(EntityManager.Heroes.Allies[i]);
+                        }
+                        if (i == me && sender is AIHeroClient)
+                        {
+                            var attacker = sender as AIHeroClient;
+                            if (attacker != null)
+                            {
+                                foreach (var b in attacker.Buffs)
+                                {
+                                    //Console.WriteLine(b.Name);
+                                }
+                                var slot = attacker.GetSpellSlotFromName(args.SData.Name);
+                                if (slot != SpellSlot.Unknown)
+                                {
+                                    if (dangerousSpell(slot, attacker))
+                                    {
+                                        SpellManager.E.Cast();
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
@@ -125,8 +145,18 @@ namespace SivirDamage
                                     if ((args.Target != null && args.Target.NetworkId == EntityManager.Heroes.Allies[i].NetworkId) || args.End.Distance(EntityManager.Heroes.Allies[i].ServerPosition) < Math.Pow(args.SData.LineWidth, 2))
                                     {
                                         InstDamage[i][Game.Time + 2] = attacker.GetSpellDamage(EntityManager.Heroes.Allies[i], slot);
-                                        if(Settings.useE &&  (attacker.GetSpellDamage(EntityManager.Heroes.Allies[i], slot) >= Settings.minDamage || dangerousSpell(slot, attacker)))
+                                        if (i != me)
+                                            continue;
+                                        if(Settings.useE &&  (attacker.GetSpellDamage(EntityManager.Heroes.Allies[me], slot) >= Settings.minDamage || dangerousSpell(slot, attacker)))
                                         {
+                                            if (dangerousSpell(slot, attacker))
+                                            {
+                                                //Console.WriteLine("Dangerous spell: " + attacker.ChampionName + " - " + slot);
+                                            }
+                                            else
+                                            {
+                                                //Console.WriteLine("Dmg: " + attacker.ChampionName + " - " + slot);
+                                            }
                                             SpellManager.E.Cast();
                                         }
                                     }
@@ -140,7 +170,13 @@ namespace SivirDamage
 
         private static bool dangerousSpell(SpellSlot slot, AIHeroClient sender)
         {
+            Console.WriteLine(sender.ChampionName);
+            Console.WriteLine(slot);
             if (sender.ChampionName == "Ahri" && slot == SpellSlot.E)
+            {
+                return true;
+            } 
+            if (sender.ChampionName == "Aatrox" && slot == SpellSlot.Q)
             {
                 return true;
             }
@@ -164,7 +200,15 @@ namespace SivirDamage
             {
                 return true;
             }
+            if (sender.ChampionName == "Bard" && slot == SpellSlot.Q)
+            {
+                return true;
+            }
             if (sender.ChampionName == "Amumu" && slot == SpellSlot.R)
+            {
+                return true;
+            }
+            if (sender.ChampionName == "Amumu" && slot == SpellSlot.Q)
             {
                 return true;
             }
@@ -249,6 +293,14 @@ namespace SivirDamage
                 return true;
             }
             if (sender.ChampionName == "Leona" && slot == SpellSlot.R)
+            {
+                return true;
+            }
+            if (sender.ChampionName == "Leona" && slot == SpellSlot.Q)
+            {
+                return true;
+            }
+            if (sender.ChampionName == "Leona" && slot == SpellSlot.E)
             {
                 return true;
             }

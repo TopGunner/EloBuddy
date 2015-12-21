@@ -41,7 +41,7 @@ namespace SivirDamage.Modes
             if (Settings.UseW && W.IsReady())
             {
                 var minions = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsInRange(Player.Instance.Position, Q.Range) && !t.IsDead && t.IsValid && !t.IsInvulnerable);
-                if (minions != null && minions.Count() > 0)
+                if (minions != null && minions.Count() > 3)
                 {
                     W.Cast();
                 }
