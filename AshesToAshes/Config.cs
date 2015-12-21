@@ -1,5 +1,7 @@
 ﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK;
+
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberHidesStaticFromOuterClass
@@ -43,8 +45,12 @@ namespace AshesToAshes
             private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _autolevelskills;
             private static readonly Slider _skinId;
+            private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
 
-
+            public static bool useHealOnI(int i)
+            {
+                return _useHealOn[i].CurrentValue;
+            }
             public static bool ksW
             {
                 get { return _ksW.CurrentValue; }
@@ -96,6 +102,11 @@ namespace AshesToAshes
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
+                Menu.AddSeparator();
+                for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+                {
+                    _useHealOn[i] = Menu.Add("useHeal" + i, new CheckBox("Use Heal to save " + EntityManager.Heroes.Allies[i].ChampionName));
+                }
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
