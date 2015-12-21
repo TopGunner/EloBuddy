@@ -118,6 +118,19 @@
     <Compile Include="RoamQueenQuinn\Program.cs" />
     <Compile Include="RoamQueenQuinn\SaveMePls.cs" />
     <Compile Include="RoamQueenQuinn\SpellManager.cs" />
+    <Compile Include="SivirDamage\Config.cs" />
+    <Compile Include="SivirDamage\ModeManager.cs" />
+    <Compile Include="SivirDamage\Modes\Combo.cs" />
+    <Compile Include="SivirDamage\Modes\Flee.cs" />
+    <Compile Include="SivirDamage\Modes\Harass.cs" />
+    <Compile Include="SivirDamage\Modes\JungleClear.cs" />
+    <Compile Include="SivirDamage\Modes\LaneClear.cs" />
+    <Compile Include="SivirDamage\Modes\LastHit.cs" />
+    <Compile Include="SivirDamage\Modes\ModeBase.cs" />
+    <Compile Include="SivirDamage\Modes\PermaActive.cs" />
+    <Compile Include="SivirDamage\Program.cs" />
+    <Compile Include="SivirDamage\SaveMePls.cs" />
+    <Compile Include="SivirDamage\SpellManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

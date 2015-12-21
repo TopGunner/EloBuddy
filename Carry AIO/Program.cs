@@ -45,6 +45,10 @@ namespace CarryAIO
             {
                 Corki.Program.OnLoadingComplete(args);
             }
+            else if (Player.Instance.ChampionName == "Sivir")
+            {
+                SivirDamage.Program.OnLoadingComplete(args);
+            }
         }
     }
 }
