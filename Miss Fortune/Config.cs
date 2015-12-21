@@ -224,7 +224,7 @@ namespace MissFortune
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
                     _useRHotkey = Menu.Add("comboUseRHotkey", new CheckBox("Use R Hotkey", false));
-                    Menu.Add("RHotkey", new KeyBind("Manual R Cast", false, KeyBind.BindTypes.PressToggle, 'R'));
+                    Menu.Add("RHotkey", new KeyBind("Don't tick this Checkbox!", false, KeyBind.BindTypes.PressToggle, 'R'));
                     Menu.Add("comboROnEnemies", new Slider("Minimum enemies for casting R", 2, 1, 5));
                     Menu.AddSeparator();
                     _saveRforStunned = Menu.Add("saveRforStunned", new CheckBox("Only use R if at least one of the x enemies is stunned"));
