@@ -117,7 +117,7 @@ namespace Anivia.Modes
             if (Anivia.Config.Modes.Combo.deactiveR && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState == 2)
             {
                 var minions = EntityManager.MinionsAndMonsters.GetJungleMonsters(SpellManager.RlastCast, 400);
-                var enemies = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 400));
+                var enemies = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 395));
                 if (minions.Count() < 1 && enemies.Count() < 1)
                 {
                     R.Cast(Player.Instance);
