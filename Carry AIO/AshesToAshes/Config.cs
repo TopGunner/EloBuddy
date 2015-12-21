@@ -1,5 +1,7 @@
 ﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK;
+
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberHidesStaticFromOuterClass
@@ -37,13 +39,18 @@ namespace AshesToAshes
             public static readonly CheckBox _drawW;
             private static readonly CheckBox _ksW;
             private static readonly CheckBox _useAutoW;
+            private static readonly CheckBox _useAutoE;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
             private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _autolevelskills;
             private static readonly Slider _skinId;
+            private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
 
-
+            public static bool useHealOnI(int i)
+            {
+                return _useHealOn[i].CurrentValue;
+            }
             public static bool ksW
             {
                 get { return _ksW.CurrentValue; }
@@ -51,6 +58,10 @@ namespace AshesToAshes
             public static bool useAutoW
             {
                 get { return _useAutoW.CurrentValue; }
+            }
+            public static bool useE
+            {
+                get { return _useAutoE.CurrentValue; }
             }
             public static int autoWMana
             {
@@ -78,7 +89,7 @@ namespace AshesToAshes
             }
 
 
-           static Misc()
+            static Misc()
             {
                 // Initialize the menu values
                 Menu = Config.Menu.AddSubMenu("Misc");
@@ -87,9 +98,15 @@ namespace AshesToAshes
                 _ksW = Menu.Add("ksW", new CheckBox("Smart KS with W"));
                 _useAutoW = Menu.Add("useAutoW", new CheckBox("use W automatically if"));
                 Menu.Add("autoWMana", new Slider("mana > ({0}%)", 80));
+                _useAutoE = Menu.Add("useAutoE", new CheckBox("use E"));
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
+                Menu.AddSeparator();
+                for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+                {
+                    _useHealOn[i] = Menu.Add("useHeal" + i, new CheckBox("Use Heal to save " + EntityManager.Heroes.Allies[i].ChampionName));
+                }
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
