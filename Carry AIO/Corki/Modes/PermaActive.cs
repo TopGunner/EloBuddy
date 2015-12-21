@@ -70,7 +70,8 @@ namespace Corki.Modes
                 {
                     if (enemy.Health < DamageLibrary.GetSpellDamage(Player.Instance, enemy, SpellSlot.R) && R.GetPrediction(enemy).CollisionObjects.Count() > 0 && R.GetPrediction(enemy).CollisionObjects[0].NetworkId == enemy.NetworkId)
                     {
-                        R.Cast(R.GetPrediction(enemy).CastPosition);
+                        Core.DelayAction(() => item.Cast(), 110);
+                        return true;
                     }
                 }
             }

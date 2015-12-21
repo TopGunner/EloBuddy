@@ -98,17 +98,9 @@ namespace SivirDamage
                             var attacker = sender as AIHeroClient;
                             if (attacker != null)
                             {
-                                foreach (var b in attacker.Buffs)
+                                if (dangerousAA(attacker))
                                 {
-                                    //Console.WriteLine(b.Name);
-                                }
-                                var slot = attacker.GetSpellSlotFromName(args.SData.Name);
-                                if (slot != SpellSlot.Unknown)
-                                {
-                                    if (dangerousSpell(slot, attacker))
-                                    {
-                                        SpellManager.E.Cast();
-                                    }
+                                    SpellManager.E.Cast();
                                 }
                             }
 
@@ -151,11 +143,11 @@ namespace SivirDamage
                                         {
                                             if (dangerousSpell(slot, attacker))
                                             {
-                                                //Console.WriteLine("Dangerous spell: " + attacker.ChampionName + " - " + slot);
+                                                Console.WriteLine("Dangerous spell: " + attacker.ChampionName + " - " + slot);
                                             }
                                             else
                                             {
-                                                //Console.WriteLine("Dmg: " + attacker.ChampionName + " - " + slot);
+                                                Console.WriteLine("Dmg: " + attacker.ChampionName + " - " + slot);
                                             }
                                             SpellManager.E.Cast();
                                         }
@@ -166,6 +158,27 @@ namespace SivirDamage
                     }
                 }
             }
+        }
+
+        private static bool dangerousAA(AIHeroClient attacker)
+        {
+            if (attacker.ChampionName == "Leona" && attacker.HasBuff("LeonaShieldOfDaybreak"))
+            {
+                return true;
+            }
+            if (attacker.ChampionName == "Udyr" && attacker.HasBuff("UdyrBearStance"))
+            {
+                return true;
+            }
+            if (attacker.ChampionName == "Nautilus" && attacker.HasBuff("NautilusStaggeringBlow"))
+            {
+                return true;
+            }
+            if (attacker.ChampionName == "Renekton" && attacker.HasBuff("RenektonRuthlessPredator"))
+            {
+                return true;
+            }
+            return false;
         }
 
         private static bool dangerousSpell(SpellSlot slot, AIHeroClient sender)

@@ -63,7 +63,8 @@ namespace Kitelyn.Modes
                         Player.HasBuff("zedulttargetmark") || Player.HasBuffOfType(BuffType.Suppression) || Player.HasBuffOfType(BuffType.Charm) || Player.HasBuffOfType(BuffType.Flee) || Player.HasBuffOfType(BuffType.Blind) || 
                         Player.HasBuffOfType(BuffType.Polymorph) || Player.HasBuffOfType(BuffType.Snare) || Player.HasBuffOfType(BuffType.Stun) || Player.HasBuffOfType(BuffType.Taunt))
                     {
-                        return item.Cast();
+                        Core.DelayAction(() => item.Cast(), 110);
+                        return true;
                     }
                 }
             }
