@@ -1,5 +1,6 @@
 ﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberHidesStaticFromOuterClass
@@ -50,8 +51,12 @@ namespace MissFortune
             private static readonly Slider _skinId;
             private static readonly CheckBox _cleanseStun;
             private static readonly Slider _cleanseEnemies;
+            private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
 
-
+            public static bool useHealOnI(int i)
+            {
+                return _useHealOn[i].CurrentValue;
+            }
             public static bool ksQ
             {
                 get { return _ksQ.CurrentValue; }
@@ -102,7 +107,7 @@ namespace MissFortune
             }
 
 
-           static Misc()
+            static Misc()
             {
                 // Initialize the menu values
                 Menu = Config.Menu.AddSubMenu("Misc");
@@ -118,6 +123,11 @@ namespace MissFortune
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
+                Menu.AddSeparator();
+                for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+                {
+                    _useHealOn[i] = Menu.Add("useHeal" + i, new CheckBox("Use Heal to save " + EntityManager.Heroes.Allies[i].ChampionName));
+                }
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
@@ -234,7 +244,7 @@ namespace MissFortune
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
                 }
-                
+
 
                 public static void Initialize()
                 {

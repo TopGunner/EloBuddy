@@ -1,5 +1,6 @@
 ﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberHidesStaticFromOuterClass
@@ -23,7 +24,7 @@ namespace Kitelyn
 
             // Initialize the modes
             Modes.Initialize();
-            
+
         }
 
         public static void Initialize()
@@ -55,8 +56,13 @@ namespace Kitelyn
             private static readonly Slider _skinId;
             private static readonly CheckBox _cleanseStun;
             private static readonly Slider _cleanseEnemies;
+            private static readonly CheckBox _forceAAOnTrap;
+            private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
 
-
+            public static bool useHealOnI(int i)
+            {
+                return _useHealOn[i].CurrentValue;
+            }
             public static bool UseR
             {
                 get { return _useR.CurrentValue; }
@@ -121,9 +127,13 @@ namespace Kitelyn
             {
                 get { return _drawCombo.CurrentValue; }
             }
+            public static bool forceAAOnTrap
+            {
+                get { return _forceAAOnTrap.CurrentValue; }
+            }
 
 
-           static Misc()
+            static Misc()
             {
                 // Initialize the menu values
                 Menu = Config.Menu.AddSubMenu("Misc");
@@ -132,7 +142,7 @@ namespace Kitelyn
                 _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
                 _drawR = Menu.Add("drawR", new CheckBox("Draw R"));
                 _drawCombo = Menu.Add("drawCombo", new CheckBox("Draw Combo Damge"));
-                Menu.AddSeparator(); 
+                Menu.AddSeparator();
                 _useR = Menu.Add("useR", new CheckBox("Use R to kill out of range targets"));
                 _useRAlways = Menu.Add("useRAlways", new CheckBox("Always use R if killable", false));
                 _useScryingOrbMarker = Menu.Add("useScryingOrbMarker", new CheckBox("Use Scrying Orb to mark enemies for later ult"));
@@ -140,11 +150,17 @@ namespace Kitelyn
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
                 Menu.AddSeparator();
+                for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+                {
+                    _useHealOn[i] = Menu.Add("useHeal" + i, new CheckBox("Use Heal to save " + EntityManager.Heroes.Allies[i].ChampionName));
+                }
+                Menu.AddSeparator();
                 _useWOnTP = Menu.Add("useWOnTP", new CheckBox("Use W on Teleport"));
                 _useWOnZhonyas = Menu.Add("useWOnZhonyas", new CheckBox("Use W on Zhonyas"));
                 _useWOnGapcloser = Menu.Add("useWOnGapcloser", new CheckBox("Use W on Gapcloser"));
                 _useEOnGapcloser = Menu.Add("useEOnGapcloser", new CheckBox("Use E on Gapcloser", false));
                 _useEFlee = Menu.Add("useEFlee", new CheckBox("Use E in Fleemode to mouse"));
+                _forceAAOnTrap = Menu.Add("forceAAOnTrap", new CheckBox("Focus trapped enemy"));
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));

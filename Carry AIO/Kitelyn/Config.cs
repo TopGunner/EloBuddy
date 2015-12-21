@@ -1,5 +1,6 @@
 ﻿using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable MemberHidesStaticFromOuterClass
@@ -56,8 +57,12 @@ namespace Kitelyn
             private static readonly CheckBox _cleanseStun;
             private static readonly Slider _cleanseEnemies;
             private static readonly CheckBox _forceAAOnTrap;
+            private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
 
-
+            public static bool useHealOnI(int i)
+            {
+                return _useHealOn[i].CurrentValue;
+            }
             public static bool UseR
             {
                 get { return _useR.CurrentValue; }
@@ -144,6 +149,11 @@ namespace Kitelyn
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
+                Menu.AddSeparator();
+                for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
+                {
+                    _useHealOn[i] = Menu.Add("useHeal" + i, new CheckBox("Use Heal to save " + EntityManager.Heroes.Allies[i].ChampionName));
+                }
                 Menu.AddSeparator();
                 _useWOnTP = Menu.Add("useWOnTP", new CheckBox("Use W on Teleport"));
                 _useWOnZhonyas = Menu.Add("useWOnZhonyas", new CheckBox("Use W on Zhonyas"));
