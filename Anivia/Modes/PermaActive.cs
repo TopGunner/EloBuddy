@@ -16,6 +16,12 @@ namespace Anivia.Modes
 {
     public sealed class PermaActive : ModeBase
     {
+        public static bool castedForChampion = false;
+        public static bool castedForMinions = false;
+        public static AIHeroClient castedOn = null;
+        public static MissileClient missile = null;
+        Vector2 perfectCast = new Vector2(0,0);
+
         bool stackingTear = false;
         int currentSkin = 0;
         bool bought = false;
@@ -33,6 +39,101 @@ namespace Anivia.Modes
             stackTear();
             stopStackMode();
             skinChanger();
+            missileTracker();
+        }
+
+        private void missileTracker()
+        {
+            if (missile == null || !Settings.activateQ || missile.IsDead)
+            {
+                missile = null;
+                return;
+            }
+            Vector2 posi = missile.Position.Extend(missile.EndPosition, Q.Speed * (Game.Ping / 500));
+            if (!castedForChampion && !castedForMinions)
+            {
+                foreach (var e in EntityManager.Heroes.Enemies.Where(t => Prediction.Position.Collision.LinearMissileCollision(t, missile.StartPosition.To2D(), missile.StartPosition.Extend(missile.EndPosition, Q.Range), Q.Speed, Q.Width, Q.CastDelay)).OrderBy(t => t.MaxHealth))
+                {
+                    castedOn = e;
+                    castedForChampion = true;
+                    break;
+                }
+                if (!castedForChampion)
+                    castedForMinions = true;
+            }
+            if (castedForChampion)
+            {
+                if (castedOn == null)
+                    return;
+
+                if (Prediction.Position.Collision.LinearMissileCollision(castedOn, missile.StartPosition.To2D(), missile.StartPosition.Extend(missile.EndPosition, Q.Range), Q.Speed, Q.Width, Q.CastDelay))
+                {
+                    if (missile.StartPosition.Distance(castedOn) <= missile.StartPosition.Distance(posi))
+                    {
+                        Q.Cast(castedOn);
+                        missile = null;
+                        castedForChampion = false;
+                        castedForMinions = false;
+                        castedOn = null;
+                        perfectCast = new Vector2(0, 0);
+                    }
+                }
+                else if (Prediction.Position.Collision.LinearMissileCollision(castedOn, missile.StartPosition.To2D(), missile.StartPosition.Extend(missile.EndPosition, Q.Range), Q.Speed, 150, Q.CastDelay))
+                {
+                    if (posi.Distance(castedOn) < 150)
+                    {
+                        Q.Cast(castedOn);
+                        missile = null;
+                        castedForChampion = false;
+                        castedForMinions = false;
+                        castedOn = null;
+                        perfectCast = new Vector2(0, 0);
+                    }
+                }
+                else
+                { 
+                    if (missile.EndPosition.CountEnemiesInRange(150) < posi.CountEnemiesInRange(150))
+                    {
+                        Q.Cast(castedOn);
+                        missile = null;
+                        castedForChampion = false;
+                        castedForMinions = false;
+                        castedOn = null;
+                        perfectCast = new Vector2(0, 0);
+                    }
+                }
+            }
+            else
+            {
+                //Casted for farming issues
+                Vector2 pos = posi;
+                int count = 0;
+                int i = 0;
+                while (pos.Distance(missile.EndPosition) > Settings.accuracyQ && !missile.IsDead)
+                {
+                    int amount = 0;
+                    foreach (var e in EntityManager.MinionsAndMonsters.CombinedAttackable.Where(t => t.IsInRange(pos, 150) && t.HealthPercent > 0))
+                    {
+                        amount++;
+                    }
+                    if (amount >= count)
+                    {
+                        perfectCast = pos;
+                        count = amount;
+                    }
+                    i++;
+                    pos = posi.Extend(missile.EndPosition, Settings.accuracyQ * i);
+                }
+                if (perfectCast.Distance(posi) <= Settings.accuracyQ*2)
+                {
+                    Q.Cast(Player.Instance);
+                    missile = null;
+                    castedForChampion = false;
+                    castedForMinions = false;
+                    castedOn = null;
+                    perfectCast = new Vector2(0, 0);
+                }
+            }
         }
 
         private void autoBuyStartingItems()
@@ -178,6 +279,18 @@ namespace Anivia.Modes
                 else if (Settings.antiDashOffensive)
                     W.Cast(e.End);
             }
+        }
+
+        internal static void GameObject_OnCreate(GameObject sender, EventArgs args)
+        {
+            bool isMissile = sender.GetType() == typeof(MissileClient);
+            if (!isMissile)
+                return;
+
+            var miss = sender as MissileClient;
+            if (!miss.IsValidMissile() || miss.SpellCaster.NetworkId != Player.Instance.NetworkId || miss.SData.Name != "FlashFrostSpell")
+                return;
+            missile = miss;
         }
     }
 }

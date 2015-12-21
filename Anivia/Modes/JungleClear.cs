@@ -18,10 +18,7 @@ namespace Anivia.Modes
     {
         public override bool ShouldBeExecuted()
         {
-            if (Game.MapId == GameMapId.SummonersRift)
-                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear) && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear);
-            else
-                return false;
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
         }
 
         public override void Execute()
@@ -61,17 +58,20 @@ namespace Anivia.Modes
 
             if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
-                var minions = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, R.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable);
+                var minions = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, R.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderByDescending(t => t.MaxHealth);
                 foreach (var m in minions)
                 {
                     if (Q.GetPrediction(m).CollisionObjects.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable).Count() >= minions.Count() - 1)
                     {
+                        PermaActive.castedForChampion = false;
+                        PermaActive.castedForMinions = true;
+                        PermaActive.castedOn = null;
                         Q.Cast(m);
                         break;
                     }
                 }
             }
-            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
+            /*if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
                 int counter = 0;
                 var minions = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, R.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable);
@@ -94,7 +94,7 @@ namespace Anivia.Modes
                         break;
                     }
                 }
-            }
+            }*/
             if (Settings.UseE && E.IsReady())
             {
                 var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderByDescending(t => t.MaxHealth).FirstOrDefault();

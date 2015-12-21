@@ -27,12 +27,15 @@ namespace Anivia.Modes
             if (Settings.Mana >= Player.Instance.ManaPercent)
                 return;
 
-            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
+            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 && PermaActive.missile == null)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
                 if (target != null && Q.GetPrediction(target).HitChance >= HitChance.High)
                 {
-                    Q.Cast(target);
+                    PermaActive.castedForChampion = true;
+                    PermaActive.castedForMinions = false;
+                    PermaActive.castedOn = target;
+                    Q.Cast(Q.GetPrediction(target).CastPosition);
                 }
             }
             if (Settings.UseR && R.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState != 2)
@@ -52,7 +55,7 @@ namespace Anivia.Modes
                     }
                 }
             }
-            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
+            /*if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
                 var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance, 1500));
                 foreach (var e in enemies)
@@ -73,7 +76,7 @@ namespace Anivia.Modes
                         }
                     }
                 }
-            }
+            }*/
             if (Settings.UseE && E.IsReady())
             {
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Magical);

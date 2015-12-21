@@ -17,7 +17,6 @@ namespace Anivia.Modes
 {
     public sealed class Combo : ModeBase
     {
-        bool casted = false;
         public override bool ShouldBeExecuted()
         {
             // Only execute this mode when the orbwalker is on combo mode
@@ -31,7 +30,7 @@ namespace Anivia.Modes
             // the menu in the Config class!
             ks();
             deactivateUlt();
-            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 && !casted)
+            if (Settings.UseQ && Q.IsReady() && PermaActive.missile == null)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
                 HitChance h = HitChance.Medium;
@@ -43,8 +42,10 @@ namespace Anivia.Modes
                     h = HitChance.High;
                 if (target != null && Q.GetPrediction(target).HitChance >= h)
                 {
-                    casted = true;
-                    Q.Cast(target);
+                    PermaActive.castedForChampion = true;
+                    PermaActive.castedForMinions = false;
+                    PermaActive.castedOn = target;
+                    Q.Cast(Q.GetPrediction(target).CastPosition);
                 }
             }
             if (Settings.UseR && R.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.R).ToggleState != 2)
@@ -64,7 +65,7 @@ namespace Anivia.Modes
                     }
                 }
             }
-            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
+            /*if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
                 casted = false;
                 var enemies = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance, 1500));
@@ -88,7 +89,7 @@ namespace Anivia.Modes
                         }
                     }
                 }
-            }
+            }*/
             if (Settings.UseE && E.IsReady())
             {
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Magical);

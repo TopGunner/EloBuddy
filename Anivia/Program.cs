@@ -50,9 +50,10 @@ namespace Anivia
             Player.OnLevelUp += Anivia.Modes.PermaActive.autoLevelSkills;
             Dash.OnDash += PermaActive.Dash_OnDash;
             Gapcloser.OnGapcloser += PermaActive.antiGapcloser;
+            GameObject.OnCreate += PermaActive.GameObject_OnCreate;
 
-            
         }
+        
 
         private static void OnDraw(EventArgs args)
         {

@@ -38,6 +38,7 @@ namespace Anivia
             public static readonly CheckBox _drawW;
             public static readonly CheckBox _drawE;
             public static readonly CheckBox _drawR;
+            public static readonly CheckBox _activateQ;
             public static readonly CheckBox _drawCombo;
             private static readonly CheckBox _tearStack;
             private static readonly CheckBox _autoBuyStartingItems;
@@ -53,6 +54,14 @@ namespace Anivia
             private static readonly CheckBox _cleanseStun;
             private static readonly Slider _cleanseEnemies;
 
+            public static int accuracyQ
+            {
+                get { return Menu["accuracyQ"].Cast<Slider>().CurrentValue; }
+            }
+            public static bool activateQ
+            {
+                get { return _activateQ.CurrentValue; }
+            }
             public static bool tearStack
             {
                 get { return _tearStack.CurrentValue; }
@@ -359,12 +368,15 @@ namespace Anivia
                 _drawR = Menu.Add("drawR", new CheckBox("Draw R"));
                 _drawCombo = Menu.Add("drawCombo", new CheckBox("Draw Combo Damge"));
                 Menu.AddSeparator();
+                Menu.Add("accuracyQ", new Slider("Accuracy of Q Farming", 50, 10, 1075));
+                _activateQ = Menu.Add("activateQ", new CheckBox("Activate Q2 automatically"));
+                Menu.AddSeparator();
                 _tearStack = Menu.Add("tearStack", new CheckBox("Tearstacking Mode"));
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
                 Menu.AddSeparator();
                 _autoInterrupt = Menu.Add("autoInterrupt", new CheckBox("Autointerrupt dangerous channeling spells"));
-                _antiDash = Menu.Add("antiDash", new CheckBox("Autointerrupt dashes (BETA)"));
+                _antiDash = Menu.Add("antiDash", new CheckBox("Autointerrupt dashes"));
                 _antiDashOffensive = Menu.Add("antiDashOffensive", new CheckBox("Use it also offensive"));
                 Menu.AddSeparator();
                 _skinId = Menu.Add("skinId", new Slider("Skin ID", 5, 1, 7));

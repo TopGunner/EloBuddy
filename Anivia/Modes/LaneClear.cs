@@ -63,12 +63,15 @@ namespace Anivia.Modes
                 {
                     if (Q.GetPrediction(m).CollisionObjects.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable).Count() >= 4)
                     {
+                        PermaActive.castedForChampion = false;
+                        PermaActive.castedForMinions = true;
+                        PermaActive.castedOn = null;
                         Q.Cast(m);
                         break;
                     }
                 }
             }
-            if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
+            /*if (Settings.UseQ && Q.IsReady() && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 2)
             {
                 int counter = 0;
                 var minions = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, Q.Range));
@@ -91,7 +94,7 @@ namespace Anivia.Modes
                         break;
                     }
                 }
-            }
+            }*/
             if (Settings.UseE && E.IsReady())
             {
                 var minions = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range)).OrderByDescending(t => t.Health);
