@@ -62,7 +62,6 @@ namespace MissFortune.Modes
             if (Orbwalker.ForcedTarget != null && !Orbwalker.ForcedTarget.IsInRange(Player.Instance, 550))
             {
                 Orbwalker.ForcedTarget = null;
-                //Orbwalker.ResetAutoAttack();
             }
         }
 

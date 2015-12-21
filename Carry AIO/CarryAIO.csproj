@@ -100,7 +100,7 @@
     <Compile Include="MissFortune\Modes\LastHit.cs" />
     <Compile Include="MissFortune\Modes\ModeBase.cs" />
     <Compile Include="MissFortune\Modes\PermaActive.cs" />
-    <Compile Include="MissFortune\MF.cs" />
+    <Compile Include="MissFortune\Program.cs" />
     <Compile Include="MissFortune\SaveMePls.cs" />
     <Compile Include="MissFortune\SpellManager.cs" />
     <Compile Include="Program.cs" />

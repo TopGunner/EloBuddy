@@ -27,7 +27,7 @@ namespace CarryAIO
         {
             if (Player.Instance.ChampionName == "MissFortune")
             {
-                MissFortune.MF.OnLoadingCompleteMF(args);
+                MissFortune.Program.OnLoadingComplete(args);
             }
             else if (Player.Instance.ChampionName == "Ashe")
             {

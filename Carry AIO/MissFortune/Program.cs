@@ -13,19 +13,22 @@ using Settings = MissFortune.Config.Misc;
 using MissFortune.Modes;
 namespace MissFortune
 {
-    public static class MF
+    public static class Program
     {
+        // Change this line to the champion you want to make the addon for,
+        // watch out for the case being correct!
+        public const string ChampName = "MissFortune";
 
-        public static void OnLoadingCompleteMF(EventArgs args)
+        public static void OnLoadingComplete(EventArgs args)
         {
             // Verify the champion we made this addon for
-            if (Player.Instance.ChampionName != "MissFortune")
+            if (Player.Instance.ChampionName != ChampName)
             {
                 // Champion is not the one we made this addon for,
                 // therefore we return
                 return;
             }
-
+            
             // Initialize the classes that we need
             Config.Initialize();
             SpellManager.Initialize();
@@ -43,6 +46,7 @@ namespace MissFortune
             Obj_AI_Base.OnBuffGain += Obj_AI_Base_OnBuffGain;
             Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
             Orbwalker.OnUnkillableMinion += UnkillableMinion;
+            Game.OnUpdate += Combo.Update;
             
         }
 
@@ -73,7 +77,6 @@ namespace MissFortune
             if (!newtarget)
             {
                 Orbwalker.ForcedTarget = null;
-                //Orbwalker.ResetAutoAttack();
             }
         }
 
