@@ -43,7 +43,7 @@ namespace SivirDamage
             Drawing.OnDraw += OnDraw;
             Player.OnLevelUp += SivirDamage.Modes.PermaActive.autoLevelSkills;
 
-            Orbwalker.OnPostAttack += Modes.Combo.PostAttack;
+            Orbwalker.OnAttack += Modes.Combo.PostAttack;
             
         }
 

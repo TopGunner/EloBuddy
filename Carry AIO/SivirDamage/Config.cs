@@ -182,7 +182,7 @@ namespace SivirDamage
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("comboUseW", new CheckBox("Use W"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
-                    Menu.Add("comboDamageMin", new Slider("Min. Percent Damage of Q", 60));
+                    Menu.Add("comboDamageMin", new Slider("Min. Percent Damage of Q", 40));
                     Menu.Add("comboMinEnemiesR", new Slider("Min. Enemies in 600 range to ult", 2, 0, 5));
                     Menu.AddSeparator();
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));

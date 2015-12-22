@@ -9,6 +9,7 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
+using EloBuddy.SDK.Constants;
 
 // Using the config like this makes your life easier, trust me
 using Settings = SivirDamage.Config.Modes.Combo;
@@ -29,7 +30,7 @@ namespace SivirDamage.Modes
             if (Settings.UseQ && Q.IsReady())
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
-                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
+                if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium && target.Distance(Player.Instance) > 550)
                 {
                     int count = 0;
                     foreach (var e in Q.GetPrediction(target).CollisionObjects)
@@ -78,7 +79,7 @@ namespace SivirDamage.Modes
                 R.Cast();
             }
         }
- 
+
 
         private bool castYoumous()
         {
@@ -122,7 +123,7 @@ namespace SivirDamage.Modes
                 if ((item.Id == ItemId.Blade_of_the_Ruined_King) && item.CanUseItem())
                 {
                     var target = TargetSelector.GetTarget(550, DamageType.Physical);
-                    if(target != null && Player.Instance.Health <= DamageLibrary.GetItemDamage(Player.Instance, target, ItemId.Blade_of_the_Ruined_King))
+                    if (target != null && Player.Instance.Health <= DamageLibrary.GetItemDamage(Player.Instance, target, ItemId.Blade_of_the_Ruined_King))
                         return item.Cast(target);
                 }
             }
@@ -132,16 +133,42 @@ namespace SivirDamage.Modes
         internal static void PostAttack(AttackableUnit target, EventArgs args)
         {
             if (!Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+            {
                 return;
-            if (target == null || !(target is AIHeroClient) || target.IsDead || target.IsInvulnerable || !target.IsEnemy || target.IsPhysicalImmune || target.IsZombie)
-                return;
-
+            }
             if (Settings.UseW && SpellManager.W.IsReady())
             {
-                var t = TargetSelector.GetTarget(500, DamageType.Physical);
+                var t = TargetSelector.GetTarget(600, DamageType.Physical);
                 if (t != null)
                 {
-                    SpellManager.W.Cast();
+                    Core.DelayAction(() => SpellManager.W.Cast(), 130);
+                    return;
+                }
+            }
+            if (Settings.UseQ && SpellManager.Q.IsReady())
+            {
+                var t = TargetSelector.GetTarget(SpellManager.Q.Range, DamageType.Physical);
+                if (t != null)
+                {
+                    int count = 0;
+                    foreach (var e in SpellManager.Q.GetPrediction(t).CollisionObjects)
+                    {
+                        if (e.NetworkId != target.NetworkId)
+                        {
+                            count++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    int dmgMod = 100 - count * 15;
+                    if (dmgMod < 40)
+                        dmgMod = 40;
+                    if (dmgMod >= Settings.damageMin)
+                    {
+                        Core.DelayAction(() => SpellManager.Q.Cast(SpellManager.Q.GetPrediction(t).CastPosition), 130);
+                    }
                 }
             }
         }
