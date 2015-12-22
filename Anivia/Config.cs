@@ -51,6 +51,7 @@ namespace Anivia
             private static readonly CheckBox _antiDash;
             private static readonly CheckBox _antiDashOffensive;
             private static readonly Slider _skinId;
+            public static readonly CheckBox _useSkinHack;
             private static readonly CheckBox _cleanseStun;
             private static readonly Slider _cleanseEnemies;
 
@@ -105,6 +106,10 @@ namespace Anivia
             public static int skinId
             {
                 get { return _skinId.CurrentValue; }
+            }
+            public static bool UseSkinHack
+            {
+                get { return _useSkinHack.CurrentValue; }
             }
             public static int cleanseEnemies
             {
@@ -379,6 +384,7 @@ namespace Anivia
                 _antiDash = Menu.Add("antiDash", new CheckBox("Autointerrupt dashes"));
                 _antiDashOffensive = Menu.Add("antiDashOffensive", new CheckBox("Use it also offensive"));
                 Menu.AddSeparator();
+                _useSkinHack = Menu.Add("useSkinHack", new CheckBox("Use Skinhack"));
                 _skinId = Menu.Add("skinId", new Slider("Skin ID", 5, 1, 7));
                 Menu.AddSeparator();
                 _cleanseStun = Menu.Add("cleanseStun", new CheckBox("Cleanse if x or more enemies are around"));

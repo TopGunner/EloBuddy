@@ -49,6 +49,7 @@ namespace MissFortune
             private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _autolevelskills;
             private static readonly Slider _skinId;
+            public static readonly CheckBox _useSkinHack;
             private static readonly CheckBox _cleanseStun;
             private static readonly Slider _cleanseEnemies;
             private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
@@ -93,6 +94,10 @@ namespace MissFortune
             {
                 get { return _skinId.CurrentValue; }
             }
+            public static bool UseSkinHack
+            {
+                get { return _useSkinHack.CurrentValue; }
+            }
             public static int cleanseEnemies
             {
                 get { return _cleanseEnemies.CurrentValue; }
@@ -132,6 +137,7 @@ namespace MissFortune
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
                 _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
                 Menu.AddSeparator();
+                _useSkinHack = Menu.Add("useSkinHack", new CheckBox("Use Skinhack"));
                 _skinId = Menu.Add("skinId", new Slider("Skin ID", 7, 1, 9));
             }
 

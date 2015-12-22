@@ -107,6 +107,8 @@ namespace Corki.Modes
 
         private void skinChanger()
         {
+            if (!Settings.UseSkinHack)
+                return;
             if (Settings.skinId != currentSkin)
             {
                 Player.Instance.SetSkinId(Settings.skinId);
