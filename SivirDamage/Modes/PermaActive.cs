@@ -62,7 +62,7 @@ namespace SivirDamage.Modes
         {
             if (Settings.ksQ && Q.IsReady())
             {
-                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.Q)))
+                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && e.HealthPercent > 0 && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.Q)))
                 {
                     int count = 0;
                     foreach (var coll in Q.GetPrediction(e).GetCollisionObjects<Obj_AI_Base>())
