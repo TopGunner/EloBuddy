@@ -112,7 +112,7 @@ namespace MissFortune
             }
 
 
-           static Misc()
+            static Misc()
             {
                 // Initialize the menu values
                 Menu = Config.Menu.AddSubMenu("Misc");
@@ -250,7 +250,7 @@ namespace MissFortune
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
                 }
-                
+
 
                 public static void Initialize()
                 {

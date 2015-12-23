@@ -19,6 +19,7 @@ namespace MissFortune
         // watch out for the case being correct!
         public const string ChampName = "MissFortune";
 
+
         public static void OnLoadingComplete(EventArgs args)
         {
             // Verify the champion we made this addon for

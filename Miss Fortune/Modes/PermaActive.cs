@@ -30,9 +30,9 @@ namespace MissFortune.Modes
         {
             if (Combo.Rchanneling)
             {
-                if(Rticks == 0)
-                    Rticks = ticks;
-                else if (!Combo.RcameOut && (Rticks - ticks) / Game.TicksPerSecond > 0.5)
+                Rticks++;
+                Console.WriteLine(Rticks);
+                if (!Combo.RcameOut && Rticks > 10)
                 {
                     Orbwalker.DisableAttacking = false;
                     Orbwalker.DisableMovement = false;
@@ -42,7 +42,6 @@ namespace MissFortune.Modes
             }
             else
             {
-                ticks = 0;
                 Rticks = 0;
             }
             if (Player.Instance.IsRecalling())
