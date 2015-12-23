@@ -65,31 +65,16 @@ namespace SivirDamage
                     InstDamage[i].Remove(entry.Key);
                 }
             }
-            /*foreach (var missi in blockThese)
-            {
-                if (missi.IsDead)
-                {
-                    blockThese.Remove(missi);
-                    continue;
-                }
-
-                if (missi.Position.Distance(Player.Instance.Position) < 35)
-                {
-                    SpellManager.E.Cast();
-                    Console.WriteLine("Blocked " + missi.SpellCaster.Name + " - " + missi.SData.Name);
-                    break;
-                }
-            }*/
             if (Settings.useE && SpellManager.E.IsReady())
             {
-                foreach (var skillshot in Evade.Evade.GetSkillshotsAboutToHit(Player.Instance, 150))
+                foreach (var skillshot in Evade.Evade.GetSkillshotsAboutToHit(Player.Instance, 200))
                 {
                     AIHeroClient caster = null;
                     foreach (var e in EntityManager.Heroes.Enemies.Where(t => t.ChampionName == skillshot.SpellData.ChampionName))
                     {
                         caster = e;
                     }
-                    if (caster != null)
+                    if (caster != null && (skillshot.IsGlobal || caster.Distance(Player.Instance) <= skillshot.SpellData.Range + 50))
                     {
                         if (DamageLibrary.GetSpellDamage(caster, Player.Instance, skillshot.SpellData.Slot) > Settings.minDamage)
                         {
@@ -200,30 +185,6 @@ namespace SivirDamage
             }
         }
 
-        /*internal static void GameObject_OnCreate(GameObject sender, EventArgs args)
-        {
-            return;
-            bool isMissile = sender.GetType() == typeof(MissileClient);
-            if (!isMissile)
-                return;
-
-            var missile = sender as MissileClient;
-            if (missile == null || !missile.SpellCaster.IsEnemy )
-                return;
-            
-            if(!(missile.SpellCaster is AIHeroClient))
-                return;
-
-            var attacker = missile.SpellCaster as AIHeroClient;
-            if(attacker == null)
-                return;
-            var slot = attacker.GetSpellSlotFromName(missile.SData.Name);
-            if (slot != SpellSlot.Unknown && attacker.GetSpellDamage(EntityManager.Heroes.Allies[me], slot) >= Settings.minDamage || dangerousSpell(slot, attacker))
-            {
-                Console.WriteLine(attacker.ChampionName + slot);
-                blockThese.Add(missile);
-            }
-        }*/
 
         private static bool dangerousAA(AIHeroClient attacker)
         {
