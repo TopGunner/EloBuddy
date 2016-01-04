@@ -53,6 +53,8 @@ namespace MissFortune
 
         private static void UnkillableMinion(Obj_AI_Base target, Orbwalker.UnkillableMinionArgs args)
         {
+            if (Config.Modes.Harass.Mana >= Player.Instance.ManaPercent)
+                return;
             if (Settings.useQFarm && Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LastHit) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
                 if (SpellManager.Q.IsReady() && target.IsInRange(Player.Instance, SpellManager.Q.Range))
