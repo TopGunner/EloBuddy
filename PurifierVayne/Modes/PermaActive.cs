@@ -10,17 +10,15 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = AshesToAshes.Config.Misc;
+using Settings = PurifierVayne.Config.Misc;
 
-namespace AshesToAshes.Modes
+namespace PurifierVayne.Modes
 {
     public sealed class PermaActive : ModeBase
     {
-        List<AIHeroClient> tracker = new List<AIHeroClient>();
         int currentSkin = 0;
         bool bought = false;
         int ticks = 0;
-        int Rticks = 0;
         public override bool ShouldBeExecuted()
         {
             // Since this is permaactive mode, always execute the loop
@@ -29,45 +27,26 @@ namespace AshesToAshes.Modes
 
         public override void Execute()
         {
-            ksWithW();
-            useAutoW();
             autoBuyStartingItems();
             skinChanger();
-            castE();
             castQSS();
-            trackEnemies();
+            ks();
         }
 
-        private void trackEnemies()
+        private void ks()
         {
-            if (!Settings.useE)
-                return;
-            foreach (var e in tracker)
+            foreach (var enemy in EntityManager.Heroes.Enemies.Where(target => target.HealthPercent > 0 && !target.IsInvulnerable && target.IsEnemy && !target.IsPhysicalImmune && !target.IsZombie))
             {
-                if (!e.IsVisible)
+                if (enemy.IsInRange(Player.Instance, E.Range) && Config.ESettings.ksE && E.IsReady())
                 {
-                    E.Cast(E.GetPrediction(e).CastPosition);
-                }
-            }
-            tracker = new List<AIHeroClient>();
-            foreach(var e in EntityManager.Heroes.Enemies.Where(t => t.Distance(Player.Instance) < 700 && !t.IsDead && !t.IsInvulnerable && t.IsTargetable && !t.IsZombie))
-            {
-                if (e.IsVisible)
-                    tracker.Add(e);
-            }
-        }
-
-        private void useAutoW()
-        {
-            if (Settings.useAutoW && W.IsReady() && Player.Instance.ManaPercent >= Settings.autoWMana)
-            {
-                var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
-                if (target != null && W.GetPrediction(target).HitChance >= HitChance.High)
-                {
-                    W.Cast(W.GetPrediction(target).CastPosition);
+                    if (enemy.Health < DamageLibrary.GetSpellDamage(Player.Instance, enemy, SpellSlot.E))
+                    {
+                        E.Cast(enemy);
+                    }
                 }
             }
         }
+
 
         private bool castQSS()
         {
@@ -92,26 +71,6 @@ namespace AshesToAshes.Modes
             return false;
         }
 
-        private void castE()
-        {
-            //TODO
-        }
-
-        private void ksWithW()
-        {
-            if (Settings.ksW && W.IsReady())
-            {
-                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.W)))
-                {
-                    if (W.GetPrediction(e).HitChance >= HitChance.Medium)
-                    {
-                        W.Cast(W.GetPrediction(e).CastPosition);
-                        return;
-                    }
-                }
-            }
-        }
-
         private void autoBuyStartingItems()
         {
             if (bought || ticks / Game.TicksPerSecond < 3)
@@ -119,7 +78,6 @@ namespace AshesToAshes.Modes
                 ticks++;
                 return;
             }
-
             bought = true;
             if (Settings.autoBuyStartingItems)
             {
@@ -151,7 +109,7 @@ namespace AshesToAshes.Modes
                 {
                     return;
                 }
-                int[] leveler = new int[] { 2, 1, 2, 3, 2, 4, 2, 1, 2, 1, 4, 1, 1, 3, 3, 4, 3, 3 };
+                int[] leveler = new int[] { 1, 2, 3, 1, 1, 4, 1, 2, 1, 2, 4, 2, 2, 3, 3, 4, 3, 3 };
                 int skill = leveler[Player.Instance.Level];
 
                 if (skill == 1)
