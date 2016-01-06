@@ -34,7 +34,7 @@ namespace PurifierVayne.Modes
 
         internal static void Spellblade(AttackableUnit target, EventArgs args)
         {
-            if (Settings.Mana >= Player.Instance.ManaPercent || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || !Settings.UseQ)
+            if (Settings.Mana >= Player.Instance.ManaPercent || !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) || !Settings.UseQ || Player.Instance.CountEnemiesInRange(850) == 0)
                 return;
             SpellManager.CastQ(true);
         }

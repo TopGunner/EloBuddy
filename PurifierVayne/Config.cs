@@ -410,6 +410,7 @@ namespace PurifierVayne
                     Menu.AddGroupLabel("Lane Clear");
                     _useQ = Menu.Add("clearUseQ", new CheckBox("Use Q"));
                     _mana = Menu.Add("clearMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
+                    _useE = Menu.Add("clearUseE", new CheckBox("JungleClear E"));
                 }
 
                 public static void Initialize()

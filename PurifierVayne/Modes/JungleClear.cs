@@ -25,16 +25,25 @@ namespace PurifierVayne.Modes
         {
             if (E.IsReady() && Settings.UseE)
             {
-                foreach (var e in EntityManager.MinionsAndMonsters.CombinedAttackable.Where(t => t.IsValidTarget(E.Range) && t.Health > 1000 && t.Team == GameObjectTeam.Neutral && t.IsVisible && !t.IsDead))
+                foreach (var e in EntityManager.MinionsAndMonsters.CombinedAttackable.Where(t => t != null && t.IsValidTarget(E.Range) && t.Health > 1000 && t.Team == GameObjectTeam.Neutral && t.IsVisible && !t.IsDead))
                 {
-                    if (e.HasBuffOfType(BuffType.SpellImmunity) || e.HasBuffOfType(BuffType.SpellShield))
+                    if (e == null || e.HasBuffOfType(BuffType.SpellImmunity) || e.HasBuffOfType(BuffType.SpellShield))
                         continue;
 
                     Vector2 castTo = Prediction.Position.PredictUnitPosition(e, 500);
-                    for (int i = 0; i < 475; i += 10)
+                    Vector3 pos = e.ServerPosition;
+                    var pred = SpellManager.E2.GetPrediction(e);
+                    for (int i = 0; i < 410; i += 10)
                     {
-                        var coll = Player.Instance.Position.Extend(castTo, Player.Instance.Distance(castTo) + i).To3D();
-                        if ((coll.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Wall) || coll.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Building)))
+                        var coll = Player.Instance.Position.To2D().Extend(pred.UnitPosition.To2D(), i + Player.Instance.Distance(pred.UnitPosition));
+                        var collOrigin = Player.Instance.Position.To2D().Extend(pred.CastPosition.To2D(), i + Player.Instance.Distance(pred.CastPosition));
+                        var coll2 = Player.Instance.ServerPosition.Extend(castTo, Player.Instance.Distance(castTo) + i).To3D();
+                        var collOrigin2 = Player.Instance.ServerPosition.Extend(pos, Player.Instance.Distance(pos) + i).To3D();
+                        if ((coll.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Wall) || coll.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Building)) ||
+                            (collOrigin.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Wall) || collOrigin.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Building)) ||
+                            (coll2.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Wall) || coll.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Building)) ||
+                            (collOrigin2.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Wall) || collOrigin.ToNavMeshCell().CollFlags.HasFlag(CollisionFlags.Building))
+                            )
                         {
                             E.Cast(e);
                             break;
