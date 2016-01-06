@@ -254,7 +254,7 @@ namespace PurifierVayne
                 _useQOnGapcloser = Menu.Add("useQOnGapcloser", new CheckBox("Use Q on Gapcloser", false));
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
-                _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
+                _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)", false));
                 Menu.AddSeparator();
                 _useSkinHack = Menu.Add("useSkinHack", new CheckBox("Use Skinhack", false));
                 _skinId = Menu.Add("skinId", new Slider("Skin ID", 6, 1, 10));
