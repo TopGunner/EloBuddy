@@ -58,11 +58,23 @@ namespace PurifierVayne
             Orbwalker.OnPostAttack += Modes.LaneClear.Spellblade;
             Orbwalker.OnPostAttack += Modes.JungleClear.Spellblade;
             Orbwalker.OnPostAttack += Modes.Harass.Spellblade;
+            Orbwalker.OnPostAttack += CondemnAfterNextAA;
             Orbwalker.OnUnkillableMinion += Modes.LastHit.Unkillable;
             Interrupter.OnInterruptableSpell += Interrupter_OnInterruptableSpell;
             Obj_AI_Base.OnProcessSpellCast += SpellManager.OnProcessSpellCast;
             Evade.Evade.Initialize();
             
+        }
+
+        private static void CondemnAfterNextAA(AttackableUnit target, EventArgs args)
+        {
+            if (Config.ESettings.condemnAfterNextAA)
+            {
+                if (target is AIHeroClient)
+                {
+                    SpellManager.E.Cast((AIHeroClient)target);
+                }
+            }
         }
 
         private static void Interrupter_OnInterruptableSpell(Obj_AI_Base sender, Interrupter.InterruptableSpellEventArgs e)
@@ -115,9 +127,9 @@ namespace PurifierVayne
         private static void OnDraw(EventArgs args)
         {
             // Draw range circles of our spells
-            if(Settings._drawQ.CurrentValue)
+            if(Settings._drawQ.CurrentValue && (SpellManager.Q.IsReady() || !Settings.drawReady))
                 Circle.Draw(Color.Red, SpellManager.Q.Range, Player.Instance.Position);
-            if (Settings._drawE.CurrentValue)
+            if (Settings._drawE.CurrentValue && (SpellManager.E.IsReady() || !Settings.drawReady))
                 Circle.Draw(Color.DarkGreen, SpellManager.E.Range, Player.Instance.Position);
 
         }

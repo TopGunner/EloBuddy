@@ -152,7 +152,10 @@ namespace PurifierVayne
             {
                 get { return _useEOnGapcloser.CurrentValue; }
             }
-
+            public static bool condemnAfterNextAA
+            {
+                get { return Menu["CondemnHotkey"].Cast<KeyBind>().CurrentValue; }
+            }
             static ESettings()
             {
                 Menu = Config.Menu.AddSubMenu("E Settings");
@@ -166,6 +169,7 @@ namespace PurifierVayne
                 _interruptE = Menu.Add("interruptE", new CheckBox("Interrupt with E"));
                 _ksE = Menu.Add("ksE", new CheckBox("KS with E", false));
                 _useEOnGapcloser = Menu.Add("useEOnGapcloser", new CheckBox("use E on Gapcloser", false));
+                Menu.Add("CondemnHotkey", new KeyBind("Condemn After Next AA", false, KeyBind.BindTypes.HoldActive, 'Y'));
             }
 
             public static void Initialize()
@@ -178,9 +182,8 @@ namespace PurifierVayne
 
             private static readonly Menu Menu;
             public static readonly CheckBox _drawQ;
-            public static readonly CheckBox _drawW;
             public static readonly CheckBox _drawE;
-            public static readonly CheckBox _drawR;
+            public static readonly CheckBox _drawReady;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
             private static readonly CheckBox _useQOnGapcloser;
@@ -232,6 +235,10 @@ namespace PurifierVayne
             {
                 get { return _cleanseStun.CurrentValue; }
             }
+            public static bool drawReady
+            {
+                get { return _drawReady.CurrentValue; }
+            }
 
 
             static Misc()
@@ -239,9 +246,8 @@ namespace PurifierVayne
                 // Initialize the menu values
                 Menu = Config.Menu.AddSubMenu("Misc");
                 _drawQ = Menu.Add("drawQ", new CheckBox("Draw Q"));
-                _drawW = Menu.Add("drawW", new CheckBox("Draw W"));
                 _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
-                _drawR = Menu.Add("drawR", new CheckBox("Draw R"));
+                _drawReady = Menu.Add("drawReady", new CheckBox("Draw Ranges if only if skills are ready"));
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));

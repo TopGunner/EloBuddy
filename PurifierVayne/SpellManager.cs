@@ -97,25 +97,34 @@ namespace PurifierVayne
                 {
                     if (!defQ())
                     {
+                        bool good = true;
                         foreach (var e in EntityManager.Heroes.Enemies.Where(t => t.IsInRange(Player.Instance, 850) && t.HealthPercent > 0))
                         {
-                            if (e.Distance(Player.Instance) < 550 && pos.CountEnemiesInRange(550) - (pos.CountAlliesInRange(450) + 1) <= Config.QSettings.defQ && Math.Abs(e.Distance(pos) - 550) < 150)
+                            if (!(Math.Abs(e.Distance(pos) - 550) < 150) && pos.CountEnemiesInRange(550) - (pos.CountAlliesInRange(450) + 1) <= Config.QSettings.defQ)
                             {
-                                goodOnes.Add(pos);
-                                break;
+                                good = false;
                             }
+                        }
+                        if (good)
+                        {
+                            goodOnes.Add(pos);
                         }
                     }
                     else
                     {
+                        bool good = true;
                         foreach (var e in EntityManager.Heroes.Enemies.Where(t => t.IsInRange(Player.Instance, 850) && t.HealthPercent > 0))
                         {
-                            if (e.Distance(pos) - 550 > 0 && e.Distance(pos) - 550 < 50 && pos.CountEnemiesInRange(550) == 0)
+                            if (!(e.Distance(pos) - 550 > 0 && e.Distance(pos) - 550 < 50 && pos.CountEnemiesInRange(550) == 0))
                             {
-                                goodOnes.Add(pos);
-                                break;
+                                good = false;
                             }
                         }
+                        if (good)
+                        {
+                            goodOnes.Add(pos);
+                        }
+
                     }
                 }
             }
@@ -189,9 +198,9 @@ namespace PurifierVayne
                 if (e.HasBuffOfType(BuffType.SpellImmunity) || e.HasBuffOfType(BuffType.SpellShield))
                     continue;
 
-                Vector2 castTo = Prediction.Position.PredictUnitPosition(e, 500);
+                Vector2 castTo = Prediction.Position.PredictUnitPosition(e, 600);
                 Vector3 pos = e.ServerPosition;
-                for (float i = 0; i < 410; i += e.BoundingRadius)
+                for (float i = e.BoundingRadius / 2; i < 410; i += e.BoundingRadius)
                 {
                     var coll = Player.Instance.ServerPosition.Extend(castTo, Player.Instance.Distance(castTo) + i).To3D();
                     var collOrigin = Player.Instance.ServerPosition.Extend(pos, Player.Instance.Distance(pos) + i).To3D();
