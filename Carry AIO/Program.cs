@@ -49,6 +49,10 @@ namespace CarryAIO
             {
                 SivirDamage.Program.OnLoadingComplete(args);
             }
+            else if (Player.Instance.ChampionName == "Vayne")
+            {
+                PurifierVayne.Program.OnLoadingComplete(args);
+            }
         }
     }
 }
