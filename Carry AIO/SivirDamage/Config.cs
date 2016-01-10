@@ -97,7 +97,7 @@ namespace SivirDamage
                 Menu.AddSeparator();
                 _ksQ = Menu.Add("ksQ", new CheckBox("Smart KS with Q"));
                 _useE = Menu.Add("useE", new CheckBox("use E"));
-                Menu.Add("minDamageE", new Slider("minimum damage to Spellshield", 100, 1, 1000));
+                Menu.Add("minDamageE", new Slider("min. damage of %HP to Spellshield", 20, 1, 100));
                 Menu.AddSeparator();
                 _useHeal = Menu.Add("useHeal", new CheckBox("Use Heal Smart"));
                 _useQSS = Menu.Add("useQSS", new CheckBox("Use QSS"));
@@ -108,9 +108,9 @@ namespace SivirDamage
                 }
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
-                _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)"));
+                _autoBuyStartingItems = Menu.Add("autoBuyStartingItems", new CheckBox("Autobuy Starting Items (SR only)", false));
                 Menu.AddSeparator();
-                _useSkinHack = Menu.Add("useSkinHack", new CheckBox("Use Skinhack"));
+                _useSkinHack = Menu.Add("useSkinHack", new CheckBox("Use Skinhack", false));
                 _skinId = Menu.Add("skinId", new Slider("Skin ID", 5, 1, 9));
             }
 

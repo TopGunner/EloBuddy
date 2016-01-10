@@ -76,7 +76,7 @@ namespace SivirDamage
                     }
                     if (caster != null && (skillshot.IsGlobal || caster.Distance(Player.Instance) <= skillshot.SpellData.Range + 50))
                     {
-                        if (DamageLibrary.GetSpellDamage(caster, Player.Instance, skillshot.SpellData.Slot) > Settings.minDamage)
+                        if (DamageLibrary.GetSpellDamage(caster, Player.Instance, skillshot.SpellData.Slot) > Settings.minDamage/100 * Player.Instance.MaxHealth)
                         {
                             SpellManager.E.Cast();
                             break;
@@ -168,7 +168,7 @@ namespace SivirDamage
                                         
                                         if (i != me)
                                             continue;
-                                        if(Settings.useE &&  (attacker.GetSpellDamage(EntityManager.Heroes.Allies[me], slot) >= Settings.minDamage || dangerousSpell(slot, attacker)))
+                                        if (Settings.useE && (attacker.GetSpellDamage(EntityManager.Heroes.Allies[me], slot) >= Settings.minDamage / 100 * Player.Instance.MaxHealth || dangerousSpell(slot, attacker)))
                                         {
                                             //dangerous targeted spell, not covered by Evade
                                             if (args.Target != null)

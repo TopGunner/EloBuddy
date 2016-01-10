@@ -31,7 +31,6 @@ namespace MissFortune.Modes
             if (Combo.Rchanneling)
             {
                 Rticks++;
-                Console.WriteLine(Rticks);
                 if (!Combo.RcameOut && Rticks > 10)
                 {
                     Orbwalker.DisableAttacking = false;

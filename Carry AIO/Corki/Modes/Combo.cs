@@ -59,7 +59,6 @@ namespace Corki.Modes
                 {
                     if(Prediction.Position.Collision.LinearMissileCollision(e, Player.Instance.Position.To2D(), Player.Instance.Position.Extend(target, W.Range), W.Speed, W.Width, 0))
                     {
-                        Console.WriteLine(e.Name);
                         counter++;
                     }
 
