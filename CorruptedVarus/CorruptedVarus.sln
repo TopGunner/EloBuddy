@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corki", "Corki.csproj", "{6CE561E6-368D-4E58-BFBB-77F4E96EF5C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorruptedVarus", "CorruptedVarus.csproj", "{6CE561E6-368D-4E58-BFBB-77F4E96EF5C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
