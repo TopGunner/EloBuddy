@@ -18,10 +18,7 @@ namespace AshesToAshes.Modes
     {
         public override bool ShouldBeExecuted()
         {
-            if (Game.MapId == GameMapId.SummonersRift)
-                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
-            else
-                return false;
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
         }
 
         public override void Execute()
