@@ -41,8 +41,11 @@ namespace CorruptedVarus.Modes
             if (Settings.UseQ && Q.IsFullyCharged && Q.IsCharging && SpellManager.isCharging)
             {
                 var target = TargetSelector.GetTarget(1400, DamageType.Physical);
-                Q.Cast(Q.GetPrediction(target).CastPosition);
-                SpellManager.isCharging = false;
+                if (target != null)
+                {
+                    Q.Cast(Q.GetPrediction(target).CastPosition);
+                    SpellManager.isCharging = false;
+                }
             }
             if (Settings.UseQ && Q.IsReady() && Q.IsFullyCharged && Q.IsCharging && SpellManager.isCharging)
             {
