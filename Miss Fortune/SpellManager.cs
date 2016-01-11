@@ -49,8 +49,6 @@ namespace MissFortune
         {
         }
 
-
-
         internal static void castQ(bool NotkillOnly, bool killMinionOnly)
         {
             foreach (var killable in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1000) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && (e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.Q) || NotkillOnly)))
@@ -61,15 +59,15 @@ namespace MissFortune
                     if (b.Name == "missfortunepassivestack")
                         buff = true;
                 }
-
                 foreach (var t in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && e.Position.Distance(killable) < 500))
                 {
-                    if (t.Position.AngleBetween(killable.Position) < 0.6981 && buff && t.Position.AngleBetween(killable.Position) > 0)
+                    Vector3 meToTarget = t.Position - Player.Instance.Position;
+                    if (meToTarget.AngleBetween(killable.Position) < 0.6981 && buff && meToTarget.AngleBetween(killable.Position) > 0)
                     {
                         Q.Cast(t);
                         return;
                     }
-                    else if (t.Position.AngleBetween(killable.Position) < 0.349066 && t.Position.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killable.Position) < 0.349066 && meToTarget.AngleBetween(killable.Position) > 0)
                     {
                         int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 0.349066 && t.Position.AngleBetween(killable.Position) > 0).Count();
                         if (m == 0)
@@ -78,7 +76,7 @@ namespace MissFortune
                             return;
                         }
                     }
-                    else if (t.Position.AngleBetween(killable.Position) < 0.6981 && t.Position.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killable.Position) < 0.6981 && meToTarget.AngleBetween(killable.Position) > 0)
                     {
                         int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 0.6981 && t.Position.AngleBetween(killable.Position) > 0).Count();
                         if (m == 0)
@@ -87,7 +85,7 @@ namespace MissFortune
                             return;
                         }
                     }
-                    else if (t.Position.AngleBetween(killable.Position) < 1.9 && t.Position.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killable.Position) < 1.9 && meToTarget.AngleBetween(killable.Position) > 0)
                     {
                         int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 1.9 && t.Position.AngleBetween(killable.Position) > 0).Count();
                         if (m == 0)
@@ -99,12 +97,13 @@ namespace MissFortune
                 }
                 foreach (var t in EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(Player.Instance, Q.Range) && e.Position.Distance(killable) < 500 && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && (!killMinionOnly || e.Health < Player.Instance.GetSpellDamage(e, SpellSlot.Q))).OrderBy(t => t.Health))
                 {
-                    if (t.Position.AngleBetween(killable.Position) < 0.6981 && buff && t.Position.AngleBetween(killable.Position) > 0)
+                    Vector3 meToTarget = t.Position - Player.Instance.Position;
+                    if (meToTarget.AngleBetween(killable.Position) < 0.6981 && buff && meToTarget.AngleBetween(killable.Position) > 0)
                     {
                         Q.Cast(t);
                         return;
                     }
-                    else if (t.Position.AngleBetween(killable.Position) < 0.349066 && t.Position.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killable.Position) < 0.349066 && meToTarget.AngleBetween(killable.Position) > 0)
                     {
                         int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 0.349066 && t.Position.AngleBetween(killable.Position) > 0).Count();
                         if (m == 0)
@@ -113,7 +112,7 @@ namespace MissFortune
                             return;
                         }
                     }
-                    else if (t.Position.AngleBetween(killable.Position) < 0.6981 && t.Position.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killable.Position) < 0.6981 && meToTarget.AngleBetween(killable.Position) > 0)
                     {
                         int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 0.6981 && t.Position.AngleBetween(killable.Position) > 0).Count();
                         if (m == 0)
@@ -122,7 +121,7 @@ namespace MissFortune
                             return;
                         }
                     }
-                    else if (t.Position.AngleBetween(killable.Position) < 1.9 && t.Position.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killable.Position) < 1.9 && meToTarget.AngleBetween(killable.Position) > 0)
                     {
                         int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 1.9 && t.Position.AngleBetween(killable.Position) > 0).Count();
                         if (m == 0)
