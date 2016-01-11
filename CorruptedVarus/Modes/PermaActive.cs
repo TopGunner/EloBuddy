@@ -108,7 +108,7 @@ namespace CorruptedVarus.Modes
         {
             foreach (var enemy in EntityManager.Heroes.Enemies.Where(target => target.HealthPercent > 0 && !target.IsInvulnerable && target.IsEnemy && !target.IsPhysicalImmune && !target.IsZombie))
             {
-                if (enemy.IsInRange(Player.Instance, Q.Range) && Settings.ksQ && Q.IsReady())
+                if (enemy.IsInRange(Player.Instance, Q.MinimumRange) && Settings.ksQ && Q.IsReady())
                 {
                     if (enemy.Health < DamageLibrary.GetSpellDamage(Player.Instance, enemy, SpellSlot.Q))
                     {
