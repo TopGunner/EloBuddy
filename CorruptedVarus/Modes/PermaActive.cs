@@ -38,6 +38,10 @@ namespace CorruptedVarus.Modes
 
         private void letQGo()
         {
+            if (Q.IsOnCooldown)
+            {
+                SpellManager.isCharging = false;
+            }
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)
                 || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)
                 || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear)
@@ -45,10 +49,6 @@ namespace CorruptedVarus.Modes
                 )
             {
                 return;
-            }
-            if (Q.IsOnCooldown)
-            {
-                SpellManager.isCharging = false;
             }
             if (Q.IsFullyCharged && Q.IsCharging && SpellManager.isCharging)
             {

@@ -23,6 +23,7 @@ namespace CorruptedVarus.Modes
 
         public override void Execute()
         {
+            //Console.WriteLine("fully " + Q.IsFullyCharged + " SpellMGR " + SpellManager.isCharging + " their charging " + Q.IsCharging);
             if (Settings.mana >= Player.Instance.ManaPercent)
                 return;
 
