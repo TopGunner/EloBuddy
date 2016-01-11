@@ -36,13 +36,13 @@ namespace CorruptedVarus.Modes
                         Q.StartCharging();
                         SpellManager.isCharging = true;
                     }
-                    if (Q.IsFullyCharged && Q.IsCharging && SpellManager.isCharging)
-                    {
-                        Q.Cast(Q.GetPrediction(target).CastPosition);
-                        SpellManager.isCharging = false;
-                    }
-
                 }
+            }
+            if (Settings.UseQ && Q.IsFullyCharged && Q.IsCharging && SpellManager.isCharging)
+            {
+                var target = TargetSelector.GetTarget(1400, DamageType.Physical);
+                Q.Cast(Q.GetPrediction(target).CastPosition);
+                SpellManager.isCharging = false;
             }
             if (Settings.UseQ && Q.IsReady() && Q.IsFullyCharged && Q.IsCharging && SpellManager.isCharging)
             {
@@ -73,7 +73,7 @@ namespace CorruptedVarus.Modes
             if (Settings.UseE && E.IsReady() && Settings.UseEInstant && (!Q.IsCharging || !SpellManager.isCharging))
             {
                 var target = TargetSelector.GetTarget(E.Range, DamageType.Physical);
-                if (target != null && E.GetPrediction(target).HitChance >= HitChance.Medium)
+                if (target != null)
                 {
                     E.Cast(E.GetPrediction(target).CastPosition);
                 }

@@ -45,7 +45,7 @@ namespace CorruptedVarus.Modes
             if (Settings.UseE && E.IsReady() && (!Q.IsCharging || !SpellManager.isCharging))
             {
                 var target = TargetSelector.GetTarget(SpellManager.E.Range, DamageType.Physical);
-                if (target != null && R.GetPrediction(target).HitChance >= HitChance.Medium)
+                if (target != null)
                 {
                     E.Cast(E.GetPrediction(target).CastPosition);
                 }
