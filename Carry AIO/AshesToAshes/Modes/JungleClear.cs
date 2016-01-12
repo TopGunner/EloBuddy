@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = AshesToAshes.Config.Modes.LaneClear;
+using Settings = AshesToAshes.Config.Modes.JungleClear;
 
 namespace AshesToAshes.Modes
 {
@@ -18,10 +18,7 @@ namespace AshesToAshes.Modes
     {
         public override bool ShouldBeExecuted()
         {
-            if (Game.MapId == GameMapId.SummonersRift)
-                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
-            else
-                return false;
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
         }
 
         public override void Execute()

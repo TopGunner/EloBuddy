@@ -155,6 +155,7 @@ namespace Corki
                 // Harass
                 Harass.Initialize();
                 LaneClear.Initialize();
+                JungleClear.Initialize();
             }
 
             public static void Initialize()
@@ -301,6 +302,44 @@ namespace Corki
                     _useE = Menu.Add("clearUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("clearUseR", new CheckBox("Use R"));
                     _mana = Menu.Add("clearMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
+                }
+
+                public static void Initialize()
+                {
+                }
+            }
+            public static class JungleClear
+            {
+                private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useE;
+                private static readonly CheckBox _useR;
+                private static readonly Slider _mana;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+                public static bool UseE
+                {
+                    get { return _useE.CurrentValue; }
+                }
+                public static bool UseR
+                {
+                    get { return _useR.CurrentValue; }
+                }
+                public static int mana
+                {
+                    get { return _mana.CurrentValue; }
+                }
+
+                static JungleClear()
+                {
+                    // Initialize the menu values
+                    Menu.AddGroupLabel("Jungle Clear");
+                    _useQ = Menu.Add("jglUseQ", new CheckBox("Use Q"));
+                    _useE = Menu.Add("jglUseE", new CheckBox("Use E"));
+                    _useR = Menu.Add("jglUseR", new CheckBox("Use R"));
+                    _mana = Menu.Add("jglMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
                 }
 
                 public static void Initialize()

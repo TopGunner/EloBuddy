@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = Anivia.Config.Modes.LaneClear;
+using Settings = Anivia.Config.Modes.JungleClear;
 
 namespace Anivia.Modes
 {

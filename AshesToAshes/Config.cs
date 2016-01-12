@@ -143,6 +143,7 @@ namespace AshesToAshes
                 // Harass
                 Harass.Initialize();
                 LaneClear.Initialize();
+                JungleClear.Initialize();
                 Flee.Initialize();
             }
 
@@ -268,6 +269,38 @@ namespace AshesToAshes
                     _useQ = Menu.Add("clearUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("clearUseW", new CheckBox("Use W"));
                     _mana = Menu.Add("clearMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
+                }
+
+                public static void Initialize()
+                {
+                }
+            }
+            public static class JungleClear
+            {
+                private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useW;
+                private static readonly Slider _mana;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+                public static bool UseW
+                {
+                    get { return _useW.CurrentValue; }
+                }
+                public static int mana
+                {
+                    get { return _mana.CurrentValue; }
+                }
+
+                static JungleClear()
+                {
+                    // Initialize the menu values
+                    Menu.AddGroupLabel("Jungle Clear");
+                    _useQ = Menu.Add("jglUseQ", new CheckBox("Use Q"));
+                    _useW = Menu.Add("jglUseW", new CheckBox("Use W"));
+                    _mana = Menu.Add("jglMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
                 }
 
                 public static void Initialize()

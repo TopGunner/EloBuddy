@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = Kitelyn.Config.Modes.LaneClear;
+using Settings = Kitelyn.Config.Modes.JungleClear;
 
 namespace Kitelyn.Modes
 {

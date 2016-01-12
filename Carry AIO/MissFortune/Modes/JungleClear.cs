@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = MissFortune.Config.Modes.LaneClear;
+using Settings = MissFortune.Config.Modes.JungleClear;
 
 namespace MissFortune.Modes
 {

@@ -10,43 +10,39 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = CorruptedVarus.Config.Modes.JungleClear;
-
+using Settings = CorruptedVarus.Config.Modes.LaneClear;
 namespace CorruptedVarus.Modes
 {
-    public sealed class JungleClear : ModeBase
+    public sealed class LaneClear : ModeBase
     {
         public override bool ShouldBeExecuted()
         {
-            if (Game.MapId == GameMapId.SummonersRift)
-                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
-            else
-                return false;
+            // Only execute this mode when the orbwalker is on laneclear mode
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear);
         }
 
         public override void Execute()
         {
+            //Console.WriteLine("fully " + Q.IsFullyCharged + " SpellMGR " + SpellManager.isCharging + " their charging " + Q.IsCharging);
             if (Settings.mana >= Player.Instance.ManaPercent)
                 return;
+
             if (Settings.UseQ && Q.IsReady())
             {
-                var minions = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable);
+                var minions = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, Q.Range));
                 Obj_AI_Base m0 = null;
-                if (!Q.IsCharging || !SpellManager.isCharging)
+                foreach (var m in minions)
                 {
-                    foreach (var m in minions)
+                    if (!Q.IsCharging || !SpellManager.isCharging)
                     {
-                        if (Q.GetPrediction(m).CollisionObjects.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable).Count() >= minions.Count() - 1)
+                        if (Q.GetPrediction(m).CollisionObjects.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable).Count() >= 3)
                         {
                             Q.StartCharging();
                             SpellManager.isCharging = true;
                             break;
                         }
                     }
-                }
-                if (Q.IsFullyCharged && Q.IsCharging && SpellManager.isCharging)
-                {
-                    foreach (var m in minions)
+                    if (Q.IsFullyCharged && Q.IsCharging && SpellManager.isCharging)
                     {
                         if (m0 == null)
                         {
@@ -67,7 +63,7 @@ namespace CorruptedVarus.Modes
             }
             if (Settings.UseE && E.IsReady() && (!Q.IsCharging || !SpellManager.isCharging))
             {
-                var minions = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable);
+                var minions = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range));
                 foreach (var m in minions)
                 {
                     if (m.GetBuffCount("varuswdebuff") == 2)

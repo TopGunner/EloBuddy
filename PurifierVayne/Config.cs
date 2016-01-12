@@ -289,6 +289,7 @@ namespace PurifierVayne
                 // Harass
                 Harass.Initialize();
                 LaneClear.Initialize();
+                JungleClear.Initialize();
             }
 
             public static void Initialize()
@@ -394,6 +395,33 @@ namespace PurifierVayne
             public static class LaneClear
             {
                 private static readonly CheckBox _useQ;
+                private static readonly Slider _mana;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+                public static int mana
+                {
+                    get { return _mana.CurrentValue; }
+                }
+
+                static LaneClear()
+                {
+                    // Initialize the menu values
+                    Menu.AddGroupLabel("Lane Clear");
+                    _useQ = Menu.Add("clearUseQ", new CheckBox("Use Q"));
+                    _mana = Menu.Add("clearMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
+                }
+
+                public static void Initialize()
+                {
+                }
+            }
+
+            public static class JungleClear
+            {
+                private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useE;
                 private static readonly Slider _mana;
 
@@ -410,13 +438,13 @@ namespace PurifierVayne
                     get { return _mana.CurrentValue; }
                 }
 
-                static LaneClear()
+                static JungleClear()
                 {
                     // Initialize the menu values
-                    Menu.AddGroupLabel("Lane Clear");
-                    _useQ = Menu.Add("clearUseQ", new CheckBox("Use Q"));
-                    _mana = Menu.Add("clearMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
-                    _useE = Menu.Add("clearUseE", new CheckBox("JungleClear E"));
+                    Menu.AddGroupLabel("Jungle Clear");
+                    _useQ = Menu.Add("jglUseQ", new CheckBox("Use Q"));
+                    _mana = Menu.Add("jglMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
+                    _useE = Menu.Add("jglUseE", new CheckBox("Use E"));
                 }
 
                 public static void Initialize()

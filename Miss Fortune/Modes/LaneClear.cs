@@ -40,7 +40,7 @@ namespace MissFortune.Modes
             if (Settings.UseW && W.IsReady())
             {
                 var minion = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsInRange(Player.Instance.Position, Q.Range) && !t.IsDead && t.IsValid && !t.IsInvulnerable).Count();
-                if (minion != null)
+                if (minion > 0)
                 {
                     W.Cast();
                 }

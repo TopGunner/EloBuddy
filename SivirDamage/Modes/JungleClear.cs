@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = SivirDamage.Config.Modes.LaneClear;
+using Settings = SivirDamage.Config.Modes.JungleClear;
 
 namespace SivirDamage.Modes
 {

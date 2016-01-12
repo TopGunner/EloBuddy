@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = PurifierVayne.Config.Modes.LaneClear;
+using Settings = PurifierVayne.Config.Modes.JungleClear;
 
 namespace PurifierVayne.Modes
 {

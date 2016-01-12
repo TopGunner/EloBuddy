@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = RoamQueenQuinn.Config.Modes.LaneClear;
+using Settings = RoamQueenQuinn.Config.Modes.JungleClear;
 
 namespace RoamQueenQuinn.Modes
 {

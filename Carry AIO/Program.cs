@@ -53,6 +53,10 @@ namespace CarryAIO
             {
                 PurifierVayne.Program.OnLoadingComplete(args);
             }
+            else if (Player.Instance.ChampionName == "Varus")
+            {
+                CorruptedVarus.Program.OnLoadingComplete(args);
+            }
         }
     }
 }

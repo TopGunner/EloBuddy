@@ -10,7 +10,7 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-using Settings = Corki.Config.Modes.LaneClear;
+using Settings = Corki.Config.Modes.JungleClear;
 
 namespace Corki.Modes
 {
@@ -18,10 +18,7 @@ namespace Corki.Modes
     {
         public override bool ShouldBeExecuted()
         {
-            if (Game.MapId == GameMapId.SummonersRift)
-                return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
-            else
-                return false;
+            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
         }
 
         public override void Execute()
