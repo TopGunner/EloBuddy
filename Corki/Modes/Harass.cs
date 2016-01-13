@@ -31,7 +31,7 @@ namespace Corki.Modes
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
                 if (target != null && Q.GetPrediction(target).HitChance >= HitChance.High)
                 {
-                    Q.Cast(target);
+                    Q.Cast(Q.GetPrediction(target).CastPosition);
                 }
             }
             if (Settings.UseR && R.IsReady())
@@ -39,7 +39,7 @@ namespace Corki.Modes
                 var target = TargetSelector.GetTarget(SpellManager.R.Range, DamageType.Physical);
                 if (target != null && R.GetPrediction(target).HitChance >= HitChance.High)
                 {
-                    R.Cast(target);
+                    R.Cast(R.GetPrediction(target).CastPosition);
                 }
             }
         }
