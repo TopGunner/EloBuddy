@@ -1,3 +1,13 @@
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\Anivia.exe.config
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\obj\Debug\Anivia.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\obj\Debug\Anivia.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\Anivia.exe
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\Anivia.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\EloBuddy.dll
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\EloBuddy.SDK.dll
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\SharpDX.dll
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\SharpDX.Direct3D9.dll
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\Newtonsoft.Json.dll
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\obj\Debug\UltimateZhonyas.csprojResolveAssemblyReference.cache
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\Ul.exe.config
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\UltimateZhonyas\bin\Debug\UltimateZhonyas.exe.config
