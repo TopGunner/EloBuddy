@@ -186,7 +186,7 @@ namespace UltimateZhonyas
                                     case SpellSlot.E:
                                     case SpellSlot.R:
 
-                                        if ((args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId) || args.End.Distance(Player.Instance.ServerPosition) < Math.Pow(args.SData.LineWidth, 2))
+                                        if ((args.Target != null && args.Target.NetworkId == Player.Instance.NetworkId))
                                         {
                                             // Instant damage to target
                                             InstDamage[Game.Time + 2] = attacker.GetSpellDamage(Player.Instance, slot);
