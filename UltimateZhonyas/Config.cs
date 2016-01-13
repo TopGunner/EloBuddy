@@ -43,6 +43,9 @@ namespace UltimateZhonyas
             private static readonly CheckBox _useZhonyasDmg;
             private static readonly CheckBox _useZhonyasCC;
             private static readonly CheckBox _useSpellshields;
+            private static readonly Slider _hpPercent;
+            private static readonly Slider _minDmgZhonyas;
+            private static readonly Slider _minDmgSerpaphs;
 
             public static bool useSeraphsDmg
             {
@@ -64,6 +67,18 @@ namespace UltimateZhonyas
             {
                 get { return _useSpellshields.CurrentValue; }
             }
+            public static int hpPercent
+            {
+                get { return _hpPercent.CurrentValue; }
+            }
+            public static int minDmgZhonyas
+            {
+                get { return _minDmgZhonyas.CurrentValue; }
+            }
+            public static int minDmgSerpaphs
+            {
+                get { return _minDmgSerpaphs.CurrentValue; }
+            }
 
             public static readonly CheckBox[] _skills = new CheckBox[EntityManager.Heroes.Enemies.Count()*4];
 
@@ -79,6 +94,9 @@ namespace UltimateZhonyas
                 Menu.AddSeparator();
                 _useSpellshields = Menu.Add("useSpellshields", new CheckBox("Use Spellshields on incoming dangerous spells"));
                 Menu.AddSeparator();
+                _hpPercent = Menu.Add("hpPercent", new Slider("HP Percent to autoUse near enemies", 5, 0, 100));
+                _minDmgZhonyas = Menu.Add("minDmg", new Slider("Force Zhonyas if Dmg > %Hp", 5, 0, 100));
+                _minDmgSerpaphs = Menu.Add("minDmg", new Slider("Force Seraphs if Dmg > %Hp", 5, 0, 100));
 
                 var enemies = EntityManager.Heroes.Enemies;
                 for (int j = 0; j < enemies.Count(); j++)

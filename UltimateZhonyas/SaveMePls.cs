@@ -29,6 +29,7 @@ namespace UltimateZhonyas
             // Listen to related events
             Game.OnUpdate += OnUpdate;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
+            Evade.Evade.Initialize();
         }
 
         private static bool castSeraphs()
@@ -73,17 +74,44 @@ namespace UltimateZhonyas
             {
                 InstDamage.Remove(entry.Key);
             }
+            foreach (var skillshot in Evade.Evade.GetSkillshotsAboutToHit(Player.Instance, 200))
+            {
+                AIHeroClient caster = null;
+                foreach (var e in EntityManager.Heroes.Enemies.Where(t => t.ChampionName == skillshot.SpellData.ChampionName))
+                {
+                    caster = e;
+                }
+                if (caster != null && (skillshot.IsGlobal || caster.Distance(Player.Instance) <= skillshot.SpellData.Range + 50))
+                {
+                    if (Settings.useZhonyasDmg && (DamageLibrary.GetSpellDamage(caster, Player.Instance, skillshot.SpellData.Slot) > Settings.minDmgZhonyas / 100 * Player.Instance.MaxHealth))
+                        if (castZhonyas())
+                            return;
+                    if (Settings.useSeraphsDmg && (DamageLibrary.GetSpellDamage(caster, Player.Instance, skillshot.SpellData.Slot) > Settings.minDmgSerpaphs / 100 * Player.Instance.MaxHealth))
+                        if (castSeraphs())
+                            return;
+                    if (dangerousSpell(SpellData.GetSpellData(skillshot.SpellData.SpellName), caster))
+                    {
+                        if (Settings.useZhonyasDmg)
+                            if (castZhonyas())
+                                return;
+                        if (Settings.useSeraphsDmg)
+                            if (castSeraphs())
+                                return;
+                    }
+                }
+            }
             if (Settings.useZhonyasDmg)
             {
                 if (Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0 ||
-                    IncomingDamage > Player.Instance.Health)
+                    IncomingDamage > Player.Instance.Health || IncomingDamage > Player.Instance.MaxHealth*Settings.minDmgZhonyas/100)
                     if (castZhonyas())
                         return;
             }
             if (Settings.useSeraphsDmg)
             {
                 if (Player.Instance.HealthPercent < 5 && Player.Instance.CountEnemiesInRange(500) > 0 ||
-                    IncomingDamage > Player.Instance.Health || IncomingDamage > Player.Instance.MaxMana * 0.2)
+                    IncomingDamage > Player.Instance.Health || IncomingDamage > Player.Instance.MaxMana * 0.2 || 
+                    IncomingDamage > Player.Instance.MaxHealth * Settings.minDmgZhonyas/100)
                     if (castSeraphs())
                         return;
             }
