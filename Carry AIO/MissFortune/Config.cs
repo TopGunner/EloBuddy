@@ -215,6 +215,10 @@ namespace MissFortune
                 {
                     get { return Menu["comboROnEnemies"].Cast<Slider>().CurrentValue; }
                 }
+                public static int REnemiesMaxHP
+                {
+                    get { return Menu["REnemiesMaxHP"].Cast<Slider>().CurrentValue; }
+                }
                 public static bool saveRforStunned
                 {
                     get { return _saveRforStunned.CurrentValue; }
@@ -243,6 +247,7 @@ namespace MissFortune
                     _useRHotkey = Menu.Add("comboUseRHotkey", new CheckBox("Use R Hotkey", false));
                     Menu.Add("RHotkey", new KeyBind("Don't tick this Checkbox!", false, KeyBind.BindTypes.PressToggle, 'R'));
                     Menu.Add("comboROnEnemies", new Slider("Minimum enemies for casting R", 2, 1, 5));
+                    Menu.Add("REnemiesMaxHP", new Slider("Ult if 1 enemy is lower than ({0}%)HP", 100, 1, 100));
                     Menu.AddSeparator();
                     _saveRforStunned = Menu.Add("saveRforStunned", new CheckBox("Only use R if at least one of the x enemies is stunned"));
                     Menu.AddSeparator();
