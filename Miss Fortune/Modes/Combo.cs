@@ -65,7 +65,6 @@ namespace MissFortune.Modes
             {
                 var enemies = EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1300) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie);
                 AIHeroClient castOn = null;
-                bool lower = false;
                 foreach (var e in enemies)
                 {
                     if (e.HealthPercent < Settings.REnemiesMaxHP)
@@ -79,17 +78,26 @@ namespace MissFortune.Modes
                 }
                 foreach (var target in enemies)
                 {
+                    bool lower = false;
                     if (target != null)
                     {
                         int collCount = 1;
                         foreach (var e in enemies)
                         {
+                            if (e.HealthPercent < Settings.REnemiesMaxHP)
+                            {
+                                lower = true;
+                            }
                             if (e == target)
                                 continue;
                             if (Math.Abs(e.Position.AngleBetween(Player.Instance.Position) - target.Position.AngleBetween(Player.Instance.Position)) < 0.3)
                             {
                                 collCount++;
                             }
+                        }
+                        if (!lower)
+                        {
+                            return false;
                         }
                         if (Settings.saveRforStunned && (target.HasBuffOfType(BuffType.Suppression) || target.HasBuffOfType(BuffType.Charm) || target.HasBuffOfType(BuffType.Flee) || target.HasBuffOfType(BuffType.Blind) ||
                         target.HasBuffOfType(BuffType.Polymorph) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Taunt)))
