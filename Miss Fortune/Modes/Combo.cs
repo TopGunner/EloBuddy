@@ -65,17 +65,6 @@ namespace MissFortune.Modes
             {
                 var enemies = EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1300) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie);
                 AIHeroClient castOn = null;
-                foreach (var e in enemies)
-                {
-                    if (e.HealthPercent < Settings.REnemiesMaxHP)
-                    {
-                        lower = true;
-                    }
-                }
-                if (!lower)
-                {
-                    return false;
-                }
                 foreach (var target in enemies)
                 {
                     bool lower = false;
