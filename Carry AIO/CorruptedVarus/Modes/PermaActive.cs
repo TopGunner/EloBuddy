@@ -28,12 +28,25 @@ namespace CorruptedVarus.Modes
 
         public override void Execute()
         {
+            castR();
             letQGo();
             walkToMouse();
             autoBuyStartingItems();
             skinChanger();
             castQSS();
             ks();
+        }
+
+        private void castR()
+        {
+            if (R.IsReady() && Config.Modes.Combo.RPressed)
+            {
+                var target = TargetSelector.GetTarget(R.Range, DamageType.Physical);
+                if (target != null && R.GetPrediction(target).HitChance >= HitChance.Medium)
+                {
+                    R.Cast(R.GetPrediction(target).CastPosition);
+                }
+            }
         }
 
         private void letQGo()

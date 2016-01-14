@@ -215,6 +215,10 @@ namespace CorruptedVarus
                 {
                     get { return _useYOUMOUS.CurrentValue; }
                 }
+                public static bool RPressed
+                {
+                    get { return Menu["RHotkey"].Cast<KeyBind>().CurrentValue; }
+                }
 
 
                 static Combo()
@@ -227,6 +231,7 @@ namespace CorruptedVarus
                     _useEInstant = Menu.Add("comboUseEInstant", new CheckBox("Use E Instantly", false));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
                     _useRInstant = Menu.Add("comboUseRInstant", new CheckBox("Use R Instantly", false));
+                    Menu.Add("RHotkey", new KeyBind("Will fire R (Mode doesnt matter!)", false, KeyBind.BindTypes.HoldActive, 'G'));
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
                     _useWardVision = Menu.Add("useWardVision", new CheckBox("Use Wards for Vision"));
