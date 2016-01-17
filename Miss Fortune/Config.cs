@@ -43,15 +43,12 @@ namespace MissFortune
             private static readonly CheckBox _ksQ;
             private static readonly CheckBox _unkillableQ;
             private static readonly CheckBox _useLoveTaps;
-            private static readonly CheckBox _ksR;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
             private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _autolevelskills;
             private static readonly Slider _skinId;
             public static readonly CheckBox _useSkinHack;
-            private static readonly CheckBox _cleanseStun;
-            private static readonly Slider _cleanseEnemies;
             private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
 
             public static bool useHealOnI(int i)
@@ -69,10 +66,6 @@ namespace MissFortune
             public static bool useLoveTaps
             {
                 get { return _useLoveTaps.CurrentValue; }
-            }
-            public static bool ksR
-            {
-                get { return _ksR.CurrentValue; }
             }
             public static bool useHeal
             {
@@ -97,14 +90,6 @@ namespace MissFortune
             public static bool UseSkinHack
             {
                 get { return _useSkinHack.CurrentValue; }
-            }
-            public static int cleanseEnemies
-            {
-                get { return _cleanseEnemies.CurrentValue; }
-            }
-            public static bool cleanseStun
-            {
-                get { return _cleanseStun.CurrentValue; }
             }
             public static bool drawComboDmg
             {
