@@ -28,6 +28,7 @@ namespace MissFortune.Modes
             if (Settings.mana >= Player.Instance.ManaPercent)
                 return;
 
+            castQ();
             if (Settings.UseQ && Q.IsReady())
             {
                 var minions = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, Q.Range));
@@ -36,7 +37,6 @@ namespace MissFortune.Modes
                     Q.Cast(minions.OrderBy(t => t.MaxHealth).First());
                 }
             }
-
             if (Settings.UseW && W.IsReady())
             {
                 var minion = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsInRange(Player.Instance.Position, Q.Range) && !t.IsDead && t.IsValid && !t.IsInvulnerable).Count();
@@ -44,6 +44,13 @@ namespace MissFortune.Modes
                 {
                     W.Cast();
                 }
+            }
+        }
+        public void castQ()
+        {
+            if (Settings.UseQHarass && Q.IsReady())
+            {
+                SpellManager.castQ(true, false);
             }
         }
     }

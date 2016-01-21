@@ -314,12 +314,17 @@ namespace MissFortune
             public static class LaneClear
             {
                 private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useQHarass;
                 private static readonly CheckBox _useW;
                 private static readonly Slider _mana;
 
                 public static bool UseQ
                 {
                     get { return _useQ.CurrentValue; }
+                }
+                public static bool UseQHarass
+                {
+                    get { return _useQHarass.CurrentValue; }
                 }
                 public static bool UseW
                 {
@@ -335,6 +340,7 @@ namespace MissFortune
                     // Initialize the menu values
                     Menu.AddGroupLabel("Lane Clear");
                     _useQ = Menu.Add("clearUseQ", new CheckBox("Use Q"));
+                    _useQHarass = Menu.Add("clearUseQHarass", new CheckBox("Use Q if it also hits a champion"));
                     _useW = Menu.Add("clearUseW", new CheckBox("Use W"));
                     _mana = Menu.Add("clearMana", new Slider("Maximum mana usage in percent ({0}%)", 40));
                 }
