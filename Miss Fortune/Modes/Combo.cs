@@ -177,7 +177,10 @@ namespace MissFortune.Modes
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
                 if (target != null)
                     Q.Cast(target);
-                SpellManager.castQ(true, false);
+                if(Settings.useQChampsOnly)
+                    SpellManager.castQ(true, false, true);
+                else
+                    SpellManager.castQ(true, false, false);
             }
         }
 

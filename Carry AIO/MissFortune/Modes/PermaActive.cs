@@ -110,6 +110,7 @@ namespace MissFortune.Modes
                     Q.Cast(e);
                     return;
                 }
+                SpellManager.castQ(false, false, true);
                 SpellManager.castQ(false, false);
             }
         }

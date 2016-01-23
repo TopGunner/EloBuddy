@@ -177,6 +177,7 @@ namespace MissFortune
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useE;
                 private static readonly CheckBox _useR;
+                private static readonly CheckBox _useQChampsOnly;
                 private static readonly CheckBox _useRHotkey;
                 private static readonly CheckBox _useBOTRK;
                 private static readonly CheckBox _useYOUMOUS;
@@ -186,6 +187,10 @@ namespace MissFortune
                 public static bool UseQ
                 {
                     get { return _useQ.CurrentValue; }
+                }
+                public static bool useQChampsOnly
+                {
+                    get { return _useQChampsOnly.CurrentValue; }
                 }
                 public static bool UseW
                 {
@@ -241,6 +246,7 @@ namespace MissFortune
                     // Initialize the menu values
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
+                    _useQChampsOnly = Menu.Add("comboUseQChampsOnly", new CheckBox("Use Q on heros only"));
                     _useW = Menu.Add("comboUseW", new CheckBox("Use Smart W"));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
@@ -256,7 +262,6 @@ namespace MissFortune
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
                 }
-
 
                 public static void Initialize()
                 {
