@@ -175,7 +175,15 @@ namespace MissFortune.Modes
             if (Settings.UseQ && Q.IsReady())
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
-                if (target != null)
+                int i = -1;
+                for (int j = 0; j < EntityManager.Heroes.Enemies.Count; j++)
+                {
+                    if (target.NetworkId == EntityManager.Heroes.Enemies[j].NetworkId)
+                        i = j;
+                }
+                if (i == -1)
+                    return;
+                if (target != null && Config.Misc.UseQOnI(i))
                     Q.Cast(target);
                 if(Settings.useQChampsOnly)
                     SpellManager.castQ(true, false, true);

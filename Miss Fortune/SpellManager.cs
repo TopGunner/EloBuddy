@@ -58,6 +58,15 @@ namespace MissFortune
         {
             foreach (var killable in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1000) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && (e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.Q) || NotkillOnly)))
             {
+                int i = -1;
+                for (int j = 0; j < EntityManager.Heroes.Enemies.Count; j++)
+                {
+                    if (killable.NetworkId == EntityManager.Heroes.Enemies[j].NetworkId)
+                        i = j;
+                }
+                if (i == -1 || !Config.Misc.UseQOnI(i))
+                    continue;
+
                 bool buff = false;
                 foreach (var b in killable.Buffs)
                 {

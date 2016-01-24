@@ -43,17 +43,19 @@ namespace MissFortune
             private static readonly CheckBox _ksQ;
             private static readonly CheckBox _unkillableQ;
             private static readonly CheckBox _useLoveTaps;
-            private static readonly CheckBox _ksR;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
             private static readonly CheckBox _autoBuyStartingItems;
             private static readonly CheckBox _autolevelskills;
             private static readonly Slider _skinId;
             public static readonly CheckBox _useSkinHack;
-            private static readonly CheckBox _cleanseStun;
-            private static readonly Slider _cleanseEnemies;
             private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
+            private static readonly CheckBox[] _useQOn = { new CheckBox(""), new CheckBox(""), new CheckBox(""), new CheckBox(""), new CheckBox("") };
 
+            public static bool UseQOnI(int i)
+            {
+                return _useQOn[i].CurrentValue;
+            }
             public static bool useHealOnI(int i)
             {
                 return _useHealOn[i].CurrentValue;
@@ -69,10 +71,6 @@ namespace MissFortune
             public static bool useLoveTaps
             {
                 get { return _useLoveTaps.CurrentValue; }
-            }
-            public static bool ksR
-            {
-                get { return _ksR.CurrentValue; }
             }
             public static bool useHeal
             {
@@ -97,14 +95,6 @@ namespace MissFortune
             public static bool UseSkinHack
             {
                 get { return _useSkinHack.CurrentValue; }
-            }
-            public static int cleanseEnemies
-            {
-                get { return _cleanseEnemies.CurrentValue; }
-            }
-            public static bool cleanseStun
-            {
-                get { return _cleanseStun.CurrentValue; }
             }
             public static bool drawComboDmg
             {
@@ -132,6 +122,11 @@ namespace MissFortune
                 for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
                 {
                     _useHealOn[i] = Menu.Add("useHeal" + i, new CheckBox("Use Heal to save " + EntityManager.Heroes.Allies[i].ChampionName));
+                }
+                Menu.AddSeparator();
+                for (int i = 0; i < EntityManager.Heroes.Enemies.Count; i++)
+                {
+                    _useQOn[i] = Menu.Add("useQ" + i, new CheckBox("Use Q on" + EntityManager.Heroes.Enemies[i].ChampionName));
                 }
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
@@ -262,6 +257,7 @@ namespace MissFortune
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
                 }
+
 
                 public static void Initialize()
                 {

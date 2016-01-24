@@ -50,7 +50,12 @@ namespace MissFortune
             private static readonly Slider _skinId;
             public static readonly CheckBox _useSkinHack;
             private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
+            private static readonly CheckBox[] _useQOn = { new CheckBox(""), new CheckBox(""), new CheckBox(""), new CheckBox(""), new CheckBox("") };
 
+            public static bool UseQOnI(int i)
+            {
+                return _useQOn[i].CurrentValue;
+            }
             public static bool useHealOnI(int i)
             {
                 return _useHealOn[i].CurrentValue;
@@ -117,6 +122,11 @@ namespace MissFortune
                 for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
                 {
                     _useHealOn[i] = Menu.Add("useHeal" + i, new CheckBox("Use Heal to save " + EntityManager.Heroes.Allies[i].ChampionName));
+                }
+                Menu.AddSeparator();
+                for (int i = 0; i < EntityManager.Heroes.Enemies.Count; i++)
+                {
+                    _useQOn[i] = Menu.Add("useQ" + i, new CheckBox("Use Q on" + EntityManager.Heroes.Enemies[i].ChampionName));
                 }
                 Menu.AddSeparator();
                 _autolevelskills = Menu.Add("autolevelskills", new CheckBox("Autolevelskills"));
