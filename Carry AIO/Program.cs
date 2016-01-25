@@ -57,6 +57,10 @@ namespace CarryAIO
             {
                 CorruptedVarus.Program.OnLoadingComplete(args);
             }
+            else if (Player.Instance.ChampionName == "Lucian")
+            {
+                MatrixLucian.Program.OnLoadingComplete(args);
+            }
         }
     }
 }
