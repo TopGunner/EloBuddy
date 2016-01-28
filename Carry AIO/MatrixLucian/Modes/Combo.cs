@@ -96,12 +96,12 @@ namespace MatrixLucian.Modes
         {
             if (Player.Instance.IsDead || Player.Instance.IsInvulnerable || !Player.Instance.IsTargetable || Player.Instance.IsZombie || Player.Instance.IsInShopRange())
                 return;
-            if (Settings.useTrinketVision && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < 600 && Game.Time - Program.lastSeen > 2)
+            else if (Settings.useTrinketVision && Program.lastTarget != null && Program.lastTarget.Position.Distance(Player.Instance) < 600 && Game.Time - Program.lastSeen > 2)
             {
                 InventorySlot[] inv = Player.Instance.InventoryItems;
                 foreach (var item in inv)
                 {
-                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket )
+                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Alteration || item.Id == ItemId.Farsight_Alteration)
                     {
                         item.Cast(Program.predictedPos);
                     }
@@ -112,7 +112,7 @@ namespace MatrixLucian.Modes
                 InventorySlot[] inv = Player.Instance.InventoryItems;
                 foreach (var item in inv)
                 {
-                    if (item.Id == ItemId.Stealth_Ward || item.Id == ItemId.Vision_Ward)
+                    if (item.Id == ItemId.Vision_Ward)
                     {
                         item.Cast(Program.predictedPos);
                     }

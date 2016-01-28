@@ -62,7 +62,7 @@ namespace PurifierVayne.Modes
                 InventorySlot[] inv = Player.Instance.InventoryItems;
                 foreach (var item in inv)
                 {
-                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Orb_Trinket || item.Id == ItemId.Scrying_Orb_Trinket )
+                    if (item.Id == ItemId.Greater_Stealth_Totem_Trinket || item.Id == ItemId.Greater_Vision_Totem_Trinket || item.Id == ItemId.Warding_Totem_Trinket || item.Id == ItemId.Farsight_Alteration || item.Id == ItemId.Farsight_Alteration)
                     {
                         item.Cast(Program.predictedPos);
                     }
@@ -73,7 +73,7 @@ namespace PurifierVayne.Modes
                 InventorySlot[] inv = Player.Instance.InventoryItems;
                 foreach (var item in inv)
                 {
-                    if (item.Id == ItemId.Stealth_Ward || item.Id == ItemId.Vision_Ward)
+                    if (item.Id == ItemId.Vision_Ward)
                     {
                         item.Cast(Program.predictedPos);
                     }
