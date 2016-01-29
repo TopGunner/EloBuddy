@@ -13,3 +13,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\AshesTo
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\AshesToAshes\bin\Debug\Newtonsoft.Json.dll
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\AshesToAshes\obj\Debug\AshesToAshes.csprojResolveAssemblyReference.cache
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\AshesToAshes\bin\Debug\AshesToAshes.exe.config
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\AshesToAshes\bin\Release\AshesToAshes.exe.config

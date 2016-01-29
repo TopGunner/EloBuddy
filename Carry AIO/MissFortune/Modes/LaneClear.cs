@@ -32,7 +32,7 @@ namespace MissFortune.Modes
             if (Settings.UseQ && Q.IsReady())
             {
                 var minions = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, Q.Range));
-                if (minions != null)
+                if (minions != null && minions.Count() > 0)
                 {
                     Q.Cast(minions.OrderBy(t => t.MaxHealth).First());
                 }

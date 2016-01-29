@@ -33,7 +33,7 @@ namespace MissFortune.Modes
 
             if (Settings.UseQ && Q.IsReady())
             {
-                var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderBy(t => t.MaxHealth).First();
+                var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderBy(t => t.MaxHealth).FirstOrDefault();
                 if(minion != null)
                 {
                     Q.Cast(minion);
@@ -41,7 +41,7 @@ namespace MissFortune.Modes
             }
             if (Settings.UseW && W.IsReady())
             {
-                var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderBy(t => t.MaxHealth).First();
+                var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderBy(t => t.MaxHealth).FirstOrDefault();
                 if (minion != null)
                 {
                     W.Cast();

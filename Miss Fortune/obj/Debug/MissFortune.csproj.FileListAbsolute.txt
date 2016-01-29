@@ -9,3 +9,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fo
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\obj\Debug\MissFortune.csprojResolveAssemblyReference.cache
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\obj\Debug\MissFortune.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\obj\Debug\MissFortune.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\bin\Release\MissFortune.exe.config
