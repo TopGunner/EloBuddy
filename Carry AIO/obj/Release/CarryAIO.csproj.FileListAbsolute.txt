@@ -8,3 +8,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Carry A
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Carry AIO\bin\Release\Newtonsoft.Json.dll
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Carry AIO\obj\Release\CarryAIO.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Carry AIO\obj\Release\CarryAIO.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Carry AIO\obj\Release\CarryAIO.csprojResolveAssemblyReference.cache

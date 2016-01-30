@@ -8,3 +8,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\RoamQue
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\RoamQueenQuinn\bin\Release\Newtonsoft.Json.dll
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\RoamQueenQuinn\obj\Release\MissFortune.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\RoamQueenQuinn\obj\Release\MissFortune.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\RoamQueenQuinn\obj\Release\RoamQueenQuinn.csprojResolveAssemblyReference.cache

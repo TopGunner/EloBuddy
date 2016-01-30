@@ -116,7 +116,7 @@ namespace Kitelyn.Modes
                 }
                 else if (target != null && target.Distance(Player.Instance) > 700 && !Settings.UseRAlways && DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R) > target.Health + 2 / 5 * target.HPRegenRate)
                 {
-                    if (Settings.useScryingOrbMarker)
+                    /*if (Settings.useScryingOrbMarker)
                     {
                         InventorySlot[] inv = Player.Instance.InventoryItems;
                         foreach (var item in inv)
@@ -126,7 +126,7 @@ namespace Kitelyn.Modes
                                 item.Cast(target);
                             }
                         }
-                    }
+                    }*/
                 }
             }
         }

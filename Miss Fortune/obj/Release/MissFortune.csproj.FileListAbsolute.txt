@@ -8,3 +8,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fo
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\bin\Release\Newtonsoft.Json.dll
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\obj\Release\MissFortune.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\obj\Release\MissFortune.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Miss Fortune\obj\Release\MissFortune.csprojResolveAssemblyReference.cache

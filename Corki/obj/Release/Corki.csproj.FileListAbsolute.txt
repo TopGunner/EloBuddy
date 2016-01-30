@@ -8,3 +8,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Corki\b
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Corki\bin\Release\Newtonsoft.Json.dll
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Corki\obj\Release\Corki.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Corki\obj\Release\Corki.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Corki\obj\Release\Corki.csprojResolveAssemblyReference.cache
