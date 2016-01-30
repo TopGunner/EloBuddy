@@ -8,3 +8,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Corrupt
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\CorruptedVarus\bin\Release\Newtonsoft.Json.dll
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\CorruptedVarus\obj\Release\CorruptedVarus.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\CorruptedVarus\obj\Release\CorruptedVarus.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\CorruptedVarus\obj\Release\CorruptedVarus.csprojResolveAssemblyReference.cache

@@ -8,3 +8,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Purifie
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\PurifierVayne\bin\Release\Newtonsoft.Json.dll
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\PurifierVayne\obj\Release\PurifierVayne.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\PurifierVayne\obj\Release\PurifierVayne.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\PurifierVayne\obj\Release\PurifierVayne.csprojResolveAssemblyReference.cache

@@ -8,3 +8,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\MatrixL
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\MatrixLucian\bin\Release\Newtonsoft.Json.dll
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\MatrixLucian\obj\Release\MatrixLucian.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\MatrixLucian\obj\Release\MatrixLucian.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\MatrixLucian\obj\Release\MatrixLucian.csprojResolveAssemblyReference.cache
