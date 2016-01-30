@@ -9,3 +9,4 @@ F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\SivirDa
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\SivirDamage\obj\Debug\SivirDamage.csprojResolveAssemblyReference.cache
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\SivirDamage\obj\Debug\SivirDamage.exe
 F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\SivirDamage\obj\Debug\SivirDamage.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\SivirDamage\bin\Release\SivirDamage.exe.config
