@@ -33,7 +33,7 @@ namespace Corki
             W = new Spell.Skillshot(SpellSlot.W, 800, EloBuddy.SDK.Enumerations.SkillShotType.Linear, 1800, 1500, 200);
             W.AllowedCollisionCount = int.MaxValue;
             E = new Spell.Active(SpellSlot.E, 600);
-            R = new Spell.Skillshot(SpellSlot.R, 1225, SkillShotType.Linear, 0, 750, 50);
+            R = new Spell.Skillshot(SpellSlot.R, 1225, SkillShotType.Linear, 0, 1000, 50);
             var slot = ObjectManager.Player.GetSpellSlotFromName("summonerheal");
             if (slot != SpellSlot.Unknown)
             {
