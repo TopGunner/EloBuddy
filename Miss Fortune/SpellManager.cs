@@ -30,7 +30,7 @@ namespace MissFortune
             // Initialize spells
             Q = new Spell.Targeted(SpellSlot.Q, 650);
             W = new Spell.Active(SpellSlot.W);
-            E = new Spell.Skillshot(SpellSlot.E, 800, SkillShotType.Circular, 500, int.MaxValue, 200);
+            E = new Spell.Skillshot(SpellSlot.E, 1000, SkillShotType.Circular, 500, int.MaxValue, 200);
             R = new Spell.Skillshot(SpellSlot.R, 1400, SkillShotType.Cone, 0, int.MaxValue);
             R.ConeAngleDegrees = 30;
             var slot = ObjectManager.Player.GetSpellSlotFromName("summonerheal");
