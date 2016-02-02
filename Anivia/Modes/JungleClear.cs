@@ -61,7 +61,7 @@ namespace Anivia.Modes
                 var minions = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, R.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable).OrderByDescending(t => t.MaxHealth);
                 foreach (var m in minions)
                 {
-                    if (Q.GetPrediction(m).CollisionObjects.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable).Count() >= minions.Count() - 1)
+                    if (Q.GetPrediction(m).CollisionObjects.Where(t => t.IsEnemy && !t.IsDead && t.IsValid && !t.IsInvulnerable).Count() >= minions.Count() - 2)
                     {
                         PermaActive.castedForChampion = false;
                         PermaActive.castedForMinions = true;
@@ -120,6 +120,7 @@ namespace Anivia.Modes
                 var enemies = EntityManager.MinionsAndMonsters.EnemyMinions.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsInRange(SpellManager.RlastCast, 400));
                 if (minions.Count() < 1 && enemies.Count() < 1)
                 {
+                   
                     R.Cast(Player.Instance);
                 }
             }

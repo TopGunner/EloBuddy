@@ -68,7 +68,7 @@ namespace Anivia.Modes
 
                 if (Prediction.Position.Collision.LinearMissileCollision(castedOn, missile.StartPosition.To2D(), missile.StartPosition.Extend(missile.EndPosition, Q.Range), Q.Speed, Q.Width, Q.CastDelay))
                 {
-                    if (missile.StartPosition.Distance(castedOn) <= missile.StartPosition.Distance(posi))
+                    if (missile.StartPosition.Distance(castedOn) <= missile.StartPosition.Distance(posi) - 50)
                     {
                         Q.Cast(castedOn);
                         missile = null;
@@ -90,17 +90,14 @@ namespace Anivia.Modes
                         perfectCast = new Vector2(0, 0);
                     }
                 }
-                else
-                { 
-                    if (missile.EndPosition.CountEnemiesInRange(150) < posi.CountEnemiesInRange(150))
-                    {
-                        Q.Cast(castedOn);
-                        missile = null;
-                        castedForChampion = false;
-                        castedForMinions = false;
-                        castedOn = null;
-                        perfectCast = new Vector2(0, 0);
-                    }
+                if (missile != null && missile.EndPosition.CountEnemiesInRange(150) > 0)
+                {
+                    Q.Cast(castedOn);
+                    missile = null;
+                    castedForChampion = false;
+                    castedForMinions = false;
+                    castedOn = null;
+                    perfectCast = new Vector2(0, 0);
                 }
             }
             else
@@ -276,7 +273,7 @@ namespace Anivia.Modes
             Spell.Skillshot W = SpellManager.W;
             if (Settings.antiDash && W.IsReady() && sender.IsValid && sender.IsEnemy && !sender.IsDead && !sender.IsInvulnerable && !sender.IsZombie && e.End.IsInRange(Player.Instance, W.Range))
             {
-                if (Player.Instance.Distance(e.End) < Player.Instance.Distance(e.End))
+                if (Player.Instance.Distance(e.End) < Player.Instance.Distance(e.Start))
                     W.Cast(e.End);
                 else if (Settings.antiDashOffensive)
                     W.Cast(e.End);
@@ -291,7 +288,9 @@ namespace Anivia.Modes
 
             var miss = sender as MissileClient;
             if (!miss.IsValidMissile() || miss.SpellCaster.NetworkId != Player.Instance.NetworkId || miss.SData.Name != "FlashFrostSpell")
+            {
                 return;
+            }
             missile = miss;
         }
     }
