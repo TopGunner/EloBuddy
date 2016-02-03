@@ -53,12 +53,12 @@ namespace Anivia.Modes
                 var target = TargetSelector.GetTarget(R.Range, DamageType.Magical);
                 if (target != null)
                 {
-                    R.Cast(target);
-                    SpellManager.RlastCast = R.GetPrediction(target).UnitPosition;
                     if (E.IsReady() && Settings.UseE && target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && target.IsInRange(Player.Instance, E.Range))
                     {
                         E.Cast(target);
                     }
+                    R.Cast(target);
+                    SpellManager.RlastCast = R.GetPrediction(target).UnitPosition;
                     if (Settings.UseW && W.IsReady() && target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && target.IsInRange(Player.Instance, W.Range))
                     {
                         W.Cast(target);
