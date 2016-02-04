@@ -90,7 +90,7 @@ namespace Anivia.Modes
                         perfectCast = new Vector2(0, 0);
                     }
                 }
-                if (missile != null && missile.EndPosition.CountEnemiesInRange(150) > 0)
+                if (missile != null && missile.Position.CountEnemiesInRange(150) > 0)
                 {
                     Q.Cast(castedOn);
                     missile = null;
