@@ -66,7 +66,7 @@ namespace Anivia.Modes
                 if (castedOn == null)
                     return;
 
-                if (Prediction.Position.Collision.LinearMissileCollision(castedOn, missile.StartPosition.To2D(), missile.StartPosition.Extend(missile.EndPosition, Q.Range), Q.Speed, Q.Width, Q.CastDelay))
+                /*if (Prediction.Position.Collision.LinearMissileCollision(castedOn, missile.StartPosition.To2D(), missile.StartPosition.Extend(missile.EndPosition, Q.Range), Q.Speed, Q.Width, Q.CastDelay))
                 {
                     if (missile.StartPosition.Distance(castedOn) <= missile.StartPosition.Distance(posi) - 50)
                     {
@@ -78,7 +78,7 @@ namespace Anivia.Modes
                         perfectCast = new Vector2(0, 0);
                     }
                 }
-                else if (Prediction.Position.Collision.LinearMissileCollision(castedOn, missile.StartPosition.To2D(), missile.StartPosition.Extend(missile.EndPosition, Q.Range), Q.Speed, 150, Q.CastDelay))
+                else */if (Prediction.Position.Collision.LinearMissileCollision(castedOn, missile.StartPosition.To2D(), missile.StartPosition.Extend(missile.EndPosition, Q.Range), Q.Speed, 150, Q.CastDelay))
                 {
                     if (posi.Distance(castedOn) < 150)
                     {
