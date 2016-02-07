@@ -29,7 +29,7 @@ namespace RoamQueenQuinn.Modes
             if (Settings.UseQ && Q.IsReady())
             {
                 var minion = EntityManager.MinionsAndMonsters.GetJungleMonsters(Player.Instance.Position, Q.Range).Where(t => !t.IsDead && t.IsValid && !t.IsInvulnerable);
-                if (minion != null && minion.Count() > 0)
+                if(minion != null && minion.Count() > 0)
                 {
                     Q.Cast(minion.OrderByDescending(t => t.MaxHealth).First());
                 }

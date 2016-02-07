@@ -53,10 +53,19 @@ namespace RoamQueenQuinn
             // Listen to events we need
             Drawing.OnDraw += OnDraw;
             Player.OnLevelUp += RoamQueenQuinn.Modes.PermaActive.autoLevelSkills;
-            Orbwalker.OnPostAttack += Orbwalker_OnPostAttack;
+            Game.OnTick += HarrierForceTarget;
+            Interrupter.OnInterruptableSpell += Interrupter_OnInterruptableSpell;
         }
 
-        private static void Orbwalker_OnPostAttack(AttackableUnit target, EventArgs args)
+        private static void Interrupter_OnInterruptableSpell(Obj_AI_Base sender, Interrupter.InterruptableSpellEventArgs e)
+        {
+            if (Settings.interruptE && !sender.IsDead && !sender.IsInvulnerable && !sender.IsZombie && sender.IsEnemy && e.DangerLevel >= DangerLevel.Medium && sender.IsInRange(Player.Instance, SpellManager.E.Range) && SpellManager.E.IsReady())
+            {
+                SpellManager.E.Cast(sender);
+            }
+        }
+
+        private static void HarrierForceTarget(EventArgs args)
         {
             bool newtarget = false;
             if (Settings.useHarrier && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))

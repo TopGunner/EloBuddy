@@ -50,7 +50,7 @@ namespace RoamQueenQuinn.Modes
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
                 if (target != null && Q.GetPrediction(target).HitChance >= HitChance.Medium)
                 {
-                    Q.Cast(target);
+                    Q.Cast(target); 
                     bool newtarget = false;
                     foreach (var e in EntityManager.Heroes.Enemies.Where(t => !t.IsDead && t.IsTargetable && !t.IsZombie && !t.IsInvulnerable && Player.Instance.IsInRange(t, 550)).OrderBy(t => t.MaxHealth))
                     {

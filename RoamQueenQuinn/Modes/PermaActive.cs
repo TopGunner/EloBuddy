@@ -27,6 +27,7 @@ namespace RoamQueenQuinn.Modes
 
         public override void Execute()
         {
+            // || Player.Instance.Spellbook.GetSpell(SpellSlot.R).Name == "quinnrfinale"
             if (Player.Instance.IsRecalling())
             {
                 return;
@@ -55,7 +56,15 @@ namespace RoamQueenQuinn.Modes
 
         private void forcedTargetRefresh()
         {
-            if (Orbwalker.ForcedTarget != null && !Orbwalker.ForcedTarget.IsInRange(Player.Instance, 550))
+            if (Orbwalker.ForcedTarget == null)
+                return;
+            var target = Orbwalker.ForcedTarget as Obj_AI_Base;
+            if (!Orbwalker.ForcedTarget.IsInRange(Player.Instance, 550) || (target != null && !target.HasBuff("quinnw")))
+            {
+                Orbwalker.ForcedTarget = null;
+            }
+            var enemy = Orbwalker.ForcedTarget as AIHeroClient;
+            if (enemy == null && (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo) || Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass)))
             {
                 Orbwalker.ForcedTarget = null;
             }

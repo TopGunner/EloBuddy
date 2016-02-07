@@ -40,6 +40,7 @@ namespace RoamQueenQuinn
             public static readonly CheckBox _drawE;
             private static readonly CheckBox _ksQ;
             private static readonly CheckBox _useHarrier;
+            private static readonly CheckBox _interruptE;
             private static readonly CheckBox _useHeal;
             private static readonly CheckBox _useQSS;
             private static readonly CheckBox _castROnBase;
@@ -60,6 +61,10 @@ namespace RoamQueenQuinn
             public static bool useHarrier
             {
                 get { return _useHarrier.CurrentValue; }
+            }
+            public static bool interruptE
+            {
+                get { return _interruptE.CurrentValue; }
             }
             public static bool useHeal
             {
@@ -99,8 +104,9 @@ namespace RoamQueenQuinn
                 _drawW = Menu.Add("drawW", new CheckBox("Draw W"));
                 _drawE = Menu.Add("drawE", new CheckBox("Draw E"));
                 Menu.AddSeparator();
-                _useHarrier = Menu.Add("LoveTaps", new CheckBox("Use Harrier"));
+                _useHarrier = Menu.Add("Harrier", new CheckBox("Use Harrier"));
                 _castROnBase = Menu.Add("castROnBase", new CheckBox("Cast R in base"));
+                _interruptE = Menu.Add("InterruptE", new CheckBox("Use E to interrupt channels"));
                 Menu.AddSeparator();
                 _ksQ = Menu.Add("ksQ", new CheckBox("Smart KS with Q"));
                 Menu.AddSeparator();

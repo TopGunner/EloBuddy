@@ -30,7 +30,7 @@ namespace Anivia.Modes
             // the menu in the Config class!
             ks();
             deactivateUlt();
-            if (Settings.UseQ && Q.IsReady() && PermaActive.missile == null)
+            if (Settings.UseQ && Q.IsReady() && PermaActive.missile == null && Player.Instance.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1)
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
                 HitChance h = HitChance.Medium;
