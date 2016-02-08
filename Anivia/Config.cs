@@ -535,7 +535,7 @@ namespace Anivia
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("comboUseW", new CheckBox("Use Smart W"));
-                    _useWOnEscapingEnemies = Menu.Add("comboUseW", new CheckBox("Use W on escaping enemies", false));
+                    _useWOnEscapingEnemies = Menu.Add("comboUseWEscaping", new CheckBox("Use W on escaping enemies", false));
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useEDouble = Menu.Add("comboUseEDoubleOnly", new CheckBox("Use E only for doubled damage"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
