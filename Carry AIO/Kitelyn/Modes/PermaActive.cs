@@ -97,7 +97,7 @@ namespace Kitelyn.Modes
             }
             else if (Config.Modes.Combo.UseW)
             {
-                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range) && (e.HasBuffOfType(BuffType.Stun) || e.HasBuffOfType(BuffType.Suppression) || e.HasBuffOfType(BuffType.Snare) || e.HasBuffOfType(BuffType.Knockup)) && e.GetMovementDebuffDuration() > 1 && !e.IsDead).OrderBy(t => t.MaxHealth))
+                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range) && (e.HasBuffOfType(BuffType.Stun) || e.HasBuffOfType(BuffType.Suppression) || e.HasBuffOfType(BuffType.Snare) || e.HasBuffOfType(BuffType.Knockup)) && e.GetMovementBlockedDebuffDuration() > 1 && !e.IsDead).OrderBy(t => t.MaxHealth))
                 {
                     if (e != null)
                     {
