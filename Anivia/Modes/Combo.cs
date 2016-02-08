@@ -110,6 +110,14 @@ namespace Anivia.Modes
                         E.Cast(target);
                     }
                 }
+            } 
+            if (Settings.UseWOnEscapingEnemies && W.IsReady())
+            {
+                var target = TargetSelector.GetTarget(W.Range, DamageType.Magical);
+                if (target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie && !target.IsInRange(Player.Instance, W.Range-200) && target.IsInRange(Player.Instance, W.Range-50))
+                {
+                    W.Cast(Prediction.Position.PredictUnitPosition(target, 100).To3D());
+                }
             }
         }
 
@@ -128,7 +136,7 @@ namespace Anivia.Modes
             }
             if (Settings.ksE && E.IsReady())
             {
-                var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range) && DamageLibrary.GetSpellDamage(Player.Instance, t, SpellSlot.E) > t.Health).FirstOrDefault();
+                var enemy = EntityManager.Heroes.Enemies.Where(t => t.IsEnemy && !t.IsZombie && !t.IsDead && t.IsValid && !t.IsInvulnerable && t.IsInRange(Player.Instance.Position, E.Range) && DamageLibrary.GetSpellDamage(Player.Instance, t, SpellSlot.E) > Prediction.Health.GetPrediction(t, 250)).FirstOrDefault();
                 if(enemy != null)
                     E.Cast(enemy);
             }
