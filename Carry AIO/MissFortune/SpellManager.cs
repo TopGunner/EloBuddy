@@ -101,7 +101,55 @@ namespace MissFortune
                     }
                     else if (meToTarget.AngleBetween(killable.Position) < 1.9 && meToTarget.AngleBetween(killable.Position) > 0)
                     {
-                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 1.9 && t.Position.AngleBetween(killable.Position) > 0).Count();
+                  public static void castQ(bool NotkillOnly, bool killMinionOnly, bool onChampsOnly)
+        {
+            foreach (var killable in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1000) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && (e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.Q) || NotkillOnly)))
+            {
+                var killablePosition = Prediction.Position.PredictUnitPosition(killable, 250).To3D();
+                int i = -1;
+                for (int j = 0; j < EntityManager.Heroes.Enemies.Count; j++)
+                {
+                    if (killable.NetworkId == EntityManager.Heroes.Enemies[j].NetworkId)
+                        i = j;
+                }
+                if (i == -1 || !Config.Misc.UseQOnI(i))
+                    continue;
+
+                bool buff = false;
+                foreach (var b in killable.Buffs)
+                {
+                    if (b.Name == "missfortunepassivestack")
+                        buff = true;
+                }
+                foreach (var t in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && Prediction.Position.PredictUnitPosition(e, 250).To3D().Distance(killable) < 500))
+                {
+                    Vector3 meToTarget = Prediction.Position.PredictUnitPosition(t, 250).To3D() - Prediction.Position.PredictUnitPosition(Player.Instance, 250).To3D();
+                    if (meToTarget.AngleBetween(killablePosition) < 0.6981 && buff && meToTarget.AngleBetween(killablePosition) > 0)
+                    {
+                        Q.Cast(t);
+                        return;
+                    }
+                    else if (meToTarget.AngleBetween(killablePosition) < 0.349066 && meToTarget.AngleBetween(killablePosition) > 0)
+                    {
+                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(Prediction.Position.PredictUnitPosition(e, 250).To3D()) < 0.349066 && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(killablePosition) > 0).Count();
+                        if (m == 0)
+                        {
+                            Q.Cast(t);
+                            return;
+                        }
+                    }
+                    else if (meToTarget.AngleBetween(killablePosition) < 0.6981 && meToTarget.AngleBetween(killablePosition) > 0)
+                    {
+                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(Prediction.Position.PredictUnitPosition(e, 250).To3D()) < 0.6981 && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(killablePosition) > 0).Count();
+                        if (m == 0)
+                        {
+                            Q.Cast(t);
+                            return;
+                        }
+                    }
+                    else if (meToTarget.AngleBetween(killablePosition) < 1.9 && meToTarget.AngleBetween(killablePosition) > 0)
+                    {
+                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(Prediction.Position.PredictUnitPosition(e, 250).To3D()) < 1.9 && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(killablePosition) > 0).Count();
                         if (m == 0)
                         {
                             Q.Cast(t);
@@ -111,35 +159,35 @@ namespace MissFortune
                 }
                 if (onChampsOnly)
                     return;
-                foreach (var t in EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(Player.Instance, Q.Range) && e.Position.Distance(killable) < 500 && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && (!killMinionOnly || e.Health < Player.Instance.GetSpellDamage(e, SpellSlot.Q))).OrderBy(t => t.Health))
+                foreach (var t in EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(Player.Instance, Q.Range) && Prediction.Position.PredictUnitPosition(e, 250).To3D().Distance(killable) < 500 && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && (!killMinionOnly || e.Health < Player.Instance.GetSpellDamage(e, SpellSlot.Q))).OrderBy(t => t.Health))
                 {
-                    Vector3 meToTarget = t.Position - Player.Instance.Position;
-                    if (meToTarget.AngleBetween(killable.Position) < 0.6981 && buff && meToTarget.AngleBetween(killable.Position) > 0)
+                    Vector3 meToTarget = Prediction.Position.PredictUnitPosition(t, 250).To3D() - Prediction.Position.PredictUnitPosition(Player.Instance, 250).To3D();
+                    if (meToTarget.AngleBetween(killablePosition) < 0.6981 && buff && meToTarget.AngleBetween(killablePosition) > 0)
                     {
                         Q.Cast(t);
                         return;
                     }
-                    else if (meToTarget.AngleBetween(killable.Position) < 0.349066 && meToTarget.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killablePosition) < 0.349066 && meToTarget.AngleBetween(killablePosition) > 0)
                     {
-                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 0.349066 && t.Position.AngleBetween(killable.Position) > 0).Count();
+                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(Prediction.Position.PredictUnitPosition(e, 250).To3D()) < 0.349066 && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(killablePosition) > 0).Count();
                         if (m == 0)
                         {
                             Q.Cast(t);
                             return;
                         }
                     }
-                    else if (meToTarget.AngleBetween(killable.Position) < 0.6981 && meToTarget.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killablePosition) < 0.6981 && meToTarget.AngleBetween(killablePosition) > 0)
                     {
-                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 0.6981 && t.Position.AngleBetween(killable.Position) > 0).Count();
+                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(Prediction.Position.PredictUnitPosition(e, 250).To3D()) < 0.6981 && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(killablePosition) > 0).Count();
                         if (m == 0)
                         {
                             Q.Cast(t);
                             return;
                         }
                     }
-                    else if (meToTarget.AngleBetween(killable.Position) < 1.9 && meToTarget.AngleBetween(killable.Position) > 0)
+                    else if (meToTarget.AngleBetween(killablePosition) < 1.9 && meToTarget.AngleBetween(killablePosition) > 0)
                     {
-                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 1.9 && t.Position.AngleBetween(killable.Position) > 0).Count();
+                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(Prediction.Position.PredictUnitPosition(e, 250).To3D()) < 1.9 && Prediction.Position.PredictUnitPosition(t, 250).To3D().AngleBetween(killablePosition) > 0).Count();
                         if (m == 0)
                         {
                             Q.Cast(t);

@@ -246,7 +246,7 @@ namespace MissFortune
                     _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
                     _useR = Menu.Add("comboUseR", new CheckBox("Use R"));
                     _useRHotkey = Menu.Add("comboUseRHotkey", new CheckBox("Use R Hotkey", false));
-                    Menu.Add("RHotkey", new KeyBind("Don't tick this Checkbox!", false, KeyBind.BindTypes.PressToggle, 'R'));
+                    Menu.Add("RHotkey", new KeyBind("Don't tick this Checkbox!", false, KeyBind.BindTypes.HoldActive, 'R'));
                     Menu.Add("comboROnEnemies", new Slider("Minimum enemies for casting R", 2, 1, 5));
                     Menu.Add("REnemiesMaxHP", new Slider("Ult if 1 enemy is lower than ({0}%)HP", 100, 1, 100));
                     Menu.AddSeparator();

@@ -175,6 +175,8 @@ namespace MissFortune.Modes
             if (Settings.UseQ && Q.IsReady())
             {
                 var target = TargetSelector.GetTarget(Q.Range, DamageType.Physical);
+                if (target == null)
+                    return;
                 int i = -1;
                 for (int j = 0; j < EntityManager.Heroes.Enemies.Count; j++)
                 {
