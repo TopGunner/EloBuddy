@@ -58,53 +58,6 @@ namespace MissFortune
         {
             foreach (var killable in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1000) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && (e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.Q) || NotkillOnly)))
             {
-                int i = -1;
-                for (int j = 0; j < EntityManager.Heroes.Enemies.Count; j++)
-                {
-                    if (killable.NetworkId == EntityManager.Heroes.Enemies[j].NetworkId)
-                        i = j;
-                }
-                if (i == -1 || !Config.Misc.UseQOnI(i))
-                    continue;
-
-                bool buff = false;
-                foreach (var b in killable.Buffs)
-                {
-                    if (b.Name == "missfortunepassivestack")
-                        buff = true;
-                }
-                foreach (var t in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && e.Position.Distance(killable) < 500))
-                {
-                    Vector3 meToTarget = t.Position - Player.Instance.Position;
-                    if (meToTarget.AngleBetween(killable.Position) < 0.6981 && buff && meToTarget.AngleBetween(killable.Position) > 0)
-                    {
-                        Q.Cast(t);
-                        return;
-                    }
-                    else if (meToTarget.AngleBetween(killable.Position) < 0.349066 && meToTarget.AngleBetween(killable.Position) > 0)
-                    {
-                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 0.349066 && t.Position.AngleBetween(killable.Position) > 0).Count();
-                        if (m == 0)
-                        {
-                            Q.Cast(t);
-                            return;
-                        }
-                    }
-                    else if (meToTarget.AngleBetween(killable.Position) < 0.6981 && meToTarget.AngleBetween(killable.Position) > 0)
-                    {
-                        int m = EntityManager.MinionsAndMonsters.CombinedAttackable.Where(e => e.IsInRange(t, 500) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && t.Position.AngleBetween(e.Position) < 0.6981 && t.Position.AngleBetween(killable.Position) > 0).Count();
-                        if (m == 0)
-                        {
-                            Q.Cast(t);
-                            return;
-                        }
-                    }
-                    else if (meToTarget.AngleBetween(killable.Position) < 1.9 && meToTarget.AngleBetween(killable.Position) > 0)
-                    {
-                  public static void castQ(bool NotkillOnly, bool killMinionOnly, bool onChampsOnly)
-        {
-            foreach (var killable in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, 1000) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && (e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.Q) || NotkillOnly)))
-            {
                 var killablePosition = Prediction.Position.PredictUnitPosition(killable, 250).To3D();
                 int i = -1;
                 for (int j = 0; j < EntityManager.Heroes.Enemies.Count; j++)
