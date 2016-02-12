@@ -51,7 +51,8 @@ namespace Anivia
             Dash.OnDash += PermaActive.Dash_OnDash;
             Gapcloser.OnGapcloser += PermaActive.antiGapcloser;
             GameObject.OnCreate += PermaActive.GameObject_OnCreate;
-
+            if (Settings._drawQ.CurrentValue || Settings._drawQ.CurrentValue || Settings._drawE.CurrentValue || Settings._drawR.CurrentValue)
+                EloBuddy.SDK.Notifications.Notifications.Show(new EloBuddy.SDK.Notifications.SimpleNotification("Q missing", "If Q is missing, turn up the Q accuracy in the settings to about 140 - 150. Good Luck, Summoner"), 20000);
         }
         
 

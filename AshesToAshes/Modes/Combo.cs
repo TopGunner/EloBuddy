@@ -36,7 +36,7 @@ namespace AshesToAshes.Modes
             }
             if (Settings.UseQ && Q.IsReady())
             {
-                if (Player.Instance.CountEnemiesInRange(650) > 0)
+                if (Player.Instance.CountEnemiesInRange(700) > 0)
                 {
                     foreach (var b in Player.Instance.Buffs)
                         if (b.Name == "asheqcastready")
