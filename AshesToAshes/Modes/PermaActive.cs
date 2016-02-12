@@ -62,7 +62,7 @@ namespace AshesToAshes.Modes
             if (Settings.useAutoW && W.IsReady() && Player.Instance.ManaPercent >= Settings.autoWMana)
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
-                if (target != null && W.GetPrediction(target).HitChance >= HitChance.High)
+                if (target != null && target.IsValidTarget() && W.GetPrediction(target).HitChance >= HitChance.High)
                 {
                     W.Cast(W.GetPrediction(target).CastPosition);
                 }
@@ -101,7 +101,7 @@ namespace AshesToAshes.Modes
         {
             if (Settings.ksW && W.IsReady())
             {
-                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.W)))
+                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && e.Health > 0 && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.W)))
                 {
                     if (W.GetPrediction(e).HitChance >= HitChance.Medium)
                     {

@@ -55,12 +55,13 @@ namespace AshesToAshes.Modes
             }
         }
 
+
         private void useAutoW()
         {
             if (Settings.useAutoW && W.IsReady() && Player.Instance.ManaPercent >= Settings.autoWMana)
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
-                if (target != null && W.GetPrediction(target).HitChance >= HitChance.High)
+                if (target != null && target.IsValidTarget() && W.GetPrediction(target).HitChance >= HitChance.High)
                 {
                     W.Cast(W.GetPrediction(target).CastPosition);
                 }
@@ -78,8 +79,8 @@ namespace AshesToAshes.Modes
             {
                 if ((item.Id == ItemId.Quicksilver_Sash || item.Id == ItemId.Mercurial_Scimitar) && item.CanUseItem() && Player.Instance.CountEnemiesInRange(700) > 0)
                 {
-                    if(Player.HasBuff("PoppyDiplomaticImmunity") || Player.HasBuff("MordekaiserChildrenOfTheGrave") || Player.HasBuff("FizzMarinerDoom") || Player.HasBuff("VladimirHemoplague") || 
-                        Player.HasBuff("zedulttargetmark") || Player.HasBuffOfType(BuffType.Suppression) || Player.HasBuffOfType(BuffType.Charm) || Player.HasBuffOfType(BuffType.Flee) || Player.HasBuffOfType(BuffType.Blind) || 
+                    if (Player.HasBuff("PoppyDiplomaticImmunity") || Player.HasBuff("MordekaiserChildrenOfTheGrave") || Player.HasBuff("FizzMarinerDoom") || Player.HasBuff("VladimirHemoplague") ||
+                        Player.HasBuff("zedulttargetmark") || Player.HasBuffOfType(BuffType.Suppression) || Player.HasBuffOfType(BuffType.Charm) || Player.HasBuffOfType(BuffType.Flee) || Player.HasBuffOfType(BuffType.Blind) ||
                         Player.HasBuffOfType(BuffType.Polymorph) || Player.HasBuffOfType(BuffType.Snare) || Player.HasBuffOfType(BuffType.Stun) || Player.HasBuffOfType(BuffType.Taunt))
                     {
                         Core.DelayAction(() => item.Cast(), 110);
@@ -99,7 +100,7 @@ namespace AshesToAshes.Modes
         {
             if (Settings.ksW && W.IsReady())
             {
-                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && !e.IsDead && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.W)))
+                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && e.Health > 0 && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.W)))
                 {
                     if (W.GetPrediction(e).HitChance >= HitChance.Medium)
                     {
