@@ -49,8 +49,6 @@ namespace SivirDamage
 
         private static void OnUpdate(EventArgs args)
         {
-            if (!Settings.useHeal)
-                return;
             for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
             {
                 // Check spell arrival
@@ -90,6 +88,8 @@ namespace SivirDamage
                     }
                 }
             }
+            if (!Settings.useHeal || SpellManager.heal == null)
+                return;
             for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
             {
                 if (SpellManager.heal.IsReady() && Settings.useHealOnI(i) && EntityManager.Heroes.Allies[i].IsInRange(Player.Instance, SpellManager.heal.Range))

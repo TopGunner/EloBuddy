@@ -26,7 +26,7 @@ namespace AshesToAshes.Modes
             if (Settings.UseW && W.IsReady())
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
-                if (target != null && E.GetPrediction(target).HitChance >= HitChance.High)
+                if (target != null && target.IsValidTarget() && target.Health > 0 && W.GetPrediction(target).HitChance >= HitChance.High)
                 {
                     W.Cast(target);
                 }

@@ -100,7 +100,7 @@ namespace AshesToAshes.Modes
         {
             if (Settings.ksW && W.IsReady())
             {
-                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, Q.Range) && e.Health > 0 && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.W)))
+                foreach (var e in EntityManager.Heroes.Enemies.Where(e => e.IsInRange(Player.Instance, W.Range) && e.Health > 0 && !e.IsInvulnerable && e.IsTargetable && !e.IsZombie && e.Health < DamageLibrary.GetSpellDamage(Player.Instance, e, SpellSlot.W)))
                 {
                     if (W.GetPrediction(e).HitChance >= HitChance.Medium)
                     {

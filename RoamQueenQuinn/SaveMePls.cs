@@ -46,7 +46,7 @@ namespace RoamQueenQuinn
 
         private static void OnUpdate(EventArgs args)
         {
-            if (!Settings.useHeal)
+            if (!Settings.useHeal || SpellManager.heal == null)
                 return;
             for (int i = 0; i < EntityManager.Heroes.Allies.Count; i++)
             {
