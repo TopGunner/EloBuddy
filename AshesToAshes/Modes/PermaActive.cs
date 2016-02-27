@@ -62,7 +62,7 @@ namespace AshesToAshes.Modes
             if (Settings.useAutoW && W.IsReady() && Player.Instance.ManaPercent >= Settings.autoWMana)
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
-                if (target != null && target.IsValidTarget() && W.GetPrediction(target).HitChance >= HitChance.High)
+                if (target != null && target.IsValidTarget() && !target.IsInvulnerable && W.GetPrediction(target).HitChance >= HitChance.High)
                 {
                     W.Cast(W.GetPrediction(target).CastPosition);
                 }

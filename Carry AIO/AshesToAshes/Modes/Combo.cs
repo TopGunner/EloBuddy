@@ -29,7 +29,7 @@ namespace AshesToAshes.Modes
             if (Settings.UseW && W.IsReady())
             {
                 var target = TargetSelector.GetTarget(W.Range, DamageType.Physical);
-                if (target != null && target.Health > 0 && target.IsValidTarget() && W.GetPrediction(target).HitChance >= HitChance.Medium)
+                if (target != null && target.Health > 0 && target.IsValidTarget() && !target.IsInvulnerable && W.GetPrediction(target).HitChance >= HitChance.Medium)
                 {
                     W.Cast(W.GetPrediction(target).CastPosition);
                 }
