@@ -49,8 +49,6 @@ namespace Corki
             private static readonly CheckBox _autolevelskills;
             private static readonly Slider _skinId;
             public static readonly CheckBox _useSkinHack;
-            private static readonly CheckBox _cleanseStun;
-            private static readonly Slider _cleanseEnemies;
             private static readonly CheckBox[] _useHealOn = { new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false), new CheckBox("", false) };
 
             public static bool useHealOnI(int i)
@@ -92,14 +90,6 @@ namespace Corki
             public static bool UseSkinHack
             {
                 get { return _useSkinHack.CurrentValue; }
-            }
-            public static int cleanseEnemies
-            {
-                get { return _cleanseEnemies.CurrentValue; }
-            }
-            public static bool cleanseStun
-            {
-                get { return _cleanseStun.CurrentValue; }
             }
 
 

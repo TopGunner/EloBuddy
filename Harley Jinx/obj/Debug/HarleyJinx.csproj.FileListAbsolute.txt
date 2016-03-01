@@ -1,0 +1,4 @@
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Harley Jinx\bin\Release\Corki.exe.config
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Harley Jinx\obj\Debug\Corki.exe
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Harley Jinx\obj\Debug\Corki.pdb
+F:\Downloads\EloBuddy-Addons-master\EloBuddy-Addons-master\AddonTemplate\Harley Jinx\obj\Debug\HarleyJinx.csprojResolveAssemblyReference.cache

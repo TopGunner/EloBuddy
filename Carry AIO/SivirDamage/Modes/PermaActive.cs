@@ -20,7 +20,6 @@ namespace SivirDamage.Modes
         int currentSkin = 0;
         bool bought = false;
         int ticks = 0;
-        int Rticks = 0;
         public override bool ShouldBeExecuted()
         {
             // Since this is permaactive mode, always execute the loop
