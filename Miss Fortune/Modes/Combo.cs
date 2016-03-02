@@ -186,12 +186,15 @@ namespace MissFortune.Modes
                 if (i == -1)
                     return;
                 if (target != null && Config.Misc.UseQOnI(i))
+                {
                     Q.Cast(target);
-                if(Settings.useQChampsOnly)
-                    SpellManager.castQ(true, false, true);
-                else
-                    SpellManager.castQ(true, false, false);
+                    return;
+                }
             }
+            if (Settings.useQChampsOnly)
+                SpellManager.castQ(true, false, true);
+            else
+                SpellManager.castQ(true, false, false);
         }
 
         internal static void Update(EventArgs args)
