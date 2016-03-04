@@ -43,19 +43,25 @@ namespace HarleyJinx.Modes
             if (Settings.UseW && W.IsReady())
             {
                 var target = TargetSelector.GetTarget(SpellManager.W.Range, DamageType.Physical);
-                var pred = W.GetPrediction(target);
-                if (target != null && pred.HitChance >= HitChance.High && pred.GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId)
+                if (target != null)
                 {
-                    W.Cast(pred.CastPosition);
+                    var pred = W.GetPrediction(target);
+                    if (target != null && pred.HitChance >= HitChance.High && pred.GetCollisionObjects<Obj_AI_Base>().Count() > 0 && pred.GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId)
+                    {
+                        W.Cast(pred.CastPosition);
+                    }
                 }
             } 
             if (Settings.UseE && E.IsReady())
             {
                 var target = TargetSelector.GetTarget(SpellManager.E.Range, DamageType.Physical);
-                var pred = E.GetPrediction(target);
-                if (target != null && pred.HitChance >= HitChance.High)
+                if (target != null)
                 {
-                    E.Cast(pred.CastPosition);
+                    var pred = E.GetPrediction(target);
+                    if (target != null && pred.HitChance >= HitChance.High)
+                    {
+                        E.Cast(pred.CastPosition);
+                    }
                 }
             }
             if (Settings.useBOTRK)

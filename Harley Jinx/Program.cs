@@ -61,7 +61,7 @@ namespace HarleyJinx
 
         private static void Teleport_OnTeleport(Obj_AI_Base sender, Teleport.TeleportEventArgs args)
         {
-            if (args.Status == TeleportStatus.Start)
+            if (args.Status == TeleportStatus.Start && sender.IsEnemy)
             {
                 Core.DelayAction(() => SpellManager.E.Cast(sender.Position), 500);
             }

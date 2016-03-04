@@ -62,7 +62,7 @@ namespace HarleyJinx.Modes
             {
                 var target = TargetSelector.GetTarget(SpellManager.W.Range, DamageType.Physical);
                 var pred = W.GetPrediction(target);
-                if (target != null && pred.HitChance >= HitChance.High && pred.GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId)
+                if (target != null && pred.HitChance >= HitChance.High && pred.GetCollisionObjects<Obj_AI_Base>().Count() > 0 && pred.GetCollisionObjects<Obj_AI_Base>()[0].NetworkId == target.NetworkId)
                 {
                     W.Cast(pred.CastPosition);
                 }

@@ -99,13 +99,15 @@ namespace HarleyJinx
 
         public static double getRDamage(Obj_AI_Base enemy)
         {
+            if (enemy == null)
+                return 0;
             float bonushp = enemy.TotalShieldHealth() + enemy.HPRegenRate * 2;
             float factor = Player.Instance.Distance(enemy) / 1500;
             if(factor > 1)
                 factor = 1;
-            var firstHit = R.GetPrediction(enemy).GetCollisionObjects<AIHeroClient>().FirstOrDefault();
+            if (!GetRCollision().Contains(enemy))
+                return 0;
             double dmg = 0;
-            if (firstHit != null && firstHit.NetworkId == enemy.NetworkId)
             {
                 //base damage
                 dmg = 200 + Player.Instance.Spellbook.GetSpell(SpellSlot.R).Level * 100;
@@ -118,7 +120,47 @@ namespace HarleyJinx
             return dmg;
         }
 
+        private static List<Obj_AI_Base> GetRCollision()
+        {
+            var collisionList = new List<Obj_AI_Base>();
+            foreach (var unit in EntityManager.Heroes.Enemies.Where(t => Player.Instance.Distance(t) < 2000))
+            {
+                var pred = Prediction.Position.PredictLinearMissile(unit, 2000, R.Radius, R.CastDelay, R.Speed, -1);
+                var endpos = Player.Instance.ServerPosition.Extend(Fountain(), 2000);
+                var projectOn = pred.UnitPosition.To2D().ProjectOn(Player.Instance.ServerPosition.To2D(), endpos);
+                if (projectOn.SegmentPoint.Distance(endpos) < R.Width + unit.BoundingRadius)
+                {
+                    collisionList.Add(unit);
+                }
+            }
 
+            return collisionList;
+        }
+        private static Vector3 Fountain()
+        {
+            switch (Game.MapId)
+            {
+                case GameMapId.SummonersRift:
+                    {
+                        return Player.Instance.Team == GameObjectTeam.Order
+                            ? new Vector3(14296, 14362, 171)
+                            : new Vector3(408, 414, 182);
+                    }
+                case GameMapId.CrystalScar:
+                    {
+                        return Player.Instance.Team == GameObjectTeam.Order
+                            ? new Vector3(524, 4164, 35)
+                            : new Vector3(13323, 4105, 36);
+                    }
+                case GameMapId.TwistedTreeline:
+                    {
+                        return Player.Instance.Team == GameObjectTeam.Order
+                            ? new Vector3(1060, 7297, 150)
+                            : new Vector3(14353, 7297, 150);
+                    }
+            }
+            return new Vector3();
+        }
         public static bool RoverkillCheck(AIHeroClient enemy)
         {
             //TODO check if enemy.Allies = my allies??

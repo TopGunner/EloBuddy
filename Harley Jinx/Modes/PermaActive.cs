@@ -105,7 +105,7 @@ namespace HarleyJinx.Modes
 
         private void ks()
         {
-            foreach (var enemy in EntityManager.Heroes.Enemies.Where(target => target.HealthPercent > 0 && !target.IsInvulnerable && target.IsEnemy && !target.IsPhysicalImmune && !target.IsZombie))
+            foreach (var enemy in EntityManager.Heroes.Enemies.Where(target => target.IsVisible && target.HealthPercent > 0 && !target.IsInvulnerable && target.IsEnemy && !target.IsPhysicalImmune && !target.IsZombie))
             {
                 if (enemy.IsInRange(Player.Instance, W.Range) && Settings.ksW && W.IsReady())
                 {
@@ -117,6 +117,7 @@ namespace HarleyJinx.Modes
                 }
                 if (enemy.IsInRange(Player.Instance, R.Range) && Settings.ksR && R.IsReady())
                 {
+                    Console.WriteLine("dmg" + SpellManager.getRDamage(enemy));
                     if (enemy.Health < SpellManager.getRDamage(enemy) && Settings.ksR && R.IsReady() && SpellManager.RoverkillCheck(enemy))
                     {
                         R.Cast(R.GetPrediction(enemy).CastPosition);

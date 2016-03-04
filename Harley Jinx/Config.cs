@@ -249,7 +249,7 @@ namespace HarleyJinx
                     Menu.AddGroupLabel("Combo");
                     _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu.Add("comboUseW2", new CheckBox("Use W"));
-                    _useE = Menu.Add("comboUseE", new CheckBox("Use E"));
+                    _useE = Menu.Add("comboUseE", new CheckBox("Use E in normal fight", false));
                     _useBOTRK = Menu.Add("useBotrk", new CheckBox("Use Blade of the Ruined King (Smart) and Cutlass"));
                     _useYOUMOUS = Menu.Add("useYoumous", new CheckBox("Use Youmous"));
                     _useWardVision = Menu.Add("useWardVision", new CheckBox("Use Wards for Vision"));
